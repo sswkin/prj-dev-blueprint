@@ -29,6 +29,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
+import Link from 'next/link';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -178,8 +179,10 @@ export default function Home() {
               <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
               <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
               <a href="#demo" className="text-muted-foreground hover:text-foreground transition-colors">Demo</a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Login</a>
-              <Button>Get Started</Button>
+              <Link href="/login" className="text-muted-foreground hover:text-foreground transition-colors">Login</Link>
+              <Button asChild>
+                <Link href="/signup">Get Started</Link>
+              </Button>
             </div>
 
             <button 
@@ -204,8 +207,10 @@ export default function Home() {
                 <a href="#features" className="block text-muted-foreground hover:text-foreground">Features</a>
                 <a href="#pricing" className="block text-muted-foreground hover:text-foreground">Pricing</a>
                 <a href="#demo" className="block text-muted-foreground hover:text-foreground">Demo</a>
-                <a href="#" className="block text-muted-foreground hover:text-foreground">Login</a>
-                <Button className="w-full">Get Started</Button>
+                <Link href="/login" className="block text-muted-foreground hover:text-foreground">Login</Link>
+                <Button asChild className="w-full">
+                  <Link href="/signup">Get Started</Link>
+                </Button>
               </div>
             </motion.div>
           )}
@@ -228,9 +233,11 @@ export default function Home() {
                 AI-powered workflow for solo devs, startups & early adopters
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="text-lg px-8 py-6">
-                  Try it free
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                <Button asChild size="lg" className="text-lg px-8 py-6">
+                  <Link href="/signup">
+                    Try it free
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
                 </Button>
                 <Button size="lg" variant="outline" className="text-lg px-8 py-6">
                   See a demo
@@ -600,8 +607,10 @@ export default function Home() {
                         </li>
                       ))}
                     </ul>
-                    <Button className="w-full" variant={plan.popular ? "default" : "outline"}>
-                      {plan.name === "Free" ? "Get Started" : "Start Free Trial"}
+                    <Button asChild className="w-full" variant={plan.popular ? "default" : "outline"}>
+                      <Link href="/signup">
+                        {plan.name === "Free" ? "Get Started" : "Start Free Trial"}
+                      </Link>
                     </Button>
                   </CardContent>
                 </Card>
