@@ -708,6 +708,31 @@ export default function Home() {
               <a href="#" className="text-muted-foreground hover:text-foreground">Cookie Policy</a>
             </div>
           </div>
+
+          {/* Personal Footer Note */}
+          <div className="border-t mt-8 pt-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              From the mind of{' '}
+              <a 
+                href="https://github.com/atssj" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 font-medium transition-colors"
+              >
+                atssj
+              </a>
+              , with ❤️ ✨ — crafted using{' '}
+              <a 
+                href="https://bolt.new" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-primary hover:text-primary/80 font-medium transition-colors"
+              >
+                <Zap className="h-3 w-3" />
+                Bolt.new
+              </a>
+            </p>
+          </div>
         </div>
       </footer>
     </div>
