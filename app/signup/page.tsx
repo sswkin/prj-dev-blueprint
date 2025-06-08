@@ -81,7 +81,7 @@ export default function SignupPage() {
                 Account Created!
               </CardTitle>
               <CardDescription>
-                We've sent a verification email to your inbox. Please check your email and click the verification link to activate your account.
+                We&apos;ve sent a verification email to your inbox. Please check your email and click the verification link to activate your account.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -297,7 +297,7 @@ export default function SignupPage() {
         {/* Demo Notice */}
         <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
           <p className="text-sm text-blue-700 dark:text-blue-300 text-center">
-            <strong>Demo Mode:</strong> Use any email except "test@example.com" to successfully create an account
+            <strong>Demo Mode:</strong> Use any email except &quot;test@example.com&quot; to successfully create an account
           </p>
         </div>
       </div>
