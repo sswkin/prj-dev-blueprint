@@ -17,7 +17,7 @@ export const subscriptionService = {
     };
   },
 
-  async upgradeToPro(userId: string, isYearly: boolean = false): Promise<{ success: boolean; message: string; checkout_url?: string }> {
+  async upgradeToPro(_userId: string, _isYearly: boolean = false): Promise<{ success: boolean; message: string; checkout_url?: string }> {
     // Mock upgrade process - in reality, this would create a Stripe checkout session
     return {
       success: true,
@@ -26,7 +26,7 @@ export const subscriptionService = {
     };
   },
 
-  async cancelSubscription(userId: string): Promise<{ success: boolean; message: string }> {
+  async cancelSubscription(_userId: string): Promise<{ success: boolean; message: string }> {
     // Mock cancellation - in reality, this would cancel the subscription
     return {
       success: true,
@@ -34,7 +34,7 @@ export const subscriptionService = {
     };
   },
 
-  async getUsageStats(userId: string): Promise<{ blueprints_used: number; blueprints_limit: number }> {
+  async getUsageStats(_userId: string): Promise<{ blueprints_used: number; blueprints_limit: number }> {
     // Mock usage stats - in reality, this would fetch from your database
     return {
       blueprints_used: 0,
