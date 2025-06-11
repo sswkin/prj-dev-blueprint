@@ -2,13 +2,11 @@ import { supabase } from '@/lib/supabase';
 import { AuthResponse, SignupFormData } from '@/lib/types/auth';
 
 export const authService = {
-  async sendOTP(email: string): Promise<AuthResponse> {
+  async signIn(email: string, password: string): Promise<AuthResponse> {
     try {
-      const { error } = await supabase.auth.signInWithOtp({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        options: {
-          shouldCreateUser: false, // Only allow existing users to login
-        }
+        password,
       });
 
       if (error) {
@@ -20,22 +18,24 @@ export const authService = {
 
       return {
         success: true,
-        message: `OTP sent to ${email}. Please check your email.`,
+        message: 'Login successful!',
+        data: { 
+          user: data.user,
+          session: data.session
+        },
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to send OTP. Please try again.',
+        message: 'Failed to sign in. Please try again.',
       };
     }
   },
 
-  async verifyOTP(email: string, otp: string): Promise<AuthResponse> {
+  async sendPasswordReset(email: string): Promise<AuthResponse> {
     try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        email,
-        token: otp,
-        type: 'email'
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`
       });
 
       if (error) {
@@ -45,25 +45,14 @@ export const authService = {
         };
       }
 
-      if (data.user) {
-        return {
-          success: true,
-          message: 'Login successful!',
-          data: { 
-            user: data.user,
-            session: data.session
-          },
-        };
-      }
-
       return {
-        success: false,
-        message: 'Invalid OTP. Please try again.',
+        success: true,
+        message: `Password reset email sent to ${email}. Please check your email.`,
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to verify OTP. Please try again.',
+        message: 'Failed to send password reset email. Please try again.',
       };
     }
   },
