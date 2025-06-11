@@ -79,7 +79,22 @@ export const profileService = {
 
     // If no profile exists, create one
     if (getResponse.success && !getResponse.data) {
-      return await this.createProfile(userId, userEmail, fullName);
+      const createResponse = await this.createProfile(userId, userEmail, fullName);
+      
+      // If creation fails due to duplicate key constraint, try to fetch the existing profile
+      if (!createResponse.success && createResponse.message.includes('duplicate key value violates unique constraint')) {
+        // Profile likely exists due to race condition, try fetching again
+        const retryGetResponse = await this.getProfile(userId);
+        
+        if (retryGetResponse.success && retryGetResponse.data) {
+          return retryGetResponse;
+        }
+        
+        // If we still can't get the profile, return the original creation error
+        return createResponse;
+      }
+      
+      return createResponse;
     }
 
     // Return the error from getProfile
