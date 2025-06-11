@@ -205,7 +205,7 @@ export function ProfileHeader({ profile, userEmail, isEditing, onAvatarUpdate }:
                   <Badge variant="secondary" className="cursor-pointer hover:bg-secondary/80 transition-colors" asChild>
                     <a href={`https://x.com/${profile.twitter_handle}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
                       <XLogo className="h-3 w-3" />
-                      X
+                      x.com
                     </a>
                   </Badge>
                 )}
