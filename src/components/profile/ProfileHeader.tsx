@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Camera, Trash2, Loader2 } from 'lucide-react';
+import { Camera, Trash2, Loader2, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -156,17 +156,22 @@ export function ProfileHeader({ profile, userEmail, isEditing, onAvatarUpdate }:
               </p>
             )}
 
-            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-wrap gap-4 text-sm">
               {profile.location && (
-                <div className="flex items-center gap-1">
-                  <span>📍</span>
-                  <span>{profile.location}</span>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <span className="text-base">📍</span>
+                  <span className="font-medium">{profile.location}</span>
                 </div>
               )}
               
-              <div className="flex items-center gap-1">
-                <span>📅</span>
-                <span>Member since {format(new Date(profile.created_at), 'MMMM yyyy')}</span>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Calendar className="h-4 w-4 text-primary" />
+                <span className="font-medium">
+                  Member since{' '}
+                  <span className="text-foreground font-semibold">
+                    {format(new Date(profile.created_at), 'MMMM yyyy')}
+                  </span>
+                </span>
               </div>
             </div>
 
@@ -174,7 +179,7 @@ export function ProfileHeader({ profile, userEmail, isEditing, onAvatarUpdate }:
             {(profile.website || profile.twitter_handle || profile.github_handle || profile.linkedin_handle) && (
               <div className="flex flex-wrap gap-2">
                 {profile.website && (
-                  <Badge variant="secondary" className="cursor-pointer" asChild>
+                  <Badge variant="secondary" className="cursor-pointer hover:bg-secondary/80 transition-colors" asChild>
                     <a href={profile.website} target="_blank" rel="noopener noreferrer">
                       🌐 Website
                     </a>
@@ -182,7 +187,7 @@ export function ProfileHeader({ profile, userEmail, isEditing, onAvatarUpdate }:
                 )}
                 
                 {profile.twitter_handle && (
-                  <Badge variant="secondary" className="cursor-pointer" asChild>
+                  <Badge variant="secondary" className="cursor-pointer hover:bg-secondary/80 transition-colors" asChild>
                     <a href={`https://twitter.com/${profile.twitter_handle}`} target="_blank" rel="noopener noreferrer">
                       🐦 Twitter
                     </a>
@@ -190,7 +195,7 @@ export function ProfileHeader({ profile, userEmail, isEditing, onAvatarUpdate }:
                 )}
                 
                 {profile.github_handle && (
-                  <Badge variant="secondary" className="cursor-pointer" asChild>
+                  <Badge variant="secondary" className="cursor-pointer hover:bg-secondary/80 transition-colors" asChild>
                     <a href={`https://github.com/${profile.github_handle}`} target="_blank" rel="noopener noreferrer">
                       💻 GitHub
                     </a>
@@ -198,7 +203,7 @@ export function ProfileHeader({ profile, userEmail, isEditing, onAvatarUpdate }:
                 )}
                 
                 {profile.linkedin_handle && (
-                  <Badge variant="secondary" className="cursor-pointer" asChild>
+                  <Badge variant="secondary" className="cursor-pointer hover:bg-secondary/80 transition-colors" asChild>
                     <a href={`https://linkedin.com/in/${profile.linkedin_handle}`} target="_blank" rel="noopener noreferrer">
                       💼 LinkedIn
                     </a>
