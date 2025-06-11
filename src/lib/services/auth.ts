@@ -1,10 +1,10 @@
-import { AuthResponse, LoginFormData, SignupFormData } from '@/lib/types/auth';
+import { AuthResponse, SignupFormData } from '@/lib/types/auth';
 
 // Simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Mock OTP storage (in real app, this would be server-side)
-let mockOTPStore: { [email: string]: string } = {};
+const mockOTPStore: { [email: string]: string } = {};
 
 export const authService = {
   async sendOTP(email: string): Promise<AuthResponse> {
