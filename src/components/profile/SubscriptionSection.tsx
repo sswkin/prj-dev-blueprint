@@ -55,7 +55,7 @@ export function SubscriptionSection({ userId }: SubscriptionSectionProps) {
     fetchSubscriptionData();
   }, [userId]);
 
-  const handleUpgrade = async (planId: string) => {
+  const handleUpgrade = async () => {
     setIsUpgrading(true);
     try {
       const response = await subscriptionService.upgradeToPro(userId, isYearly);
@@ -202,7 +202,7 @@ export function SubscriptionSection({ userId }: SubscriptionSectionProps) {
                       </div>
                       
                       <Button 
-                        onClick={() => handleUpgrade('pro')}
+                        onClick={handleUpgrade}
                         disabled={isUpgrading}
                         className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"
                       >
