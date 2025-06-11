@@ -1,4 +1,5 @@
-import { AuthResponse, LoginFormData, SignupFormData } from '@/lib/types/auth';
+import { AuthResponse } from '@/lib/types/auth';
+import { LoginFormData, SignupFormData } from '@/lib/validations/auth';
 
 // Simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
