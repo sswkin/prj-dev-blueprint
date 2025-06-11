@@ -325,7 +325,7 @@ export default function ProfilePage() {
                 </CardContent>
               </Card>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </>
