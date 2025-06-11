@@ -228,9 +228,11 @@ export default function HomePage() {
                           </div>
                         </div>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                          <User className="mr-2 h-4 w-4" />
-                          <span>Profile</span>
+                        <DropdownMenuItem asChild>
+                          <Link to="/profile">
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Profile</span>
+                          </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={handleSignOut}>
                           <LogOut className="mr-2 h-4 w-4" />
@@ -278,6 +280,9 @@ export default function HomePage() {
                           <p className="font-medium">{user.user_metadata?.full_name || 'User'}</p>
                           <p className="text-sm text-muted-foreground">{user.email}</p>
                         </div>
+                        <Link to="/profile" className="block text-muted-foreground hover:text-foreground">
+                          Profile
+                        </Link>
                         <Button onClick={handleSignOut} variant="outline" className="w-full">
                           <LogOut className="mr-2 h-4 w-4" />
                           Log out
