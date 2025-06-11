@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, User, Mail, Lock, Eye, EyeOff, Loader2, Code2, CheckCircle } from 'lucide-react';
+import { ArrowLeft, User, Mail, Lock, Eye, EyeOff, Loader2, CheckCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,6 +26,7 @@ export default function SignupPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
@@ -46,14 +47,6 @@ export default function SignupPage() {
     setError('');
 
     try {
-      // Check if email already exists
-      const emailExists = await authService.checkEmailExists(data.email);
-      if (emailExists) {
-        setError('An account with this email already exists.');
-        setIsLoading(false);
-        return;
-      }
-
       const response = await authService.signup(data);
       
       if (response.success) {
@@ -123,8 +116,7 @@ export default function SignupPage() {
             </Link>
             
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <Code2 className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold">DevBlueprint AI</span>
+              <img src="/logo.svg" alt="DevBlueprint AI" className="h-8" />
             </div>
             
             <h1 className="text-3xl font-bold mb-2">Create your account</h1>

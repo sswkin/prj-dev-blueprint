@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Mail, Shield, Loader2, Code2 } from 'lucide-react';
 
@@ -25,6 +25,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -71,8 +72,7 @@ export default function LoginPage() {
       
       if (response.success) {
         toast.success(response.message);
-        // Redirect to dashboard or home page
-        window.location.href = '/';
+        navigate('/');
       } else {
         setError(response.message);
       }
@@ -87,6 +87,25 @@ export default function LoginPage() {
     setStep('email');
     setError('');
     otpForm.reset();
+  };
+
+  const resendOTP = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await authService.sendOTP(email);
+      
+      if (response.success) {
+        toast.success('OTP resent successfully!');
+      } else {
+        setError(response.message);
+      }
+    } catch (error) {
+      setError('Failed to resend OTP. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -106,8 +125,7 @@ export default function LoginPage() {
             </Link>
             
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <Code2 className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold">DevBlueprint AI</span>
+              <img src="/logo.svg" alt="DevBlueprint AI" className="h-8" />
             </div>
             
             <h1 className="text-3xl font-bold mb-2">Welcome back</h1>
@@ -247,15 +265,27 @@ export default function LoginPage() {
                           )}
                         </Button>
                         
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          className="w-full"
-                          onClick={goBackToEmail}
-                          disabled={isLoading}
-                        >
-                          Use a different email
-                        </Button>
+                        <div className="flex space-x-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            className="flex-1"
+                            onClick={goBackToEmail}
+                            disabled={isLoading}
+                          >
+                            Use different email
+                          </Button>
+                          
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            className="flex-1"
+                            onClick={resendOTP}
+                            disabled={isLoading}
+                          >
+                            Resend OTP
+                          </Button>
+                        </div>
                       </div>
                     </form>
                   </motion.div>
