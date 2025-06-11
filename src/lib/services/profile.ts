@@ -7,8 +7,7 @@ export const profileService = {
       const { data, error } = await supabase
         .from('user_profiles')
         .select('*')
-        .eq('id', userId)
-        .single();
+        .eq('id', userId);
 
       if (error) {
         return {
@@ -17,10 +16,19 @@ export const profileService = {
         };
       }
 
+      // Check if no profile was found
+      if (!data || data.length === 0) {
+        return {
+          success: true,
+          message: 'No profile found',
+          data: undefined,
+        };
+      }
+
       return {
         success: true,
         message: 'Profile fetched successfully',
-        data: data as UserProfile,
+        data: data[0] as UserProfile,
       };
     } catch (error) {
       return {
