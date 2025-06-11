@@ -22,6 +22,7 @@ import { UserProfile } from '@/lib/types/profile';
 import { ProfileFormData } from '@/lib/validations/profile';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { ProfileForm } from '@/components/profile/ProfileForm';
+import { SubscriptionSection } from '@/components/profile/SubscriptionSection';
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -287,29 +288,46 @@ export default function ProfilePage() {
               </motion.div>
             )}
 
+            {/* Subscription Section */}
+            {!isEditing && user && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
+                <SubscriptionSection userId={user.id} />
+              </motion.div>
+            )}
+
             {/* Account Information */}
             {!isEditing && (
-              <Card className="border-2">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Account Information</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="text-muted-foreground">Email:</span>
-                      <p className="font-medium">{user?.email}</p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+              >
+                <Card className="border-2">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold mb-4">Account Information</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-muted-foreground">Email:</span>
+                        <p className="font-medium">{user?.email}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Last updated:</span>
+                        <p className="font-medium">
+                          {new Date(profile.updated_at).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-muted-foreground">Last updated:</span>
-                      <p className="font-medium">
-                        {new Date(profile.updated_at).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </motion.div>
             )}
           </motion.div>
         </div>
