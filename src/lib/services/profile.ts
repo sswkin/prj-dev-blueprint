@@ -38,6 +38,54 @@ export const profileService = {
     }
   },
 
+  async createProfile(userId: string, userEmail: string, fullName?: string): Promise<ProfileResponse> {
+    try {
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .insert({
+          id: userId,
+          full_name: fullName || userEmail.split('@')[0], // Use email prefix as fallback
+        })
+        .select()
+        .single();
+
+      if (error) {
+        return {
+          success: false,
+          message: error.message,
+        };
+      }
+
+      return {
+        success: true,
+        message: 'Profile created successfully',
+        data: data as UserProfile,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to create profile',
+      };
+    }
+  },
+
+  async getOrCreateProfile(userId: string, userEmail: string, fullName?: string): Promise<ProfileResponse> {
+    // First try to get existing profile
+    const getResponse = await this.getProfile(userId);
+    
+    if (getResponse.success && getResponse.data) {
+      return getResponse;
+    }
+
+    // If no profile exists, create one
+    if (getResponse.success && !getResponse.data) {
+      return await this.createProfile(userId, userEmail, fullName);
+    }
+
+    // Return the error from getProfile
+    return getResponse;
+  },
+
   async updateProfile(userId: string, profileData: ProfileFormData): Promise<ProfileResponse> {
     try {
       const { data, error } = await supabase
