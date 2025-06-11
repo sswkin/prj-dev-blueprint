@@ -307,13 +307,6 @@ export default function SignupPage() {
               </div>
             </CardContent>
           </Card>
-
-          {/* Demo Notice */}
-          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <p className="text-sm text-blue-700 dark:text-blue-300 text-center">
-              <strong>Demo Mode:</strong> Use any email except "test@example.com" to successfully create an account
-            </p>
-          </div>
         </div>
       </div>
     </>
