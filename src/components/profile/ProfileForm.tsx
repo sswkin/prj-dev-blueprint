@@ -119,9 +119,9 @@ export function ProfileForm({ profile, isLoading, onSubmit, onCancel }: ProfileF
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="twitter_handle">Twitter Handle</Label>
+                <Label htmlFor="twitter_handle">X (Twitter) Username</Label>
                 <div className="relative">
-                  <span className="absolute left-3 top-3 text-muted-foreground">@</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">@</span>
                   <Input
                     id="twitter_handle"
                     placeholder="username"
