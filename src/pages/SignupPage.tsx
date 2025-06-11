@@ -50,6 +50,7 @@ export default function SignupPage() {
       
       if (response.success) {
         setSuccess(true);
+        form.clearErrors(); // Clear all form errors on success
         toast.success(response.message);
       } else {
         setError(response.message);
