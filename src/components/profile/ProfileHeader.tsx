@@ -166,7 +166,7 @@ export function ProfileHeader({ profile, userEmail, isEditing, onAvatarUpdate }:
               
               <div className="flex items-center gap-1">
                 <span>📅</span>
-                <span>Joined {format(new Date(profile.created_at), 'MMMM yyyy')}</span>
+                <span>Member since {format(new Date(profile.created_at), 'MMMM yyyy')}</span>
               </div>
             </div>
 
