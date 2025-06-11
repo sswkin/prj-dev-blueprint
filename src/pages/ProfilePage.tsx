@@ -298,16 +298,6 @@ export default function ProfilePage() {
                       <p className="font-medium">{user?.email}</p>
                     </div>
                     <div>
-                      <span className="text-muted-foreground">Member since:</span>
-                      <p className="font-medium">
-                        {new Date(profile.created_at).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </p>
-                    </div>
-                    <div>
                       <span className="text-muted-foreground">Last updated:</span>
                       <p className="font-medium">
                         {new Date(profile.updated_at).toLocaleDateString('en-US', {
@@ -316,10 +306,6 @@ export default function ProfilePage() {
                           day: 'numeric'
                         })}
                       </p>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">User ID:</span>
-                      <p className="font-mono text-xs">{profile.id}</p>
                     </div>
                   </div>
                 </CardContent>
