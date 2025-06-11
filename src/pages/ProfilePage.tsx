@@ -40,7 +40,7 @@ export default function ProfilePage() {
     }
   }, [user, authLoading, navigate]);
 
-  // Fetch profile data
+  // Fetch or create profile data
   const fetchProfile = async () => {
     if (!user) return;
 
@@ -48,7 +48,12 @@ export default function ProfilePage() {
     setError(null);
 
     try {
-      const response = await profileService.getProfile(user.id);
+      // Use getOrCreateProfile to ensure a profile exists
+      const response = await profileService.getOrCreateProfile(
+        user.id, 
+        user.email || '', 
+        user.user_metadata?.full_name
+      );
       
       if (response.success && response.data) {
         setProfile(response.data);
@@ -186,7 +191,7 @@ export default function ProfilePage() {
     );
   }
 
-  // No profile found
+  // No profile found (this should not happen with getOrCreateProfile)
   if (!profile) {
     return (
       <>
@@ -208,7 +213,7 @@ export default function ProfilePage() {
               <CardContent className="p-8 text-center">
                 <h2 className="text-2xl font-bold mb-4">Profile Not Found</h2>
                 <p className="text-muted-foreground mb-6">
-                  We couldn't find your profile. This might be a temporary issue.
+                  We couldn't find or create your profile. This might be a temporary issue.
                 </p>
                 <Button onClick={handleRetry}>
                   <RefreshCw className="h-4 w-4 mr-2" />
@@ -320,7 +325,7 @@ export default function ProfilePage() {
                 </CardContent>
               </Card>
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
     </>
