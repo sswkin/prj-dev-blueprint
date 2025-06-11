@@ -272,13 +272,6 @@ export default function LoginPage() {
               </div>
             </CardContent>
           </Card>
-
-          {/* Demo Notice */}
-          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <p className="text-sm text-blue-700 dark:text-blue-300 text-center">
-              <strong>Demo Mode:</strong> Check the browser console for the OTP code after clicking "Send verification code"
-            </p>
-          </div>
         </div>
       </div>
     </>
