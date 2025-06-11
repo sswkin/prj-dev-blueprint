@@ -17,8 +17,6 @@ import {
   X,
   Zap,
   Target,
-  Clock,
-  Users,
   Mail,
   Github,
   Twitter,
@@ -158,7 +156,7 @@ export default function HomePage() {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
   return (
     <>
