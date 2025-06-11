@@ -22,10 +22,6 @@ interface LoginFormDataWithPassword extends LoginFormData {
   password: string;
 }
 
-const loginWithPasswordSchema = loginSchema.extend({
-  password: loginSchema.shape.password || loginSchema.shape.email.min(1, 'Password is required'),
-});
-
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -34,18 +30,23 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const loginForm = useForm<LoginFormDataWithPassword>({
-    resolver: zodResolver(loginWithPasswordSchema),
+    resolver: zodResolver(loginSchema.extend({
+      password: loginSchema.shape.password || loginSchema.shape.email.min(1, 'Password is required'),
+    })),
     defaultValues: {
       email: '',
       password: '',
       rememberMe: false,
     },
+    mode: 'onChange',
   });
 
   const forgotPasswordForm = useForm<{ email: string }>({
+    resolver: zodResolver(loginSchema.pick({ email: true })),
     defaultValues: {
       email: '',
     },
+    mode: 'onChange',
   });
 
   const onLogin = async (data: LoginFormDataWithPassword) => {
@@ -53,6 +54,9 @@ export default function LoginPage() {
     setError('');
 
     try {
+      // Clear any previous errors
+      loginForm.clearErrors();
+      
       const response = await authService.signIn(data.email, data.password);
       
       if (response.success) {
@@ -73,6 +77,9 @@ export default function LoginPage() {
     setError('');
 
     try {
+      // Clear any previous errors
+      forgotPasswordForm.clearErrors();
+      
       const response = await authService.sendPasswordReset(data.email);
       
       if (response.success) {
@@ -142,6 +149,11 @@ export default function LoginPage() {
                         {...forgotPasswordForm.register('email')}
                       />
                     </div>
+                    {forgotPasswordForm.formState.errors.email && (
+                      <p className="text-sm text-red-500">
+                        {forgotPasswordForm.formState.errors.email.message}
+                      </p>
+                    )}
                   </div>
 
                   {error && (
@@ -151,7 +163,11 @@ export default function LoginPage() {
                   )}
 
                   <div className="space-y-3">
-                    <Button type="submit" className="w-full" disabled={isLoading}>
+                    <Button 
+                      type="submit" 
+                      className="w-full" 
+                      disabled={isLoading || !forgotPasswordForm.formState.isValid}
+                    >
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -187,6 +203,7 @@ export default function LoginPage() {
                         type="email"
                         placeholder="Enter your email"
                         className="pl-10"
+                        autoComplete="email"
                         {...loginForm.register('email')}
                       />
                     </div>
@@ -206,6 +223,7 @@ export default function LoginPage() {
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Enter your password"
                         className="pl-10 pr-10"
+                        autoComplete="current-password"
                         {...loginForm.register('password')}
                       />
                       <button
@@ -259,7 +277,11 @@ export default function LoginPage() {
                     </Alert>
                   )}
 
-                  <Button type="submit" className="w-full" disabled={isLoading}>
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    disabled={isLoading || !loginForm.formState.isValid}
+                  >
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />

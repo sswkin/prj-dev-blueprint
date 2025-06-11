@@ -4,7 +4,11 @@ export const loginSchema = z.object({
   email: z
     .string()
     .min(1, 'Email is required')
-    .email('Please enter a valid email address'),
+    .email('Please enter a valid email address')
+    .transform((email) => email.trim().toLowerCase()),
+  password: z
+    .string()
+    .min(1, 'Password is required'),
   rememberMe: z.boolean().default(false),
 });
 
@@ -27,7 +31,8 @@ export const signupSchema = z
     email: z
       .string()
       .min(1, 'Email is required')
-      .email('Please enter a valid email address'),
+      .email('Please enter a valid email address')
+      .transform((email) => email.trim().toLowerCase()),
     password: z
       .string()
       .min(8, 'Password must be at least 8 characters')
