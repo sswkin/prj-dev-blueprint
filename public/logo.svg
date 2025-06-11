@@ -1,0 +1,103 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle with Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:0.1" />
+    </linearGradient>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6" />
+      <stop offset="100%" style="stop-color:#8B5CF6" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06B6D4" />
+      <stop offset="100%" style="stop-color:#3B82F6" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGradient)" stroke="url(#primaryGradient)" stroke-width="2"/>
+  
+  <!-- Blueprint Grid Pattern -->
+  <g opacity="0.3">
+    <defs>
+      <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="url(#accentGradient)" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect x="20" y="20" width="160" height="160" fill="url(#grid)"/>
+  </g>
+  
+  <!-- Central Code Symbol -->
+  <g transform="translate(100, 100)">
+    <!-- Code Brackets -->
+    <path d="M -25 -15 L -35 -15 L -45 0 L -35 15 L -25 15" 
+          fill="none" 
+          stroke="url(#primaryGradient)" 
+          stroke-width="3" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+    <path d="M 25 -15 L 35 -15 L 45 0 L 35 15 L 25 15" 
+          fill="none" 
+          stroke="url(#primaryGradient)" 
+          stroke-width="3" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+    
+    <!-- AI Brain/Circuit Pattern -->
+    <circle cx="0" cy="0" r="18" fill="none" stroke="url(#accentGradient)" stroke-width="2"/>
+    <circle cx="0" cy="0" r="8" fill="url(#primaryGradient)"/>
+    
+    <!-- Neural Network Nodes -->
+    <circle cx="-12" cy="-8" r="2" fill="url(#accentGradient)"/>
+    <circle cx="12" cy="-8" r="2" fill="url(#accentGradient)"/>
+    <circle cx="-12" cy="8" r="2" fill="url(#accentGradient)"/>
+    <circle cx="12" cy="8" r="2" fill="url(#accentGradient)"/>
+    
+    <!-- Connecting Lines -->
+    <line x1="-12" y1="-8" x2="0" y2="0" stroke="url(#accentGradient)" stroke-width="1" opacity="0.6"/>
+    <line x1="12" y1="-8" x2="0" y2="0" stroke="url(#accentGradient)" stroke-width="1" opacity="0.6"/>
+    <line x1="-12" y1="8" x2="0" y2="0" stroke="url(#accentGradient)" stroke-width="1" opacity="0.6"/>
+    <line x1="12" y1="8" x2="0" y2="0" stroke="url(#accentGradient)" stroke-width="1" opacity="0.6"/>
+  </g>
+  
+  <!-- Blueprint Elements -->
+  <!-- Top Left Corner -->
+  <g transform="translate(40, 40)">
+    <rect x="0" y="0" width="20" height="12" fill="none" stroke="url(#primaryGradient)" stroke-width="1.5" rx="2"/>
+    <line x1="4" y1="4" x2="16" y2="4" stroke="url(#primaryGradient)" stroke-width="1"/>
+    <line x1="4" y1="8" x2="12" y2="8" stroke="url(#primaryGradient)" stroke-width="1"/>
+  </g>
+  
+  <!-- Top Right Corner -->
+  <g transform="translate(140, 40)">
+    <circle cx="10" cy="6" r="8" fill="none" stroke="url(#accentGradient)" stroke-width="1.5"/>
+    <circle cx="10" cy="6" r="3" fill="url(#accentGradient)"/>
+  </g>
+  
+  <!-- Bottom Left Corner -->
+  <g transform="translate(40, 148)">
+    <polygon points="0,12 10,0 20,12 10,8" fill="none" stroke="url(#accentGradient)" stroke-width="1.5"/>
+    <circle cx="10" cy="6" r="1.5" fill="url(#accentGradient)"/>
+  </g>
+  
+  <!-- Bottom Right Corner -->
+  <g transform="translate(140, 148)">
+    <rect x="0" y="0" width="20" height="12" fill="none" stroke="url(#primaryGradient)" stroke-width="1.5" rx="2"/>
+    <path d="M 4 4 L 8 8 L 16 4" fill="none" stroke="url(#primaryGradient)" stroke-width="1" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Floating Particles/Data Points -->
+  <circle cx="70" cy="70" r="1.5" fill="url(#accentGradient)" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="130" cy="70" r="1" fill="url(#primaryGradient)" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="70" cy="130" r="1" fill="url(#primaryGradient)" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="130" cy="130" r="1.5" fill="url(#accentGradient)" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>
