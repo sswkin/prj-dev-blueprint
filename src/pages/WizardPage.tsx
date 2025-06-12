@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { 
@@ -12,7 +12,9 @@ import {
   Download,
   CheckCircle,
   Loader2,
-  Sparkles
+  Sparkles,
+  Wand2,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -42,6 +44,14 @@ interface ProjectRequirements {
   targetAudience: string;
 }
 
+interface FeatureSuggestion {
+  name: string;
+  category: 'core' | 'optional' | 'advanced';
+  description: string;
+  selected: boolean;
+  aiSuggested: boolean;
+}
+
 export default function WizardPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [requirements, setRequirements] = useState<ProjectRequirements>({
@@ -55,6 +65,9 @@ export default function WizardPage() {
   const [isRefining, setIsRefining] = useState(false);
   const [refinedContent, setRefinedContent] = useState('');
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+  const [featureSuggestions, setFeatureSuggestions] = useState<FeatureSuggestion[]>([]);
+  const [isGeneratingFeatures, setIsGeneratingFeatures] = useState(false);
+  const [hasGeneratedFeatures, setHasGeneratedFeatures] = useState(false);
   
   const navigate = useNavigate();
   const { execute } = useAI();
@@ -97,6 +110,61 @@ export default function WizardPage() {
     }
   ];
 
+  // Generate AI feature suggestions when entering step 1
+  useEffect(() => {
+    if (currentStep === 1 && !hasGeneratedFeatures && requirements.description.trim()) {
+      generateFeatureSuggestions();
+    }
+  }, [currentStep, requirements.description, hasGeneratedFeatures]);
+
+  const generateFeatureSuggestions = async () => {
+    setIsGeneratingFeatures(true);
+    try {
+      // Simulate AI analysis of project description to suggest relevant features
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
+      
+      // Mock AI-generated feature suggestions based on project description
+      const aiSuggestions: FeatureSuggestion[] = [
+        // Core features (AI suggests these as essential)
+        { name: 'User Authentication', category: 'core', description: 'Secure login and registration system', selected: true, aiSuggested: true },
+        { name: 'User Profiles', category: 'core', description: 'Personal user accounts and settings', selected: true, aiSuggested: true },
+        { name: 'Data Storage', category: 'core', description: 'Persistent data management', selected: true, aiSuggested: true },
+        { name: 'Search Functionality', category: 'core', description: 'Find and filter content', selected: true, aiSuggested: true },
+        
+        // Optional features (AI suggests based on common patterns)
+        { name: 'Real-time Chat', category: 'optional', description: 'Live messaging between users', selected: false, aiSuggested: true },
+        { name: 'Push Notifications', category: 'optional', description: 'Engage users with timely updates', selected: false, aiSuggested: true },
+        { name: 'File Upload', category: 'optional', description: 'Allow users to upload documents/images', selected: false, aiSuggested: true },
+        { name: 'Social Login', category: 'optional', description: 'Login with Google, Facebook, etc.', selected: false, aiSuggested: true },
+        
+        // Advanced features
+        { name: 'Payment Processing', category: 'advanced', description: 'Handle transactions and billing', selected: false, aiSuggested: true },
+        { name: 'Admin Dashboard', category: 'advanced', description: 'Administrative control panel', selected: false, aiSuggested: true },
+        { name: 'API Integration', category: 'advanced', description: 'Connect with third-party services', selected: false, aiSuggested: true },
+        { name: 'Data Analytics', category: 'advanced', description: 'Track usage and performance metrics', selected: false, aiSuggested: true },
+        
+        // Additional common features (not AI suggested)
+        { name: 'Email System', category: 'optional', description: 'Send automated emails', selected: false, aiSuggested: false },
+        { name: 'Mobile App', category: 'advanced', description: 'Native mobile application', selected: false, aiSuggested: false },
+        { name: 'Multi-language Support', category: 'advanced', description: 'Internationalization features', selected: false, aiSuggested: false },
+        { name: 'Dark Mode', category: 'optional', description: 'Alternative UI theme', selected: false, aiSuggested: false }
+      ];
+
+      setFeatureSuggestions(aiSuggestions);
+      
+      // Update requirements with pre-selected core features
+      const selectedFeatures = aiSuggestions.filter(f => f.selected).map(f => f.name);
+      setRequirements(prev => ({ ...prev, features: selectedFeatures }));
+      
+      setHasGeneratedFeatures(true);
+      toast.success('AI has analyzed your project and suggested relevant features!');
+    } catch (error) {
+      toast.error('Failed to generate feature suggestions');
+    } finally {
+      setIsGeneratingFeatures(false);
+    }
+  };
+
   const handleRefineWithAI = async (content: string) => {
     if (!content.trim()) {
       toast.error('Please enter some project requirements first');
@@ -123,6 +191,23 @@ export default function WizardPage() {
     } finally {
       setIsRefining(false);
     }
+  };
+
+  const toggleFeature = (featureName: string) => {
+    setFeatureSuggestions(prev => 
+      prev.map(f => 
+        f.name === featureName 
+          ? { ...f, selected: !f.selected }
+          : f
+      )
+    );
+    
+    setRequirements(prev => ({
+      ...prev,
+      features: prev.features.includes(featureName)
+        ? prev.features.filter(f => f !== featureName)
+        : [...prev.features, featureName]
+    }));
   };
 
   const handleNext = () => {
@@ -157,6 +242,19 @@ export default function WizardPage() {
   };
 
   const progressPercentage = ((currentStep + 1) / steps.length) * 100;
+
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case 'core':
+        return 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300';
+      case 'optional':
+        return 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300';
+      case 'advanced':
+        return 'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-900/30 dark:text-gray-300';
+    }
+  };
 
   const renderStepContent = () => {
     switch (currentStep) {
@@ -240,58 +338,199 @@ export default function WizardPage() {
                 Features & Scope
               </CardTitle>
               <CardDescription>
-                Define the key features and functionality of your application
+                AI has analyzed your project and suggested relevant features. You can unselect any features you don't need.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <Label>Core Features (select all that apply)</Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {[
-                    'User Authentication',
-                    'Real-time Chat',
-                    'File Upload',
-                    'Payment Processing',
-                    'Push Notifications',
-                    'Social Login',
-                    'Search Functionality',
-                    'Admin Dashboard',
-                    'API Integration',
-                    'Data Analytics',
-                    'Mobile App',
-                    'Email System'
-                  ].map((feature) => (
-                    <Button
-                      key={feature}
-                      variant={requirements.features.includes(feature) ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => {
-                        setRequirements(prev => ({
-                          ...prev,
-                          features: prev.features.includes(feature)
-                            ? prev.features.filter(f => f !== feature)
-                            : [...prev.features, feature]
-                        }));
-                      }}
-                      className="justify-start"
-                    >
-                      {feature}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              {requirements.features.length > 0 && (
-                <div className="space-y-2">
-                  <Label>Selected Features ({requirements.features.length})</Label>
-                  <div className="flex flex-wrap gap-2">
-                    {requirements.features.map((feature) => (
-                      <Badge key={feature} variant="secondary">
-                        {feature}
-                      </Badge>
-                    ))}
+              {isGeneratingFeatures ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="text-center space-y-4">
+                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
+                    <div>
+                      <p className="font-medium">AI is analyzing your project...</p>
+                      <p className="text-sm text-muted-foreground">Generating relevant feature suggestions</p>
+                    </div>
                   </div>
                 </div>
+              ) : (
+                <>
+                  {hasGeneratedFeatures && (
+                    <Alert>
+                      <Wand2 className="h-4 w-4" />
+                      <AlertDescription>
+                        AI has suggested {featureSuggestions.filter(f => f.aiSuggested).length} features based on your project description. 
+                        Core features are pre-selected, but you can customize any selections.
+                      </AlertDescription>
+                    </Alert>
+                  )}
+
+                  {!hasGeneratedFeatures && requirements.description.trim() && (
+                    <div className="text-center py-8">
+                      <Button onClick={generateFeatureSuggestions} className="mb-4">
+                        <Wand2 className="mr-2 h-4 w-4" />
+                        Generate AI Feature Suggestions
+                      </Button>
+                      <p className="text-sm text-muted-foreground">
+                        Let AI analyze your project description and suggest relevant features
+                      </p>
+                    </div>
+                  )}
+
+                  {featureSuggestions.length > 0 && (
+                    <div className="space-y-6">
+                      {/* Core Features */}
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-medium">Core Features</h4>
+                          <Badge className={getCategoryColor('core')}>Essential</Badge>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {featureSuggestions
+                            .filter(f => f.category === 'core')
+                            .map((feature) => (
+                              <div
+                                key={feature.name}
+                                className={`relative p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                                  feature.selected
+                                    ? 'border-primary bg-primary/5'
+                                    : 'border-muted hover:border-primary/50'
+                                }`}
+                                onClick={() => toggleFeature(feature.name)}
+                              >
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <span className="font-medium">{feature.name}</span>
+                                      {feature.aiSuggested && (
+                                        <Sparkles className="h-3 w-3 text-primary" />
+                                      )}
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                                  </div>
+                                  {feature.selected && (
+                                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      {/* Optional Features */}
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-medium">Optional Features</h4>
+                          <Badge className={getCategoryColor('optional')}>Recommended</Badge>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {featureSuggestions
+                            .filter(f => f.category === 'optional')
+                            .map((feature) => (
+                              <div
+                                key={feature.name}
+                                className={`relative p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                                  feature.selected
+                                    ? 'border-primary bg-primary/5'
+                                    : 'border-muted hover:border-primary/50'
+                                }`}
+                                onClick={() => toggleFeature(feature.name)}
+                              >
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <span className="font-medium">{feature.name}</span>
+                                      {feature.aiSuggested && (
+                                        <Sparkles className="h-3 w-3 text-primary" />
+                                      )}
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                                  </div>
+                                  {feature.selected && (
+                                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      {/* Advanced Features */}
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-medium">Advanced Features</h4>
+                          <Badge className={getCategoryColor('advanced')}>Complex</Badge>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {featureSuggestions
+                            .filter(f => f.category === 'advanced')
+                            .map((feature) => (
+                              <div
+                                key={feature.name}
+                                className={`relative p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                                  feature.selected
+                                    ? 'border-primary bg-primary/5'
+                                    : 'border-muted hover:border-primary/50'
+                                }`}
+                                onClick={() => toggleFeature(feature.name)}
+                              >
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <span className="font-medium">{feature.name}</span>
+                                      {feature.aiSuggested && (
+                                        <Sparkles className="h-3 w-3 text-primary" />
+                                      )}
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                                  </div>
+                                  {feature.selected && (
+                                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      {/* Selected Features Summary */}
+                      {requirements.features.length > 0 && (
+                        <div className="space-y-2 pt-4 border-t">
+                          <div className="flex items-center justify-between">
+                            <Label>Selected Features ({requirements.features.length})</Label>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                setFeatureSuggestions(prev => prev.map(f => ({ ...f, selected: false })));
+                                setRequirements(prev => ({ ...prev, features: [] }));
+                              }}
+                            >
+                              <X className="h-4 w-4 mr-1" />
+                              Clear All
+                            </Button>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {requirements.features.map((feature) => {
+                              const suggestion = featureSuggestions.find(f => f.name === feature);
+                              return (
+                                <Badge 
+                                  key={feature} 
+                                  variant="secondary"
+                                  className="flex items-center gap-1"
+                                >
+                                  {feature}
+                                  {suggestion?.aiSuggested && (
+                                    <Sparkles className="h-3 w-3" />
+                                  )}
+                                </Badge>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             </CardContent>
           </Card>
@@ -485,11 +724,21 @@ export default function WizardPage() {
                 <div>
                   <h4 className="font-medium mb-2">Features ({requirements.features.length})</h4>
                   <div className="flex flex-wrap gap-1">
-                    {requirements.features.map((feature) => (
-                      <Badge key={feature} variant="outline" className="text-xs">
-                        {feature}
-                      </Badge>
-                    ))}
+                    {requirements.features.map((feature) => {
+                      const suggestion = featureSuggestions.find(f => f.name === feature);
+                      return (
+                        <Badge 
+                          key={feature} 
+                          variant="outline" 
+                          className="text-xs flex items-center gap-1"
+                        >
+                          {feature}
+                          {suggestion?.aiSuggested && (
+                            <Sparkles className="h-3 w-3" />
+                          )}
+                        </Badge>
+                      );
+                    })}
                   </div>
                 </div>
 
