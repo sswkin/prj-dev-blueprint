@@ -198,9 +198,30 @@ export default function HomePage() {
           transition={{ duration: 0.5 }}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center space-x-2">
-                <img src="/logo.svg" alt="DevBlueprint AI" className="h-8" />
+            <div className="flex items-center justify-between h-20">
+              <div className="flex items-center space-x-3">
+                <motion.div
+                  className="flex items-center space-x-3"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="relative">
+                    <img 
+                      src="/logo.svg" 
+                      alt="DevBlueprint AI" 
+                      className="h-12 w-12 drop-shadow-lg" 
+                    />
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-full blur opacity-75"></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                      DevBlueprint
+                    </span>
+                    <span className="text-sm font-medium text-muted-foreground -mt-1">
+                      AI
+                    </span>
+                  </div>
+                </motion.div>
               </div>
               
               <div className="hidden md:flex items-center space-x-8">
@@ -708,8 +729,23 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div>
-                <div className="flex items-center space-x-2 mb-4">
-                  <img src="/logo.svg" alt="DevBlueprint AI" className="h-8" />
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="relative">
+                    <img 
+                      src="/logo.svg" 
+                      alt="DevBlueprint AI" 
+                      className="h-10 w-10 drop-shadow-lg" 
+                    />
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-full blur opacity-75"></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                      DevBlueprint
+                    </span>
+                    <span className="text-xs font-medium text-muted-foreground -mt-1">
+                      AI
+                    </span>
+                  </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
                   Transform your ideas into actionable development plans with the power of AI.
