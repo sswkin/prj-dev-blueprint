@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IdeaCapture } from '@/components/screens/IdeaCapture';
 import { AnalysisDashboard } from '@/components/screens/AnalysisDashboard';
 import { useAI } from '@/hooks/useAI';
-import { mockAnalysisResponse, mockArchitectureResponse, mockComponentsResponse, mockSchemaResponse } from '@/mocks/aiResponses';
+import { mockAnalysisResponse, mockComponentsResponse, mockSchemaResponse } from '@/mocks/aiResponses';
 
 // Type definitions
 interface Tag {
