@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-interface AIResponse<T = any> {
+interface AIResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
@@ -9,18 +9,56 @@ interface AIResponse<T = any> {
 
 interface UseAIOptions {
   onProgress?: (progress: number) => void;
-  onSuccess?: (data: any) => void;
+  onSuccess?: (data: unknown) => void;
   onError?: (error: string) => void;
 }
+
+interface AnalysisData {
+  tags: Array<{
+    id: string;
+    text: string;
+    weight: number;
+    category?: 'technology' | 'market' | 'feature' | 'risk';
+    aiGenerated?: boolean;
+  }>;
+  concepts: Array<{
+    id: string;
+    title: string;
+    description: string;
+    viability: number;
+    marketSize?: string;
+    timeToMarket?: string;
+    complexity?: 'low' | 'medium' | 'high';
+  }>;
+}
+
+interface ArchitectureData {
+  architecture: {
+    frontend: string[];
+    backend: string[];
+    infrastructure: string[];
+  };
+  components: Array<{
+    name: string;
+    type: string;
+    complexity: string;
+  }>;
+}
+
+interface GenerationData {
+  message: string;
+}
+
+type AIExecuteType = 'analyze' | 'generate' | 'validate';
 
 export const useAI = (options: UseAIOptions = {}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
-  const execute = useCallback(async <T>(
+  const execute = useCallback(async <T = unknown>(
     prompt: string,
-    type: 'analyze' | 'generate' | 'validate' = 'generate'
+    type: AIExecuteType = 'generate'
   ): Promise<AIResponse<T>> => {
     setIsLoading(true);
     setError(null);
@@ -43,7 +81,7 @@ export const useAI = (options: UseAIOptions = {}) => {
       setProgress(100);
 
       // Mock AI responses based on type
-      let mockData: any;
+      let mockData: unknown;
       
       switch (type) {
         case 'analyze':
@@ -63,7 +101,7 @@ export const useAI = (options: UseAIOptions = {}) => {
                 viability: 85,
                 marketSize: 'Large',
                 timeToMarket: '6-8 months',
-                complexity: 'medium'
+                complexity: 'medium' as const
               },
               {
                 id: '2',
@@ -72,7 +110,7 @@ export const useAI = (options: UseAIOptions = {}) => {
                 viability: 72,
                 marketSize: 'Medium',
                 timeToMarket: '8-12 months',
-                complexity: 'high'
+                complexity: 'high' as const
               },
               {
                 id: '3',
@@ -81,10 +119,10 @@ export const useAI = (options: UseAIOptions = {}) => {
                 viability: 68,
                 marketSize: 'Small',
                 timeToMarket: '4-6 months',
-                complexity: 'low'
+                complexity: 'low' as const
               }
             ]
-          };
+          } satisfies AnalysisData;
           break;
           
         case 'generate':
@@ -99,11 +137,11 @@ export const useAI = (options: UseAIOptions = {}) => {
               { name: 'ChatInterface', type: 'component', complexity: 'high' },
               { name: 'FeedComponent', type: 'component', complexity: 'medium' }
             ]
-          };
+          } satisfies ArchitectureData;
           break;
           
         default:
-          mockData = { message: 'AI processing complete' };
+          mockData = { message: 'AI processing complete' } satisfies GenerationData;
       }
 
       options.onSuccess?.(mockData);
