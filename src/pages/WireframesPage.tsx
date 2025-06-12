@@ -19,7 +19,6 @@ import {
   Loader2,
   Tag,
   AlertTriangle,
-  TrendingUp,
   Clock,
   Users,
   Code,
@@ -27,7 +26,6 @@ import {
   Shield,
   ChevronDown,
   ChevronUp,
-  X,
   CheckCircle,
   Info
 } from 'lucide-react';
