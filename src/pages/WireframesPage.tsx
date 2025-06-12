@@ -16,7 +16,20 @@ import {
   Play,
   Pause,
   RotateCcw,
-  Loader2
+  Loader2,
+  Tag,
+  AlertTriangle,
+  TrendingUp,
+  Clock,
+  Users,
+  Code,
+  Zap,
+  Shield,
+  ChevronDown,
+  ChevronUp,
+  X,
+  CheckCircle,
+  Info
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -24,6 +37,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface WireframeScreen {
   id: string;
@@ -72,11 +86,11 @@ const wireframeScreens: WireframeScreen[] = [
     nextScreen: 'research-hub',
     prevScreen: 'idea-capture',
     keyFeatures: [
-      'AI analysis summary cards',
-      'Project complexity meter',
-      'Technology recommendations',
-      'Timeline estimation',
-      'Risk assessment indicators'
+      'Tag cloud (top-left): Dynamic AI-generated tags',
+      'Idea expansion cards (3-column grid, swipeable on mobile)',
+      'Risk panel (right drawer): Collapsible warnings',
+      'Progress stepper: "Step 2/7 - Validation"',
+      'Click any card → Research Hub pre-populated with selected concept'
     ],
     navigationElements: [
       'Back to idea editing',
@@ -86,9 +100,9 @@ const wireframeScreens: WireframeScreen[] = [
     ],
     userActions: [
       'Review AI analysis results',
-      'Adjust project parameters if needed',
-      'Proceed to research phase',
-      'Return to edit idea if necessary'
+      'Click expansion cards to explore concepts',
+      'View risk assessments in collapsible panel',
+      'Select concept to proceed to Research Hub'
     ]
   },
   {
@@ -415,6 +429,419 @@ const IdeaCaptureScreen = ({ onAnalyze }: { onAnalyze: () => void }) => {
   );
 };
 
+// Analysis Dashboard Component
+const AnalysisDashboard = ({ onCardClick }: { onCardClick: (concept: string) => void }) => {
+  const [isRiskPanelOpen, setIsRiskPanelOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
+
+  // AI-generated tags for the tag cloud
+  const aiTags = [
+    { text: 'React', size: 'large', color: 'blue' },
+    { text: 'Node.js', size: 'medium', color: 'green' },
+    { text: 'Database', size: 'large', color: 'purple' },
+    { text: 'API', size: 'medium', color: 'orange' },
+    { text: 'Authentication', size: 'small', color: 'red' },
+    { text: 'Real-time', size: 'medium', color: 'cyan' },
+    { text: 'Mobile', size: 'small', color: 'pink' },
+    { text: 'Cloud', size: 'large', color: 'indigo' },
+    { text: 'Security', size: 'small', color: 'yellow' },
+    { text: 'Scalable', size: 'medium', color: 'teal' }
+  ];
+
+  // Idea expansion cards
+  const expansionCards = [
+    {
+      id: 'user-management',
+      title: 'User Management System',
+      description: 'Complete user authentication, profiles, and role-based access control',
+      complexity: 'Medium',
+      timeEstimate: '2-3 weeks',
+      technologies: ['React', 'Node.js', 'JWT', 'bcrypt'],
+      icon: Users,
+      color: 'blue'
+    },
+    {
+      id: 'real-time-features',
+      title: 'Real-time Communication',
+      description: 'Live chat, notifications, and collaborative features using WebSockets',
+      complexity: 'High',
+      timeEstimate: '3-4 weeks',
+      technologies: ['Socket.io', 'Redis', 'WebRTC'],
+      icon: Zap,
+      color: 'yellow'
+    },
+    {
+      id: 'data-analytics',
+      title: 'Analytics Dashboard',
+      description: 'Data visualization, reporting, and business intelligence features',
+      complexity: 'Medium',
+      timeEstimate: '2-3 weeks',
+      technologies: ['Chart.js', 'D3.js', 'PostgreSQL'],
+      icon: BarChart3,
+      color: 'green'
+    },
+    {
+      id: 'mobile-app',
+      title: 'Mobile Application',
+      description: 'Cross-platform mobile app with offline capabilities',
+      complexity: 'High',
+      timeEstimate: '4-6 weeks',
+      technologies: ['React Native', 'SQLite', 'AsyncStorage'],
+      icon: Code,
+      color: 'purple'
+    },
+    {
+      id: 'payment-system',
+      title: 'Payment Integration',
+      description: 'Secure payment processing with multiple payment methods',
+      complexity: 'High',
+      timeEstimate: '2-3 weeks',
+      technologies: ['Stripe', 'PayPal', 'Webhooks'],
+      icon: Shield,
+      color: 'red'
+    },
+    {
+      id: 'content-management',
+      title: 'Content Management',
+      description: 'Dynamic content creation, editing, and publishing system',
+      complexity: 'Medium',
+      timeEstimate: '3-4 weeks',
+      technologies: ['CMS', 'Rich Text Editor', 'File Upload'],
+      icon: Database,
+      color: 'indigo'
+    }
+  ];
+
+  // Risk assessments
+  const riskAssessments = [
+    {
+      id: 'scalability',
+      level: 'high',
+      title: 'Scalability Concerns',
+      description: 'Current architecture may not handle high user loads efficiently',
+      impact: 'Performance degradation under load',
+      mitigation: 'Implement load balancing and database optimization'
+    },
+    {
+      id: 'security',
+      level: 'medium',
+      title: 'Security Vulnerabilities',
+      description: 'Authentication system needs additional security measures',
+      impact: 'Potential unauthorized access',
+      mitigation: 'Add 2FA, rate limiting, and security headers'
+    },
+    {
+      id: 'complexity',
+      level: 'medium',
+      title: 'Development Complexity',
+      description: 'Multiple integrations may increase development time',
+      impact: 'Extended timeline and higher costs',
+      mitigation: 'Phase development and use proven libraries'
+    },
+    {
+      id: 'maintenance',
+      level: 'low',
+      title: 'Maintenance Overhead',
+      description: 'Regular updates and monitoring required',
+      impact: 'Ongoing operational costs',
+      mitigation: 'Implement automated testing and monitoring'
+    }
+  ];
+
+  const handleCardClick = (cardId: string) => {
+    setSelectedCard(cardId);
+    const card = expansionCards.find(c => c.id === cardId);
+    if (card) {
+      onCardClick(card.title);
+    }
+  };
+
+  const getTagSize = (size: string) => {
+    switch (size) {
+      case 'large': return 'text-lg px-3 py-2';
+      case 'medium': return 'text-base px-2 py-1';
+      case 'small': return 'text-sm px-2 py-1';
+      default: return 'text-base px-2 py-1';
+    }
+  };
+
+  const getTagColor = (color: string) => {
+    const colors = {
+      blue: 'bg-blue-100 text-blue-800 border-blue-200',
+      green: 'bg-green-100 text-green-800 border-green-200',
+      purple: 'bg-purple-100 text-purple-800 border-purple-200',
+      orange: 'bg-orange-100 text-orange-800 border-orange-200',
+      red: 'bg-red-100 text-red-800 border-red-200',
+      cyan: 'bg-cyan-100 text-cyan-800 border-cyan-200',
+      pink: 'bg-pink-100 text-pink-800 border-pink-200',
+      indigo: 'bg-indigo-100 text-indigo-800 border-indigo-200',
+      yellow: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+      teal: 'bg-teal-100 text-teal-800 border-teal-200'
+    };
+    return colors[color as keyof typeof colors] || colors.blue;
+  };
+
+  const getRiskColor = (level: string) => {
+    switch (level) {
+      case 'high': return 'border-red-200 bg-red-50';
+      case 'medium': return 'border-yellow-200 bg-yellow-50';
+      case 'low': return 'border-green-200 bg-green-50';
+      default: return 'border-gray-200 bg-gray-50';
+    }
+  };
+
+  const getRiskIcon = (level: string) => {
+    switch (level) {
+      case 'high': return <AlertTriangle className="h-4 w-4 text-red-600" />;
+      case 'medium': return <Info className="h-4 w-4 text-yellow-600" />;
+      case 'low': return <CheckCircle className="h-4 w-4 text-green-600" />;
+      default: return <Info className="h-4 w-4 text-gray-600" />;
+    }
+  };
+
+  return (
+    <div className="relative min-h-[600px] bg-gradient-to-br from-background via-background/95 to-muted/20 rounded-lg overflow-hidden">
+      <div className="relative z-10 p-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold mb-2">Analysis Dashboard</h2>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <BarChart3 className="h-4 w-4" />
+              <span>Step 2/7 - Validation</span>
+            </div>
+          </div>
+          <Badge variant="secondary" className="px-3 py-1">
+            AI Analysis Complete
+          </Badge>
+        </div>
+
+        {/* Progress Indicator */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Analysis Progress</span>
+            <span className="font-medium">2 of 7 steps</span>
+          </div>
+          <Progress value={28.5} className="h-2" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Left Column - Tag Cloud */}
+          <div className="lg:col-span-1">
+            <Card className="h-fit">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Tag className="h-5 w-5 text-primary" />
+                  AI Tags
+                </CardTitle>
+                <CardDescription>
+                  Dynamic analysis results
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {aiTags.map((tag, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.1 }}
+                      className={`
+                        ${getTagSize(tag.size)} 
+                        ${getTagColor(tag.color)}
+                        rounded-full border font-medium cursor-pointer
+                        hover:scale-105 transition-transform
+                      `}
+                    >
+                      {tag.text}
+                    </motion.div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Center Column - Expansion Cards */}
+          <div className="lg:col-span-2">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">Concept Expansion</h3>
+                <Badge variant="outline">3-column grid</Badge>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {expansionCards.map((card, index) => (
+                  <motion.div
+                    key={card.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Card 
+                      className={`cursor-pointer transition-all duration-200 hover:shadow-lg ${
+                        selectedCard === card.id ? 'ring-2 ring-primary ring-offset-2' : ''
+                      }`}
+                      onClick={() => handleCardClick(card.id)}
+                    >
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className={`p-2 rounded-lg bg-${card.color}-100`}>
+                            <card.icon className={`h-4 w-4 text-${card.color}-600`} />
+                          </div>
+                          <Badge variant="outline" className="text-xs">
+                            {card.complexity}
+                          </Badge>
+                        </div>
+                        <CardTitle className="text-base">{card.title}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <p className="text-sm text-muted-foreground">
+                          {card.description}
+                        </p>
+                        
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Clock className="h-3 w-3" />
+                          <span>{card.timeEstimate}</span>
+                        </div>
+                        
+                        <div className="flex flex-wrap gap-1">
+                          {card.technologies.slice(0, 3).map((tech, techIndex) => (
+                            <Badge key={techIndex} variant="secondary" className="text-xs">
+                              {tech}
+                            </Badge>
+                          ))}
+                          {card.technologies.length > 3 && (
+                            <Badge variant="secondary" className="text-xs">
+                              +{card.technologies.length - 3}
+                            </Badge>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Risk Panel */}
+          <div className="lg:col-span-1">
+            <Card className="h-fit">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <AlertTriangle className="h-5 w-5 text-orange-500" />
+                    Risk Assessment
+                  </CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsRiskPanelOpen(!isRiskPanelOpen)}
+                  >
+                    {isRiskPanelOpen ? (
+                      <ChevronUp className="h-4 w-4" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
+                <CardDescription>
+                  Potential project risks
+                </CardDescription>
+              </CardHeader>
+              
+              <AnimatePresence>
+                {isRiskPanelOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <CardContent className="space-y-3">
+                      {riskAssessments.map((risk, index) => (
+                        <motion.div
+                          key={risk.id}
+                          initial={{ opacity: 0, x: 10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className={`p-3 rounded-lg border ${getRiskColor(risk.level)}`}
+                        >
+                          <div className="flex items-start gap-2 mb-2">
+                            {getRiskIcon(risk.level)}
+                            <div className="flex-1">
+                              <h4 className="font-medium text-sm">{risk.title}</h4>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                {risk.description}
+                              </p>
+                            </div>
+                          </div>
+                          
+                          <div className="text-xs space-y-1">
+                            <div>
+                              <span className="font-medium">Impact:</span> {risk.impact}
+                            </div>
+                            <div>
+                              <span className="font-medium">Mitigation:</span> {risk.mitigation}
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </CardContent>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Card>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center justify-between pt-4 border-t">
+          <Button variant="outline">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Idea
+          </Button>
+          
+          <div className="flex gap-2">
+            <Button variant="outline">
+              Export Analysis
+            </Button>
+            <Button 
+              className="bg-gradient-to-r from-primary to-purple-600"
+              disabled={!selectedCard}
+            >
+              Continue to Research
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Selected Card Feedback */}
+        <AnimatePresence>
+          {selectedCard && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mt-4"
+            >
+              <Alert>
+                <CheckCircle className="h-4 w-4" />
+                <AlertDescription>
+                  Selected "{expansionCards.find(c => c.id === selectedCard)?.title}" for detailed research. 
+                  Click "Continue to Research" to proceed with this concept.
+                </AlertDescription>
+              </Alert>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
 export default function WireframesPage() {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -462,6 +889,11 @@ export default function WireframesPage() {
   const handleIdeaAnalyze = () => {
     // Auto-advance to Analysis Dashboard
     setCurrentScreen(1);
+  };
+
+  const handleCardClick = (concept: string) => {
+    console.log(`Selected concept: ${concept} - would navigate to Research Hub`);
+    // In a real app, this would navigate to Research Hub with pre-populated data
   };
 
   useEffect(() => {
@@ -584,6 +1016,8 @@ export default function WireframesPage() {
                           {/* Idea Capture Screen - Special Implementation */}
                           {currentScreen === 0 ? (
                             <IdeaCaptureScreen onAnalyze={handleIdeaAnalyze} />
+                          ) : currentScreen === 1 ? (
+                            <AnalysisDashboard onCardClick={handleCardClick} />
                           ) : (
                             <>
                               {/* Header Mockup */}
@@ -621,19 +1055,6 @@ export default function WireframesPage() {
                                   </div>
                                   
                                   {/* Dynamic content based on screen */}
-                                  {currentScreen === 1 && (
-                                    <div className="grid grid-cols-2 gap-4">
-                                      <div className="space-y-3">
-                                        <div className="h-16 bg-muted/50 rounded"></div>
-                                        <div className="h-16 bg-muted/50 rounded"></div>
-                                      </div>
-                                      <div className="space-y-3">
-                                        <div className="h-16 bg-muted/50 rounded"></div>
-                                        <div className="h-16 bg-muted/50 rounded"></div>
-                                      </div>
-                                    </div>
-                                  )}
-                                  
                                   {currentScreen === 2 && (
                                     <div className="space-y-4">
                                       <div className="grid grid-cols-4 gap-2">
