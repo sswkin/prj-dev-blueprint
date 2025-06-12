@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, Users, DollarSign, Clock } from 'lucide-react';
+import { Users, Clock } from 'lucide-react';
 import { AIPulse } from './AIPulse';
 import { cn } from '@/lib/utils';
 
