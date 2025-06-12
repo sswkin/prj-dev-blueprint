@@ -5,26 +5,18 @@ import { useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
   FileText, 
-  Users, 
-  Settings, 
-  Monitor, 
   Database, 
-  Shield, 
-  AlertTriangle,
-  CheckCircle,
   Download,
-  Save,
   Plus,
   Trash2,
   ChevronRight,
-  ChevronDown,
   Lightbulb,
   Target,
   Code,
   Palette,
-  BarChart,
   Zap,
-  Lock
+  Lock,
+  Loader2
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
