@@ -330,9 +330,11 @@ export default function HomePage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   {user ? (
-                    <Button size="lg" className="text-lg px-8 py-6">
-                      Create Blueprint
-                      <ArrowRight className="ml-2 h-5 w-5" />
+                    <Button asChild size="lg" className="text-lg px-8 py-6">
+                      <Link to="/blueprint">
+                        Create Blueprint
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
                     </Button>
                   ) : (
                     <Button asChild size="lg" className="text-lg px-8 py-6">
