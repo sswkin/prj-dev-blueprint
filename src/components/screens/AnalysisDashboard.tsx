@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, TrendingUp, AlertTriangle, Users, DollarSign } from 'lucide-react';
+import { ArrowLeft, AlertTriangle } from 'lucide-react';
 import { TagCloud } from '@/components/ui-kit/TagCloud';
 import { ConceptCard } from '@/components/ui-kit/ConceptCard';
 import { Button } from '@/components/ui/button';
