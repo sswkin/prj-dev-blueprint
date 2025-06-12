@@ -201,19 +201,6 @@ export default function HomePage() {
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center space-x-2">
                 <img src="/logo.svg" alt="DevBlueprint AI" className="h-8" />
-                {/* Bolt.new Hackathon Stamp */}
-                <motion.div
-                  className="hidden sm:flex items-center gap-1.5 px-2 py-1 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-full border border-orange-200 dark:border-orange-700"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <Zap className="h-3 w-3 text-orange-600 dark:text-orange-400" />
-                  <span className="text-xs font-medium text-orange-700 dark:text-orange-300">
-                    Built with bolt.new
-                  </span>
-                </motion.div>
               </div>
               
               <div className="hidden md:flex items-center space-x-8">
@@ -290,14 +277,6 @@ export default function HomePage() {
                 transition={{ duration: 0.3 }}
               >
                 <div className="px-4 py-4 space-y-4">
-                  {/* Mobile Bolt.new Stamp */}
-                  <div className="flex items-center gap-1.5 px-2 py-1 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-full border border-orange-200 dark:border-orange-700 w-fit">
-                    <Zap className="h-3 w-3 text-orange-600 dark:text-orange-400" />
-                    <span className="text-xs font-medium text-orange-700 dark:text-orange-300">
-                      Built with bolt.new
-                    </span>
-                  </div>
-                  
                   <a href="#features" className="block text-muted-foreground hover:text-foreground">Features</a>
                   <a href="#pricing" className="block text-muted-foreground hover:text-foreground">Pricing</a>
                   
@@ -786,29 +765,44 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Personal Footer Note */}
+            {/* Personal Footer Note with Bolt.new Badge */}
             <div className="border-t mt-8 pt-6 text-center">
-              <p className="text-sm text-muted-foreground">
-                From the mind of{' '}
-                <a 
-                  href="https://github.com/atssj" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-primary hover:text-primary/80 font-medium transition-colors"
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <p className="text-sm text-muted-foreground">
+                  From the mind of{' '}
+                  <a 
+                    href="https://github.com/atssj" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 font-medium transition-colors"
+                  >
+                    atssj
+                  </a>
+                  , with ❤️ ✨
+                </p>
+                
+                {/* Bolt.new Hackathon Badge */}
+                <motion.div
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-full border border-orange-200 dark:border-orange-700"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  whileHover={{ scale: 1.05 }}
                 >
-                  atssj
-                </a>
-                , with ❤️ ✨ — crafted using{' '}
-                <a 
-                  href="https://bolt.new" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-primary hover:text-primary/80 font-medium transition-colors"
-                >
-                  <Zap className="h-3 w-3" />
-                  Bolt.new
-                </a>
-              </p>
+                  <Zap className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                  <span className="text-sm font-medium text-orange-700 dark:text-orange-300">
+                    Built with{' '}
+                    <a 
+                      href="https://bolt.new" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                    >
+                      bolt.new
+                    </a>
+                  </span>
+                </motion.div>
+              </div>
             </div>
           </div>
         </footer>
