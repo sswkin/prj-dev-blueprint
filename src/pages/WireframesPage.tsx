@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Play, Pause, RotateCcw, Monitor, Tablet, Smartphone, CheckCircle, Clock, FileText, Download } from 'lucide-react';
+import { ArrowLeft, Play, Pause, RotateCcw, Monitor, Tablet, Smartphone, CheckCircle, FileText, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
