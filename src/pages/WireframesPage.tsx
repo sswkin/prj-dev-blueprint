@@ -67,7 +67,7 @@ export default function WireframesPage() {
   const [viewport, setViewport] = useState<ViewportType>('desktop');
   const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
   
-  const { execute, isLoading } = useAI();
+  const { execute } = useAI();
 
   const screens: Screen[] = [
     {
