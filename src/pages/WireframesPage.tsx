@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { 
@@ -15,13 +15,15 @@ import {
   Download,
   Play,
   Pause,
-  RotateCcw
+  RotateCcw,
+  Loader2
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Input } from '@/components/ui/input';
 
 interface WireframeScreen {
   id: string;
@@ -43,23 +45,23 @@ const wireframeScreens: WireframeScreen[] = [
     icon: Lightbulb,
     nextScreen: 'analysis-dashboard',
     keyFeatures: [
-      'Large text area for idea description',
-      'Project type selector (Web App, Mobile, API, etc.)',
-      'Target audience input',
-      'Basic requirements checklist',
-      'AI suggestion prompts'
+      'Hero text: "Turn ideas into deployable blueprints"',
+      'Centered input field (60% width)',
+      'Floating "Analyze" button (fixed to keyboard on mobile)',
+      'Subtle animated nodes background (connection metaphor)',
+      'Auto-advance to Analysis Dashboard on enter/button click'
     ],
     navigationElements: [
-      'Header with logo and user menu',
-      'Progress indicator (Step 1 of 7)',
-      'Continue button (primary CTA)',
-      'Save draft option'
+      'Minimal header with logo',
+      'Clean, distraction-free interface',
+      'Floating analyze button',
+      'Subtle progress indication'
     ],
     userActions: [
-      'Enter project idea description',
-      'Select project type',
-      'Define target audience',
-      'Click "Analyze My Idea" to proceed'
+      'Enter project idea in one sentence',
+      'Press Enter or click Analyze button',
+      'Auto-advance to Analysis Dashboard with loading spinner',
+      'View animated connection nodes in background'
     ]
   },
   {
@@ -230,6 +232,189 @@ const wireframeScreens: WireframeScreen[] = [
   }
 ];
 
+// Animated Nodes Component for Background
+const AnimatedNodes = () => {
+  const [nodes, setNodes] = useState<Array<{ id: number; x: number; y: number; delay: number }>>([]);
+
+  useEffect(() => {
+    const nodeCount = 20;
+    const newNodes = Array.from({ length: nodeCount }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      delay: Math.random() * 2
+    }));
+    setNodes(newNodes);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        {/* Connection Lines */}
+        {nodes.map((node, i) => 
+          nodes.slice(i + 1).map((otherNode, j) => {
+            const distance = Math.sqrt(
+              Math.pow(node.x - otherNode.x, 2) + Math.pow(node.y - otherNode.y, 2)
+            );
+            if (distance < 25) {
+              return (
+                <motion.line
+                  key={`${i}-${j}`}
+                  x1={node.x}
+                  y1={node.y}
+                  x2={otherNode.x}
+                  y2={otherNode.y}
+                  stroke="hsl(var(--primary))"
+                  strokeWidth="0.1"
+                  opacity="0.3"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 2, delay: node.delay }}
+                />
+              );
+            }
+            return null;
+          })
+        )}
+        
+        {/* Nodes */}
+        {nodes.map((node) => (
+          <motion.circle
+            key={node.id}
+            cx={node.x}
+            cy={node.y}
+            r="0.5"
+            fill="hsl(var(--primary))"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.6 }}
+            transition={{ 
+              duration: 1, 
+              delay: node.delay,
+              repeat: Infinity,
+              repeatType: "reverse",
+              repeatDelay: 3
+            }}
+          />
+        ))}
+      </svg>
+    </div>
+  );
+};
+
+// Idea Capture Screen Component
+const IdeaCaptureScreen = ({ onAnalyze }: { onAnalyze: () => void }) => {
+  const [idea, setIdea] = useState('');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (idea.trim()) {
+      setIsAnalyzing(true);
+      // Simulate analysis delay
+      setTimeout(() => {
+        setIsAnalyzing(false);
+        onAnalyze();
+      }, 2000);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e as unknown as React.FormEvent);
+    }
+  };
+
+  return (
+    <div className="relative min-h-[500px] bg-gradient-to-br from-background via-background/95 to-muted/20 rounded-lg overflow-hidden">
+      {/* Animated Background */}
+      <AnimatedNodes />
+      
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[500px] p-8">
+        {/* Hero Text */}
+        <motion.h1 
+          className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          Turn ideas into deployable blueprints
+        </motion.h1>
+
+        {/* Input Form */}
+        <motion.form 
+          onSubmit={handleSubmit}
+          className="w-full max-w-2xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <div className="relative">
+            <Input
+              value={idea}
+              onChange={(e) => setIdea(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Describe your idea in one sentence..."
+              className="w-full h-16 text-lg px-6 py-4 rounded-xl border-2 border-muted-foreground/20 focus:border-primary bg-background/80 backdrop-blur-sm shadow-lg"
+              disabled={isAnalyzing}
+            />
+            
+            {/* Floating Analyze Button */}
+            <motion.div
+              className="absolute right-2 top-2"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button
+                type="submit"
+                disabled={!idea.trim() || isAnalyzing}
+                className="h-12 px-6 rounded-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 shadow-lg"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  'Analyze'
+                )}
+              </Button>
+            </motion.div>
+          </div>
+        </motion.form>
+
+        {/* Loading State */}
+        <AnimatePresence>
+          {isAnalyzing && (
+            <motion.div
+              className="mt-8 text-center"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+            >
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <span>Analyzing your idea and preparing blueprint...</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Subtle Hint */}
+        <motion.p 
+          className="text-sm text-muted-foreground mt-6 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          Press Enter or click Analyze to continue
+        </motion.p>
+      </div>
+    </div>
+  );
+};
+
 export default function WireframesPage() {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -274,7 +459,12 @@ export default function WireframesPage() {
     setIsPlaying(false);
   };
 
-  React.useEffect(() => {
+  const handleIdeaAnalyze = () => {
+    // Auto-advance to Analysis Dashboard
+    setCurrentScreen(1);
+  };
+
+  useEffect(() => {
     return () => {
       if (autoPlayInterval) {
         clearInterval(autoPlayInterval);
@@ -391,155 +581,151 @@ export default function WireframesPage() {
                       {/* Wireframe Mockup */}
                       <div className="bg-muted/30 rounded-lg p-6 min-h-[400px] border-2 border-dashed border-muted-foreground/20">
                         <div className="space-y-4">
-                          {/* Header Mockup */}
-                          <div className="flex items-center justify-between p-3 bg-background rounded border">
-                            <div className="flex items-center gap-2">
-                              <div className="w-8 h-8 bg-primary/20 rounded"></div>
-                              <div className="w-24 h-4 bg-muted rounded"></div>
-                            </div>
-                            <div className="flex gap-2">
-                              <div className="w-16 h-6 bg-muted rounded"></div>
-                              <div className="w-20 h-6 bg-primary/20 rounded"></div>
-                            </div>
-                          </div>
-
-                          {/* Progress Indicator */}
-                          <div className="p-3 bg-background rounded border">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="w-16 h-3 bg-muted rounded"></div>
-                              <div className="w-12 h-3 bg-muted rounded"></div>
-                            </div>
-                            <div className="w-full h-2 bg-muted rounded">
-                              <div 
-                                className="h-full bg-primary rounded transition-all duration-300"
-                                style={{ width: `${((currentScreen + 1) / wireframeScreens.length) * 100}%` }}
-                              ></div>
-                            </div>
-                          </div>
-
-                          {/* Main Content Area */}
-                          <div className="p-6 bg-background rounded border min-h-[250px]">
-                            <div className="space-y-4">
-                              <div className="flex items-center gap-3 mb-4">
-                                <currentWireframe.icon className="h-8 w-8 text-primary" />
-                                <div className="w-48 h-6 bg-muted rounded"></div>
+                          {/* Idea Capture Screen - Special Implementation */}
+                          {currentScreen === 0 ? (
+                            <IdeaCaptureScreen onAnalyze={handleIdeaAnalyze} />
+                          ) : (
+                            <>
+                              {/* Header Mockup */}
+                              <div className="flex items-center justify-between p-3 bg-background rounded border">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-8 h-8 bg-primary/20 rounded"></div>
+                                  <div className="w-24 h-4 bg-muted rounded"></div>
+                                </div>
+                                <div className="flex gap-2">
+                                  <div className="w-16 h-6 bg-muted rounded"></div>
+                                  <div className="w-20 h-6 bg-primary/20 rounded"></div>
+                                </div>
                               </div>
-                              
-                              {/* Dynamic content based on screen */}
-                              {currentScreen === 0 && (
-                                <div className="space-y-4">
-                                  <div className="w-full h-24 bg-muted/50 rounded border-2 border-dashed"></div>
-                                  <div className="grid grid-cols-3 gap-3">
-                                    <div className="h-8 bg-muted/50 rounded"></div>
-                                    <div className="h-8 bg-muted/50 rounded"></div>
-                                    <div className="h-8 bg-muted/50 rounded"></div>
-                                  </div>
-                                </div>
-                              )}
-                              
-                              {currentScreen === 1 && (
-                                <div className="grid grid-cols-2 gap-4">
-                                  <div className="space-y-3">
-                                    <div className="h-16 bg-muted/50 rounded"></div>
-                                    <div className="h-16 bg-muted/50 rounded"></div>
-                                  </div>
-                                  <div className="space-y-3">
-                                    <div className="h-16 bg-muted/50 rounded"></div>
-                                    <div className="h-16 bg-muted/50 rounded"></div>
-                                  </div>
-                                </div>
-                              )}
-                              
-                              {currentScreen === 2 && (
-                                <div className="space-y-4">
-                                  <div className="grid grid-cols-4 gap-2">
-                                    <div className="h-12 bg-muted/50 rounded"></div>
-                                    <div className="h-12 bg-muted/50 rounded"></div>
-                                    <div className="h-12 bg-muted/50 rounded"></div>
-                                    <div className="h-12 bg-muted/50 rounded"></div>
-                                  </div>
-                                  <div className="h-20 bg-muted/50 rounded"></div>
-                                </div>
-                              )}
-                              
-                              {currentScreen === 3 && (
-                                <div className="space-y-4">
-                                  <div className="h-32 bg-muted/50 rounded border-2 border-dashed flex items-center justify-center">
-                                    <Layers className="h-12 w-12 text-muted-foreground" />
-                                  </div>
-                                  <div className="grid grid-cols-3 gap-2">
-                                    <div className="h-8 bg-muted/50 rounded"></div>
-                                    <div className="h-8 bg-muted/50 rounded"></div>
-                                    <div className="h-8 bg-muted/50 rounded"></div>
-                                  </div>
-                                </div>
-                              )}
-                              
-                              {currentScreen === 4 && (
-                                <div className="space-y-4">
-                                  <div className="grid grid-cols-6 gap-2">
-                                    {[...Array(12)].map((_, i) => (
-                                      <div key={i} className="h-8 bg-muted/50 rounded"></div>
-                                    ))}
-                                  </div>
-                                  <div className="h-16 bg-muted/50 rounded"></div>
-                                </div>
-                              )}
-                              
-                              {currentScreen === 5 && (
-                                <div className="space-y-4">
-                                  <div className="h-24 bg-muted/50 rounded border-2 border-dashed flex items-center justify-center">
-                                    <Database className="h-8 w-8 text-muted-foreground" />
-                                  </div>
-                                  <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                      <div className="h-4 bg-muted/50 rounded"></div>
-                                      <div className="h-4 bg-muted/50 rounded"></div>
-                                      <div className="h-4 bg-muted/50 rounded"></div>
-                                    </div>
-                                    <div className="space-y-2">
-                                      <div className="h-4 bg-muted/50 rounded"></div>
-                                      <div className="h-4 bg-muted/50 rounded"></div>
-                                      <div className="h-4 bg-muted/50 rounded"></div>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                              
-                              {currentScreen === 6 && (
-                                <div className="space-y-4">
-                                  <div className="h-20 bg-muted/50 rounded"></div>
-                                  <div className="grid grid-cols-3 gap-3">
-                                    <div className="h-12 bg-muted/50 rounded"></div>
-                                    <div className="h-12 bg-muted/50 rounded"></div>
-                                    <div className="h-12 bg-primary/20 rounded"></div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
 
-                          {/* Navigation Footer */}
-                          <div className="flex items-center justify-between p-3 bg-background rounded border">
-                            <Button variant="outline" size="sm" disabled={currentScreen === 0} onClick={prevScreen}>
-                              <ChevronLeft className="h-4 w-4 mr-1" />
-                              Back
-                            </Button>
-                            <div className="flex gap-1">
-                              {wireframeScreens.map((_, index) => (
-                                <div
-                                  key={index}
-                                  className={`w-2 h-2 rounded-full ${
-                                    index === currentScreen ? 'bg-primary' : 'bg-muted'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <Button size="sm" disabled={currentScreen === wireframeScreens.length - 1} onClick={nextScreen}>
-                              {currentScreen === wireframeScreens.length - 1 ? 'Export' : 'Continue'}
-                              <ChevronRight className="h-4 w-4 ml-1" />
-                            </Button>
-                          </div>
+                              {/* Progress Indicator */}
+                              <div className="p-3 bg-background rounded border">
+                                <div className="flex items-center justify-between mb-2">
+                                  <div className="w-16 h-3 bg-muted rounded"></div>
+                                  <div className="w-12 h-3 bg-muted rounded"></div>
+                                </div>
+                                <div className="w-full h-2 bg-muted rounded">
+                                  <div 
+                                    className="h-full bg-primary rounded transition-all duration-300"
+                                    style={{ width: `${((currentScreen + 1) / wireframeScreens.length) * 100}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+
+                              {/* Main Content Area */}
+                              <div className="p-6 bg-background rounded border min-h-[250px]">
+                                <div className="space-y-4">
+                                  <div className="flex items-center gap-3 mb-4">
+                                    <currentWireframe.icon className="h-8 w-8 text-primary" />
+                                    <div className="w-48 h-6 bg-muted rounded"></div>
+                                  </div>
+                                  
+                                  {/* Dynamic content based on screen */}
+                                  {currentScreen === 1 && (
+                                    <div className="grid grid-cols-2 gap-4">
+                                      <div className="space-y-3">
+                                        <div className="h-16 bg-muted/50 rounded"></div>
+                                        <div className="h-16 bg-muted/50 rounded"></div>
+                                      </div>
+                                      <div className="space-y-3">
+                                        <div className="h-16 bg-muted/50 rounded"></div>
+                                        <div className="h-16 bg-muted/50 rounded"></div>
+                                      </div>
+                                    </div>
+                                  )}
+                                  
+                                  {currentScreen === 2 && (
+                                    <div className="space-y-4">
+                                      <div className="grid grid-cols-4 gap-2">
+                                        <div className="h-12 bg-muted/50 rounded"></div>
+                                        <div className="h-12 bg-muted/50 rounded"></div>
+                                        <div className="h-12 bg-muted/50 rounded"></div>
+                                        <div className="h-12 bg-muted/50 rounded"></div>
+                                      </div>
+                                      <div className="h-20 bg-muted/50 rounded"></div>
+                                    </div>
+                                  )}
+                                  
+                                  {currentScreen === 3 && (
+                                    <div className="space-y-4">
+                                      <div className="h-32 bg-muted/50 rounded border-2 border-dashed flex items-center justify-center">
+                                        <Layers className="h-12 w-12 text-muted-foreground" />
+                                      </div>
+                                      <div className="grid grid-cols-3 gap-2">
+                                        <div className="h-8 bg-muted/50 rounded"></div>
+                                        <div className="h-8 bg-muted/50 rounded"></div>
+                                        <div className="h-8 bg-muted/50 rounded"></div>
+                                      </div>
+                                    </div>
+                                  )}
+                                  
+                                  {currentScreen === 4 && (
+                                    <div className="space-y-4">
+                                      <div className="grid grid-cols-6 gap-2">
+                                        {[...Array(12)].map((_, i) => (
+                                          <div key={i} className="h-8 bg-muted/50 rounded"></div>
+                                        ))}
+                                      </div>
+                                      <div className="h-16 bg-muted/50 rounded"></div>
+                                    </div>
+                                  )}
+                                  
+                                  {currentScreen === 5 && (
+                                    <div className="space-y-4">
+                                      <div className="h-24 bg-muted/50 rounded border-2 border-dashed flex items-center justify-center">
+                                        <Database className="h-8 w-8 text-muted-foreground" />
+                                      </div>
+                                      <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                          <div className="h-4 bg-muted/50 rounded"></div>
+                                          <div className="h-4 bg-muted/50 rounded"></div>
+                                          <div className="h-4 bg-muted/50 rounded"></div>
+                                        </div>
+                                        <div className="space-y-2">
+                                          <div className="h-4 bg-muted/50 rounded"></div>
+                                          <div className="h-4 bg-muted/50 rounded"></div>
+                                          <div className="h-4 bg-muted/50 rounded"></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                  
+                                  {currentScreen === 6 && (
+                                    <div className="space-y-4">
+                                      <div className="h-20 bg-muted/50 rounded"></div>
+                                      <div className="grid grid-cols-3 gap-3">
+                                        <div className="h-12 bg-muted/50 rounded"></div>
+                                        <div className="h-12 bg-muted/50 rounded"></div>
+                                        <div className="h-12 bg-primary/20 rounded"></div>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Navigation Footer */}
+                              <div className="flex items-center justify-between p-3 bg-background rounded border">
+                                <Button variant="outline" size="sm" disabled={currentScreen === 0} onClick={prevScreen}>
+                                  <ChevronLeft className="h-4 w-4 mr-1" />
+                                  Back
+                                </Button>
+                                <div className="flex gap-1">
+                                  {wireframeScreens.map((_, index) => (
+                                    <div
+                                      key={index}
+                                      className={`w-2 h-2 rounded-full ${
+                                        index === currentScreen ? 'bg-primary' : 'bg-muted'
+                                      }`}
+                                    />
+                                  ))}
+                                </div>
+                                <Button size="sm" disabled={currentScreen === wireframeScreens.length - 1} onClick={nextScreen}>
+                                  {currentScreen === wireframeScreens.length - 1 ? 'Export' : 'Continue'}
+                                  <ChevronRight className="h-4 w-4 ml-1" />
+                                </Button>
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
                     </motion.div>
