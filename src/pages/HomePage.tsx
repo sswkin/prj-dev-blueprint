@@ -22,7 +22,8 @@ import {
   Twitter,
   Linkedin,
   LogOut,
-  User
+  User,
+  CreditCard
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -234,6 +235,12 @@ export default function HomePage() {
                             <span>Profile</span>
                           </Link>
                         </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link to="/subscriptions">
+                            <CreditCard className="mr-2 h-4 w-4" />
+                            <span>Subscriptions</span>
+                          </Link>
+                        </DropdownMenuItem>
                         <DropdownMenuItem onClick={handleSignOut}>
                           <LogOut className="mr-2 h-4 w-4" />
                           <span>Log out</span>
@@ -282,6 +289,9 @@ export default function HomePage() {
                         </div>
                         <Link to="/profile" className="block text-muted-foreground hover:text-foreground">
                           Profile
+                        </Link>
+                        <Link to="/subscriptions" className="block text-muted-foreground hover:text-foreground">
+                          Subscriptions
                         </Link>
                         <Button onClick={handleSignOut} variant="outline" className="w-full">
                           <LogOut className="mr-2 h-4 w-4" />

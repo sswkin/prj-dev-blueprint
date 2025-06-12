@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
   ArrowLeft, 
   Edit, 
   Loader2, 
   AlertCircle,
-  RefreshCw
+  RefreshCw,
+  Crown,
+  Zap,
+  ArrowRight,
+  Star
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 
 import { useAuth } from '@/contexts/AuthContext';
@@ -22,7 +27,6 @@ import { UserProfile } from '@/lib/types/profile';
 import { ProfileFormData } from '@/lib/validations/profile';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { ProfileForm } from '@/components/profile/ProfileForm';
-import { SubscriptionSection } from '@/components/profile/SubscriptionSection';
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -288,14 +292,50 @@ export default function ProfilePage() {
               </motion.div>
             )}
 
-            {/* Subscription Section */}
-            {!isEditing && user && (
+            {/* Pro Plan Upgrade Prompt */}
+            {!isEditing && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 }}
               >
-                <SubscriptionSection userId={user.id} />
+                <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-purple-500/5">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-start gap-4">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <Crown className="h-6 w-6 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-lg mb-1 flex items-center gap-2">
+                            Upgrade to Pro
+                            <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                          </h3>
+                          <p className="text-muted-foreground text-sm mb-3">
+                            Unlock unlimited blueprints, advanced AI features, and priority support
+                          </p>
+                          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                            <span>✨ Unlimited blueprints</span>
+                            <span>🚀 Advanced AI</span>
+                            <span>🛡️ Priority support</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-2">
+                        <Badge variant="secondary" className="text-xs">
+                          Save 20% yearly
+                        </Badge>
+                        <Button asChild size="sm" className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
+                          <Link to="/subscriptions">
+                            <Zap className="mr-2 h-4 w-4" />
+                            Upgrade Now
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </motion.div>
             )}
 
@@ -307,8 +347,13 @@ export default function ProfilePage() {
                 transition={{ duration: 0.3, delay: 0.3 }}
               >
                 <Card className="border-2">
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold mb-4">Account Information</h3>
+                  <CardHeader>
+                    <CardTitle>Account Information</CardTitle>
+                    <CardDescription>
+                      Your account details and settings
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                       <div>
                         <span className="text-muted-foreground">Email:</span>
@@ -323,6 +368,25 @@ export default function ProfilePage() {
                             day: 'numeric'
                           })}
                         </p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Member since:</span>
+                        <p className="font-medium">
+                          {new Date(profile.created_at).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Subscription:</span>
+                        <div className="flex items-center gap-2">
+                          <Badge variant="secondary">Free Plan</Badge>
+                          <Button asChild variant="link" size="sm" className="h-auto p-0 text-xs">
+                            <Link to="/subscriptions">Manage</Link>
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
