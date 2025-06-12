@@ -329,18 +329,16 @@ export default function HomePage() {
                   AI-powered workflow for solo devs, startups & early adopters
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  {user ? (
-                    <Button asChild size="lg" className="text-lg px-8 py-6">
-                      <Link to="/blueprint">
-                        Create Blueprint
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Link>
-                    </Button>
-                  ) : (
-                    <Button asChild size="lg" className="text-lg px-8 py-6">
+                  <Button asChild size="lg" className="text-lg px-8 py-6">
+                    <Link to="/wireframes">
+                      Create Blueprint
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                  {!user && (
+                    <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6">
                       <Link to="/signup">
                         Try it free
-                        <ArrowRight className="ml-2 h-5 w-5" />
                       </Link>
                     </Button>
                   )}
