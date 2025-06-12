@@ -26,9 +26,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-// import { Badge } from '@/components/ui/badge';
-// import { Separator } from '@/components/ui/separator';
-// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
 
@@ -179,24 +176,24 @@ export default function BlueprintPage() {
     return Math.round((completed / total) * 100);
   };
 
-  const addArrayItem = (field: keyof BlueprintData, defaultValue: any) => {
+  const addArrayItem = <T extends string | Requirement | UserStory>(field: keyof BlueprintData, defaultValue: T) => {
     setBlueprint(prev => ({
       ...prev,
-      [field]: [...(prev[field] as any[]), defaultValue]
+      [field]: [...(prev[field] as T[]), defaultValue]
     }));
   };
 
   const removeArrayItem = (field: keyof BlueprintData, index: number) => {
     setBlueprint(prev => ({
       ...prev,
-      [field]: (prev[field] as any[]).filter((_, i) => i !== index)
+      [field]: (prev[field] as unknown[]).filter((_, i) => i !== index)
     }));
   };
 
-  const updateArrayItem = (field: keyof BlueprintData, index: number, value: any) => {
+  const updateArrayItem = <T>(field: keyof BlueprintData, index: number, value: T) => {
     setBlueprint(prev => ({
       ...prev,
-      [field]: (prev[field] as any[]).map((item, i) => i === index ? value : item)
+      [field]: (prev[field] as T[]).map((item, i) => i === index ? value : item)
     }));
   };
 
@@ -360,7 +357,7 @@ export default function BlueprintPage() {
                 />
                 <Select
                   value={feature.priority}
-                  onValueChange={(value) => updateArrayItem('coreFeatures', index, { ...feature, priority: value })}
+                  onValueChange={(value: 'high' | 'medium' | 'low') => updateArrayItem('coreFeatures', index, { ...feature, priority: value })}
                 >
                   <SelectTrigger className="w-32">
                     <SelectValue />
@@ -397,7 +394,7 @@ export default function BlueprintPage() {
             id: Date.now().toString(), 
             title: '', 
             description: '', 
-            priority: 'medium' 
+            priority: 'medium' as const
           })}
         >
           <Plus className="h-4 w-4 mr-2" />
@@ -437,7 +434,7 @@ export default function BlueprintPage() {
                 <div className="flex gap-2">
                   <Select
                     value={story.priority}
-                    onValueChange={(value) => updateArrayItem('userStories', index, { ...story, priority: value })}
+                    onValueChange={(value: 'high' | 'medium' | 'low') => updateArrayItem('userStories', index, { ...story, priority: value })}
                   >
                     <SelectTrigger className="w-24">
                       <SelectValue />
@@ -470,7 +467,7 @@ export default function BlueprintPage() {
             role: '', 
             action: '', 
             benefit: '', 
-            priority: 'medium' 
+            priority: 'medium' as const
           })}
         >
           <Plus className="h-4 w-4 mr-2" />
