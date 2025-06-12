@@ -13,15 +13,63 @@ import { AnalysisDashboard } from '@/components/screens/AnalysisDashboard';
 import { useAI } from '@/hooks/useAI';
 import { mockAnalysisResponse } from '@/mocks/aiResponses';
 
+// Type definitions
+interface Tag {
+  id: string;
+  text: string;
+  weight: number;
+  category?: 'technology' | 'market' | 'feature' | 'risk';
+  aiGenerated?: boolean;
+}
+
+interface AIConcept {
+  id: string;
+  title: string;
+  description: string;
+  viability: number;
+  marketSize?: string;
+  timeToMarket?: string;
+  complexity?: 'low' | 'medium' | 'high';
+}
+
+interface AnalysisData {
+  tags: Tag[];
+  concepts: AIConcept[];
+  risks?: Array<{
+    id: string;
+    title: string;
+    severity: string;
+    description: string;
+    mitigation: string;
+  }>;
+}
+
+interface Screen {
+  id: string;
+  name: string;
+  description: string;
+  component: React.ComponentType<ScreenProps>;
+}
+
+interface ScreenProps {
+  onAnalyze?: (idea: string) => void;
+  tags?: Tag[];
+  concepts?: AIConcept[];
+  onConceptSelect?: (concept: AIConcept) => void;
+  onBack?: () => void;
+}
+
+type ViewportType = 'desktop' | 'tablet' | 'mobile';
+
 export default function WireframesPage() {
-  const [currentScreen, setCurrentScreen] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
-  const [analysisData, setAnalysisData] = useState<any>(null);
+  const [currentScreen, setCurrentScreen] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [viewport, setViewport] = useState<ViewportType>('desktop');
+  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
   
   const { execute, isLoading } = useAI();
 
-  const screens = [
+  const screens: Screen[] = [
     {
       id: 'idea-capture',
       name: 'Idea Capture',
@@ -36,7 +84,7 @@ export default function WireframesPage() {
     }
   ];
 
-  const getViewportClass = () => {
+  const getViewportClass = (): string => {
     switch (viewport) {
       case 'mobile':
         return 'max-w-sm mx-auto';
@@ -47,45 +95,47 @@ export default function WireframesPage() {
     }
   };
 
-  const handleIdeaAnalyze = async (idea: string) => {
-    const result = await execute(idea, 'analyze');
-    if (result.success) {
+  const handleIdeaAnalyze = async (idea: string): Promise<void> => {
+    const result = await execute<AnalysisData>(idea, 'analyze');
+    if (result.success && result.data) {
       setAnalysisData(result.data);
       setCurrentScreen(1);
     }
   };
 
-  const handleConceptSelect = (concept: any) => {
+  const handleConceptSelect = (concept: AIConcept): void => {
     console.log('Concept selected:', concept);
     // Navigate to next screen or show research hub
   };
 
-  const handleBack = () => {
+  const handleBack = (): void => {
     if (currentScreen > 0) {
       setCurrentScreen(currentScreen - 1);
     }
   };
 
-  const renderCurrentScreen = () => {
+  const renderCurrentScreen = (): React.ReactNode => {
     const ScreenComponent = screens[currentScreen]?.component;
     
     if (!ScreenComponent) return null;
 
+    const screenProps: ScreenProps = {};
+
     switch (currentScreen) {
       case 0:
-        return <ScreenComponent onAnalyze={handleIdeaAnalyze} />;
+        screenProps.onAnalyze = handleIdeaAnalyze;
+        break;
       case 1:
-        return (
-          <ScreenComponent
-            tags={analysisData?.tags || mockAnalysisResponse.tags}
-            concepts={analysisData?.concepts || mockAnalysisResponse.concepts}
-            onConceptSelect={handleConceptSelect}
-            onBack={handleBack}
-          />
-        );
+        screenProps.tags = analysisData?.tags || mockAnalysisResponse.tags;
+        screenProps.concepts = analysisData?.concepts || mockAnalysisResponse.concepts;
+        screenProps.onConceptSelect = handleConceptSelect;
+        screenProps.onBack = handleBack;
+        break;
       default:
-        return <ScreenComponent />;
+        break;
     }
+
+    return <ScreenComponent {...screenProps} />;
   };
 
   return (
