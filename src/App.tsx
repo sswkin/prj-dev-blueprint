@@ -6,6 +6,7 @@ import SignupPage from '@/pages/SignupPage';
 import ProfilePage from '@/pages/ProfilePage';
 import SubscriptionsPage from '@/pages/SubscriptionsPage';
 import BlueprintPage from '@/pages/BlueprintPage';
+import WireframesPage from '@/pages/WireframesPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/subscriptions" element={<SubscriptionsPage />} />
         <Route path="/blueprint" element={<BlueprintPage />} />
+        <Route path="/wireframes" element={<WireframesPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Toaster />
