@@ -1,32 +1,39 @@
+// React and core dependencies
 import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+
+// Third-party libraries
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, Link } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Edit, 
-  Loader2, 
+import { toast } from 'sonner';
+import {
   AlertCircle,
-  RefreshCw,
-  Crown,
-  Zap,
+  ArrowLeft,
   ArrowRight,
-  Star
+  Crown,
+  Edit,
+  Loader2,
+  RefreshCw,
+  Star,
+  Zap
 } from 'lucide-react';
 
+// UI Components
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
+import { ProfileForm } from '@/components/profile/ProfileForm';
+import { ProfileHeader } from '@/components/profile/ProfileHeader';
 
+// Contexts and Hooks
 import { useAuth } from '@/contexts/AuthContext';
 import { profileService } from '@/lib/services/profile';
-import { UserProfile } from '@/lib/types/profile';
-import { ProfileFormData } from '@/lib/validations/profile';
-import { ProfileHeader } from '@/components/profile/ProfileHeader';
-import { ProfileForm } from '@/components/profile/ProfileForm';
+
+// Types
+import type { UserProfile } from '@/lib/types/profile';
+import type { ProfileFormData } from '@/lib/validations/profile';
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);

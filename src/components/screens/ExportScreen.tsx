@@ -1,8 +1,13 @@
-import { FC } from 'react';
+// External dependencies
+import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { CheckCircle, Download } from 'lucide-react';
-import { ScreenProps } from '@/pages/WireframesPage';
+
+// UI Components
+import { Button } from '@/components/ui/button';
+
+// Types
+import type { ScreenProps } from '@/components/types';
 
 export const ExportScreen: FC<ScreenProps> = ({ onBack }) => {
   const navigate = useNavigate();

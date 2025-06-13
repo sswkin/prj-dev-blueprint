@@ -57,7 +57,6 @@ export const useAI = (options: UseAIOptions = {}) => {
   const [error, setError] = useState<string | null>(null);
 
   const execute = useCallback(async <T = unknown>(
-    prompt: string,
     type: AIExecuteType = 'generate'
   ): Promise<AIResponse<T>> => {
     setIsLoading(true);

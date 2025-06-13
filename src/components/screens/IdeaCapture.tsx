@@ -1,16 +1,23 @@
+// External dependencies
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
+
+// UI Components
 import { InputHero } from '@/components/ui-kit/InputHero';
 import { AIIndicator } from '@/components/ui-kit/AIIndicator';
-import { ScreenProps } from '@/components/types';
+
+// Types
+import type { ScreenProps } from '@/components/types';
 
 export interface IdeaCaptureProps extends ScreenProps {
   // onAnalyze is required for this component
   onAnalyze: (idea: string) => void;
 }
 
-export const IdeaCapture: React.FC<IdeaCaptureProps> = ({ onAnalyze, onNext, onBack, ...props }) => {
+// onNext and onBack are part of the ScreenProps interface but not used in this component
+// They are kept for consistency with the interface and potential future use
+export const IdeaCapture: React.FC<IdeaCaptureProps> = ({ onAnalyze }) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [progress, setProgress] = useState(0);
 
