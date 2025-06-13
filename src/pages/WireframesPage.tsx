@@ -24,11 +24,11 @@ import { Card, CardContent } from '@/components/ui/card';
 // Import screen components and their prop types
 import { IdeaCapture, IdeaCaptureProps } from '@/components/screens/IdeaCapture';
 import { AnalysisDashboard, AnalysisDashboardProps } from '@/components/screens/AnalysisDashboard';
-import { ResearchScreen } from '@/components/screens/ResearchScreen';
-import { ArchitectureScreen } from '@/components/screens/ArchitectureScreen';
-import { ComponentsScreen } from '@/components/screens/ComponentsScreen';
-import { DatabaseScreen } from '@/components/screens/DatabaseScreen';
-import { ExportScreen } from '@/components/screens/ExportScreen';
+import ResearchScreen from '@/blueprint/screens/ResearchScreen';
+import ArchitectureScreen from '@/blueprint/screens/ArchitectureScreen';
+import ComponentsScreen from '@/blueprint/screens/ComponentsScreen';
+import DatabaseScreen from '@/blueprint/screens/DatabaseScreen';
+import ExportScreen from '@/blueprint/screens/ExportScreen';
 
 // Re-export types for other components to use
 export type { IdeaCaptureProps, AnalysisDashboardProps };
@@ -59,7 +59,8 @@ export interface AIConcept {
   complexity: Complexity;
 }
 
-export interface ScreenProps {
+// Define flexible screen props that can accommodate all screen types
+interface WireframeScreenProps {
   onAnalyze?: (idea: string) => void;
   tags?: Tag[];
   concepts?: AIConcept[];
@@ -67,17 +68,15 @@ export interface ScreenProps {
   onBack?: () => void;
   onNext?: () => void;
   isAnalyzing?: boolean;
+  [key: string]: unknown; // Allow additional props
 }
-
-// Define screen component props
-type ScreenComponentProps = ScreenProps & Record<string, unknown>;
 
 // Define screen configuration
 interface Screen {
   id: string;
   name: string;
   description: string;
-  component: React.ComponentType<ScreenComponentProps>;
+  component: React.ComponentType<WireframeScreenProps>;
   requiredProps: Record<string, unknown>;
   complexity?: Complexity;
 }
@@ -124,70 +123,55 @@ const WireframesPage: FC = () => {
   const [tags] = useState<Tag[]>(mockTags);
   const [concepts] = useState<AIConcept[]>(mockConcepts);
 
-  // Helper function to create a properly typed screen
-  const createScreen = <T extends ScreenProps>(
-    id: string,
-    name: string,
-    description: string,
-    component: React.ComponentType<T>,
-    requiredProps: Omit<T, keyof ScreenProps>
-  ): Screen => ({
-    id,
-    name,
-    description,
-    component: component as React.ComponentType<ScreenProps>,
-    requiredProps
-  });
-
   // Screen definitions
   const screens: Screen[] = [
-    createScreen<IdeaCaptureProps>(
-      'idea-capture',
-      'Idea Capture',
-      'Describe your app idea and get AI-powered analysis',
-      IdeaCapture,
-      {}
-    ),
-    createScreen<AnalysisDashboardProps>(
-      'analysis-dashboard',
-      'Analysis Dashboard',
-      'Review AI-generated analysis and concepts',
-      AnalysisDashboard,
-      { tags: [], concepts: [], onConceptSelect: () => {}, onBack: () => {} }
-    ),
+    {
+      id: 'idea-capture',
+      name: 'Idea Capture',
+      description: 'Describe your app idea and get AI-powered analysis',
+      component: IdeaCapture as React.ComponentType<WireframeScreenProps>,
+      requiredProps: {}
+    },
+    {
+      id: 'analysis-dashboard',
+      name: 'Analysis Dashboard',
+      description: 'Review AI-generated analysis and concepts',
+      component: AnalysisDashboard as React.ComponentType<WireframeScreenProps>,
+      requiredProps: { tags: [], concepts: [], onConceptSelect: () => {}, onBack: () => {} }
+    },
     {
       id: 'research',
       name: 'Research',
       description: 'Explore market research and competitor analysis',
-      component: ResearchScreen,
+      component: ResearchScreen as React.ComponentType<WireframeScreenProps>,
       requiredProps: {}
     },
     {
       id: 'architecture',
       name: 'Architecture',
       description: 'Define your app architecture and tech stack',
-      component: ArchitectureScreen,
+      component: ArchitectureScreen as React.ComponentType<WireframeScreenProps>,
       requiredProps: {}
     },
     {
       id: 'components',
       name: 'Components',
       description: 'Design your UI components and screens',
-      component: ComponentsScreen,
+      component: ComponentsScreen as React.ComponentType<WireframeScreenProps>,
       requiredProps: {}
     },
     {
       id: 'database',
       name: 'Database',
       description: 'Design your database schema',
-      component: DatabaseScreen,
+      component: DatabaseScreen as React.ComponentType<WireframeScreenProps>,
       requiredProps: {}
     },
     {
       id: 'export',
       name: 'Export',
       description: 'Export your project files',
-      component: ExportScreen,
+      component: ExportScreen as React.ComponentType<WireframeScreenProps>,
       requiredProps: {}
     }
   ];
@@ -232,7 +216,7 @@ const WireframesPage: FC = () => {
     const isLastScreen = currentScreenIndex === screens.length - 1;
     
     // Prepare base props
-    const baseProps: ScreenProps = {
+    const baseProps: WireframeScreenProps = {
       onNext: !isLastScreen ? handleNext : undefined,
       onBack: !isFirstScreen ? handleBack : undefined,
       onConceptSelect: handleConceptSelect,
