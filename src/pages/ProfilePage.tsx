@@ -28,7 +28,7 @@ import { ProfileForm } from '@/components/profile/ProfileForm';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 
 // Contexts and Hooks
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/useAuth';
 import { profileService } from '@/lib/services/profile';
 
 // Types
@@ -83,7 +83,7 @@ export default function ProfilePage() {
     if (user) {
       fetchProfile();
     }
-  }, [user]);
+  }, [user, fetchProfile]);
 
   const handleProfileUpdate = async (data: ProfileFormData) => {
     if (!user || !profile) return;

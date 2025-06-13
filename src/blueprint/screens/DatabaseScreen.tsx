@@ -23,13 +23,13 @@ const DatabaseScreen: FC<ScreenProps> = ({ onNext, onBack }) => (
       </div>
       <Card className="p-8 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {(mockSchemaResponse.tables as any[]).slice(0, 6).map((table, index) => (
+          {mockSchemaResponse.tables.slice(0, 6).map((table, index) => (
             <div key={index} className="p-4 border rounded-lg">
               <h3 className="font-semibold mb-3 text-center">{table.name}</h3>
               <div className="space-y-2">
-                {table.columns.slice(0, 4).map((column: any, i: number) => (
+                {table.columns.slice(0, 4).map((column, i: number) => (
                   <div key={i} className="flex items-center justify-between text-sm">
-                    <span className={(column.primaryKey as boolean) ? 'font-semibold text-primary' : ''}>{column.name}</span>
+                    <span className={column.required ? 'font-semibold text-primary' : ''}>{column.name}</span>
                     <span className="text-muted-foreground text-xs">{column.type}</span>
                   </div>
                 ))}

@@ -32,7 +32,7 @@ import { Progress } from '@/components/ui/progress';
 import { Switch } from '@/components/ui/switch';
 
 // Contexts and Services
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/useAuth';
 import { subscriptionService } from '@/lib/services/subscription';
 
 // Types

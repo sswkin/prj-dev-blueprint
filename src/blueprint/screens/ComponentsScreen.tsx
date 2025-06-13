@@ -23,20 +23,20 @@ const ComponentsScreen: FC<ScreenProps> = ({ onNext, onBack }) => (
         <p className="text-xl text-muted-foreground">AI-generated component specifications and code templates</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {(mockComponentsResponse.screens as any[]).slice(0, 4).map((screen, index) => (
+        {mockComponentsResponse.screens.slice(0, 4).map((screen, index) => (
           <Card key={index} className="p-6">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold">{screen.name}</h3>
-              <Badge variant={(screen.complexity as string) === 'high' ? 'destructive' : (screen.complexity as string) === 'medium' ? 'secondary' : 'default'}>
-                {screen.complexity as string}
+              <Badge variant={screen.complexity === 'high' ? 'destructive' : screen.complexity === 'medium' ? 'secondary' : 'default'}>
+                {screen.complexity || 'low'}
               </Badge>
             </div>
             <p className="text-sm text-muted-foreground mb-4">{screen.description}</p>
             <div className="space-y-2">
               <p className="text-xs font-medium text-muted-foreground">Components:</p>
               <div className="flex flex-wrap gap-1">
-                {screen.components.map((comp: any, i: number) => (
-                  <Badge key={i} variant="outline" className="text-xs">{comp as string}</Badge>
+                {screen.components.map((comp, i: number) => (
+                  <Badge key={i} variant="outline" className="text-xs">{comp.name}</Badge>
                 ))}
               </div>
             </div>
