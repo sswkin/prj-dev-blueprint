@@ -1,15 +1,23 @@
+// React and core dependencies
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+
+// Third-party libraries
 import { CheckCircle, Loader2, Sparkles, X } from 'lucide-react';
-import { ProjectRequirements, FeatureSuggestion } from '@/types/wizard';
+
+// UI Components
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
+// Types
+import type { ProjectRequirements, FeatureSuggestion } from '@/types/wizard';
 
 interface FeaturesStepProps {
   featureSuggestions: FeatureSuggestion[];
   requirements: ProjectRequirements;
   onFeatureToggle: (featureName: string) => void;
   onGenerateFeatures: () => Promise<void>;
+  onClearFeatures: () => void;
   isGeneratingFeatures: boolean;
   hasGeneratedFeatures: boolean;
 }
@@ -19,6 +27,7 @@ export const FeaturesStep: React.FC<FeaturesStepProps> = ({
   requirements,
   onFeatureToggle,
   onGenerateFeatures,
+  onClearFeatures,
   isGeneratingFeatures,
   hasGeneratedFeatures
 }) => {
@@ -191,10 +200,7 @@ export const FeaturesStep: React.FC<FeaturesStepProps> = ({
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => {
-                      setFeatureSuggestions(prev => prev.map(f => ({ ...f, selected: false })));
-                      setRequirements(prev => ({ ...prev, features: [] }));
-                    }}
+                    onClick={onClearFeatures}
                   >
                     <X className="h-4 w-4 mr-1" />
                     Clear All
