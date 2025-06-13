@@ -130,7 +130,7 @@ export default function BlueprintPage() {
   };
 
   const handleIdeaAnalyze = async (idea: string): Promise<void> => {
-    const result = await execute<AnalysisData>(idea, 'analyze');
+    const result = await execute<AnalysisData>(idea);
     if (result.success && result.data) {
       setAnalysisData(result.data);
       handleNext();
