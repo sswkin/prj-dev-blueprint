@@ -3,16 +3,23 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { InputHero } from '@/components/ui-kit/InputHero';
 import { AIIndicator } from '@/components/ui-kit/AIIndicator';
+import { ScreenProps } from '@/components/types';
 
-interface IdeaCaptureProps {
+export interface IdeaCaptureProps extends ScreenProps {
+  // onAnalyze is required for this component
   onAnalyze: (idea: string) => void;
 }
 
-export const IdeaCapture: React.FC<IdeaCaptureProps> = ({ onAnalyze }) => {
+export const IdeaCapture: React.FC<IdeaCaptureProps> = ({ onAnalyze, onNext, onBack, ...props }) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const handleAnalyze = async (idea: string) => {
+    if (!onAnalyze) {
+      console.warn('onAnalyze function is not provided');
+      return;
+    }
+    
     setIsAnalyzing(true);
     setProgress(0);
 

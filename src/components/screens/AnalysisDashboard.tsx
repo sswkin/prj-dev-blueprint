@@ -8,34 +8,21 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-interface AIConcept {
-  id: string;
-  title: string;
-  description: string;
-  viability: number;
-  marketSize?: string;
-  timeToMarket?: string;
-  complexity?: 'low' | 'medium' | 'high';
-}
+import { ScreenProps, AIConcept, Tag } from '../types';
 
-interface AnalysisDashboardProps {
-  tags: Array<{
-    id: string;
-    text: string;
-    weight: number;
-    category?: 'technology' | 'market' | 'feature' | 'risk';
-    aiGenerated?: boolean;
-  }>;
+export interface AnalysisDashboardProps extends ScreenProps {
+  tags: Tag[];
   concepts: AIConcept[];
   onConceptSelect: (concept: AIConcept) => void;
   onBack: () => void;
 }
 
 export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
-  tags,
-  concepts,
+  tags = [],
+  concepts = [],
   onConceptSelect,
-  onBack
+  onBack,
+  ...props
 }) => {
   const [selectedRisk, setSelectedRisk] = useState<string | null>(null);
 
