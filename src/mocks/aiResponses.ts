@@ -141,6 +141,7 @@ export const mockComponentsResponse = {
       id: 'login',
       name: 'LoginScreen',
       description: 'User authentication screen',
+      complexity: 'medium' as const,
       components: [
         {
           id: 'login-form',
@@ -163,6 +164,7 @@ export const mockComponentsResponse = {
       id: 'home',
       name: 'HomeScreen',
       description: 'Main feed screen',
+      complexity: 'high' as const,
       components: [
         {
           id: 'feed',

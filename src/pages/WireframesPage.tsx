@@ -70,9 +70,7 @@ export interface ScreenProps {
 }
 
 // Define screen component props
-type ScreenComponentProps = ScreenProps & {
-  [key: string]: any;
-};
+type ScreenComponentProps = ScreenProps & Record<string, unknown>;
 
 // Define screen configuration
 interface Screen {
@@ -80,7 +78,7 @@ interface Screen {
   name: string;
   description: string;
   component: React.ComponentType<ScreenComponentProps>;
-  requiredProps: Record<string, any>;
+  requiredProps: Record<string, unknown>;
   complexity?: Complexity;
 }
 
