@@ -13,7 +13,7 @@ interface UseAIOptions {
   onError?: (error: string) => void;
 }
 
-interface AnalysisData {
+export interface AnalysisData {
   tags: Array<{
     id: string;
     text: string;

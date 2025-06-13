@@ -2,11 +2,13 @@ import { AIConcept, Tag } from '@/mocks/aiResponses';
 
 export interface ScreenProps {
   onAnalyze?: (idea: string) => void;
-  tags?: Tag[];
-  concepts?: AIConcept[];
-  onConceptSelect?: (concept: AIConcept) => void;
-  onBack?: () => void;
   onNext?: () => void;
+  onBack?: () => void;
+  onConceptSelect: (concept: AIConcept) => void;
+  isAnalyzing?: boolean;
+  tags: Tag[];
+  concepts: AIConcept[];
+  originalIdea?: string;
 }
 
 export interface Screen {

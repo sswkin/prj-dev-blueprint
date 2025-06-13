@@ -80,7 +80,7 @@ export const mockAnalysisResponse = {
     { id: '8', text: 'Content Moderation', weight: 0.4, category: 'risk', aiGenerated: true },
     { id: '9', text: 'MongoDB', weight: 0.5, category: 'technology', aiGenerated: true },
     { id: '10', text: 'AWS', weight: 0.6, category: 'technology', aiGenerated: true }
-  ],
+  ] as Tag[],
   concepts: [
     {
       id: '1',
@@ -109,7 +109,7 @@ export const mockAnalysisResponse = {
       timeToMarket: '4-6 months',
       complexity: 'low'
     }
-  ],
+  ] as AIConcept[],
   risks: [
     {
       id: '1',
