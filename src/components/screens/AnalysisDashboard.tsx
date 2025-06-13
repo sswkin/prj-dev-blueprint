@@ -18,7 +18,7 @@ export interface AnalysisDashboardProps extends ScreenProps {
   tags: Tag[];
   concepts: AIConcept[];
   onConceptSelect: (concept: AIConcept) => void;
-  onBack: () => void;
+  onBack?: () => void;
 }
 
 export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({

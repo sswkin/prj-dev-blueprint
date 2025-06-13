@@ -13,7 +13,7 @@ export interface AIConcept {
   viability: number;
   marketSize?: string;
   timeToMarket?: string;
-  complexity?: 'low' | 'medium' | 'high' | string;
+  complexity?: 'low' | 'medium' | 'high';
 }
 
 export interface AnalysisData {
@@ -30,10 +30,12 @@ export interface AnalysisData {
 }
 
 export interface ScreenProps {
-  onAnalyze: (idea: string) => void;
-  tags: Tag[];
-  concepts?: AIConcept[];
-  onConceptSelect?: (concept: AIConcept) => void;
-  onBack?: () => void;
+  onAnalyze?: (idea: string) => void;
   onNext?: () => void;
+  onBack?: () => void;
+  onConceptSelect: (concept: AIConcept) => void;
+  isAnalyzing?: boolean;
+  tags: Tag[];
+  concepts: AIConcept[];
+  originalIdea?: string;
 } 

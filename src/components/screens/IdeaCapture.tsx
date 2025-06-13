@@ -11,8 +11,7 @@ import { AIIndicator } from '@/components/ui-kit/AIIndicator';
 import type { ScreenProps } from '@/components/types';
 
 export interface IdeaCaptureProps extends ScreenProps {
-  // onAnalyze is required for this component
-  onAnalyze: (idea: string) => void;
+  onAnalyze?: (idea: string) => void;
 }
 
 // onNext and onBack are part of the ScreenProps interface but not used in this component
