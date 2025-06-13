@@ -40,7 +40,7 @@ export function SubscriptionSection({ userId }: SubscriptionSectionProps) {
       try {
         const [subData, usageData] = await Promise.all([
           subscriptionService.getCurrentSubscription(userId),
-          subscriptionService.getUsageStats(userId)
+          subscriptionService.getUsageStats()
         ]);
         
         setSubscription(subData);
@@ -58,7 +58,7 @@ export function SubscriptionSection({ userId }: SubscriptionSectionProps) {
   const handleUpgrade = async () => {
     setIsUpgrading(true);
     try {
-      const response = await subscriptionService.upgradeToPro(userId, isYearly);
+      const response = await subscriptionService.upgradeToPro();
       
       if (response.success) {
         toast.success(response.message);
@@ -259,8 +259,10 @@ export function SubscriptionSection({ userId }: SubscriptionSectionProps) {
           <div className="space-y-2 pt-4 border-t">
             <h4 className="font-medium">Billing Information</h4>
             <div className="text-sm text-muted-foreground space-y-1">
-              <p>Next billing date: {new Date(subscription.current_period_end).toLocaleDateString()}</p>
-              <p>Status: <span className="capitalize font-medium text-foreground">{subscription.status}</span></p>
+              {subscription?.current_period_end && (
+                <p>Next billing date: {new Date(subscription.current_period_end).toLocaleDateString()}</p>
+              )}
+              <p>Status: <span className="capitalize font-medium text-foreground">{subscription?.status || 'inactive'}</span></p>
             </div>
           </div>
         )}
