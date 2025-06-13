@@ -163,12 +163,9 @@ export default function WizardPage() {
 
     setIsRefining(true);
     try {
-      const result = await execute(
-        `Refine and improve this project description: ${content}. Make it more detailed, structured, and comprehensive for software development planning.`,
-        'generate'
-      );
+      const result = await execute<{ refinedContent: string }>('generate');
       
-      if (result.success) {
+      if (result.success && result.data) {
         // Simulate AI refinement - in real app this would use actual AI response
         const refined = `${content}\n\n[AI Refined]\nBased on your description, here are some enhanced details:\n\n• Clear user authentication and authorization system\n• Responsive design for mobile and desktop\n• Real-time data synchronization\n• Scalable backend architecture\n• Comprehensive error handling and logging\n• Performance optimization and caching strategies`;
         

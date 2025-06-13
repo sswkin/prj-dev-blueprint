@@ -38,7 +38,7 @@ import { useAI } from '@/hooks/useAI';
 // Types
 import type { 
   AIConcept, 
-  AnalysisData, 
+  AnalysisData,
   ScreenProps,
   Tag
 } from '@/blueprint/types/blueprint';
@@ -62,6 +62,7 @@ export default function BlueprintPage() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [viewport, setViewport] = useState<ViewportType>('desktop');
   const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
+  const [originalIdea, setOriginalIdea] = useState<string>('');
   const [completedScreens, setCompletedScreens] = useState<Set<number>>(new Set());
   
   const { execute } = useAI();
@@ -130,7 +131,8 @@ export default function BlueprintPage() {
   };
 
   const handleIdeaAnalyze = async (idea: string): Promise<void> => {
-    const result = await execute<AnalysisData>(idea);
+    setOriginalIdea(idea);
+    const result = await execute<AnalysisData>('analyze');
     if (result.success && result.data) {
       setAnalysisData(result.data);
       handleNext();

@@ -49,7 +49,7 @@ interface GenerationData {
   message: string;
 }
 
-type AIExecuteType = 'analyze' | 'generate' | 'validate';
+export type AIExecuteType = 'analyze' | 'generate' | 'validate';
 
 export const useAI = (options: UseAIOptions = {}) => {
   const [isLoading, setIsLoading] = useState(false);

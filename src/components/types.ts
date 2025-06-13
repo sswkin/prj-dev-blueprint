@@ -11,6 +11,7 @@ export interface ScreenProps {
   isAnalyzing?: boolean;
   tags?: Tag[];
   concepts?: AIConcept[];
+  originalIdea?: string;
 }
 
 export type ViewportType = 'mobile' | 'tablet' | 'desktop';
