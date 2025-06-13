@@ -1,47 +1,58 @@
-import React, { useState } from 'react';
+// React & Hooks
+import { useState, type FC } from 'react';
+import { Link } from 'react-router-dom';
+
+// Animation
 import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Play, Pause, RotateCcw, Monitor, Tablet, Smartphone, CheckCircle, FileText, Download } from 'lucide-react';
+
+// Icons
+import { 
+  ArrowLeft, 
+  CheckCircle,
+  Download,
+  FileText,
+  Monitor,
+  Pause,
+  Play,
+  RotateCcw,
+  Smartphone,
+  Tablet,
+} from 'lucide-react';
+
+// UI Components
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Link, useNavigate } from 'react-router-dom';
 
-// Import screen components
-import { IdeaCapture } from '@/components/screens/IdeaCapture';
+// Screen Components
 import { AnalysisDashboard } from '@/components/screens/AnalysisDashboard';
-import { useAI } from '@/hooks/useAI';
-import { mockAnalysisResponse, mockComponentsResponse, mockSchemaResponse } from '@/mocks/aiResponses';
+import { IdeaCapture } from '@/components/screens/IdeaCapture';
+
+// Types & Data
+import { Helmet } from 'react-helmet';
+import { 
+  mockAnalysisResponse, 
+  type AIConcept, 
+  type Screen as ScreenType, 
+  type ScreenComponent,
+  type Table,
+  type TableColumn,
+  type Tag,
+} from '@/mocks/aiResponses';
 
 // Type definitions
-interface Tag {
-  id: string;
-  text: string;
-  weight: number;
-  category?: 'technology' | 'market' | 'feature' | 'risk';
-  aiGenerated?: boolean;
+interface ScreenProps {
+  onAnalyze?: (idea: string) => void;
+  tags?: Tag[];
+  concepts?: AIConcept[];
+  onConceptSelect?: (concept: AIConcept) => void;
+  onBack?: () => void;
+  onNext?: () => void;
 }
 
-interface AIConcept {
-  id: string;
-  title: string;
-  description: string;
-  viability: number;
-  marketSize?: string;
-  timeToMarket?: string;
+interface Screen extends Omit<ScreenType, 'components'> {
+  component: React.ComponentType<ScreenProps>;
   complexity?: 'low' | 'medium' | 'high';
-}
-
-interface AnalysisData {
-  tags: Tag[];
-  concepts: AIConcept[];
-  risks?: Array<{
-    id: string;
-    title: string;
-    severity: string;
-    description: string;
-    mitigation: string;
-  }>;
 }
 
 interface Screen {
@@ -60,10 +71,8 @@ interface ScreenProps {
   onNext?: () => void;
 }
 
-type ViewportType = 'desktop' | 'tablet' | 'mobile';
-
 // Mock screens for demonstration
-const ResearchScreen: React.FC<ScreenProps> = ({ onNext, onBack }) => (
+const ResearchScreen: FC<ScreenProps> = ({ onNext, onBack }) => (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-8">
     <div className="max-w-4xl mx-auto">
       <div className="text-center mb-8">
@@ -130,7 +139,7 @@ const ArchitectureScreen: React.FC<ScreenProps> = ({ onNext, onBack }) => (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center">
             <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-lg mx-auto mb-4 flex items-center justify-center">
-              <Smartphone className="h-8 w-8 text-blue-600" />
+              <Monitor className="h-8 w-8 text-blue-600" />
             </div>
             <h3 className="font-semibold mb-2">Frontend</h3>
             <div className="space-y-1 text-sm text-muted-foreground">
@@ -188,7 +197,7 @@ const ComponentsScreen: React.FC<ScreenProps> = ({ onNext, onBack }) => (
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {mockComponentsResponse.screens.slice(0, 4).map((screen, index) => (
+        {mockAnalysisResponse.screens.slice(0, 4).map((screen: Screen, index: number) => (
           <Card key={index} className="p-6">
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-semibold">{screen.name}</h3>
@@ -200,7 +209,7 @@ const ComponentsScreen: React.FC<ScreenProps> = ({ onNext, onBack }) => (
             <div className="space-y-2">
               <p className="text-xs font-medium text-muted-foreground">Components:</p>
               <div className="flex flex-wrap gap-1">
-                {screen.components.map((comp, i) => (
+                {screen.components.map((comp: ScreenComponent, i: number) => (
                   <Badge key={i} variant="outline" className="text-xs">{comp}</Badge>
                 ))}
               </div>
@@ -232,11 +241,11 @@ const DatabaseScreen: React.FC<ScreenProps> = ({ onNext, onBack }) => (
       
       <Card className="p-8 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockSchemaResponse.tables.slice(0, 6).map((table, index) => (
+          {mockAnalysisResponse.tables.slice(0, 6).map((table: Table, index: number) => (
             <div key={index} className="p-4 border rounded-lg">
               <h3 className="font-semibold mb-3 text-center">{table.name}</h3>
               <div className="space-y-2">
-                {table.columns.slice(0, 4).map((column, i) => (
+                {table.columns.slice(0, 4).map((column: TableColumn, i: number) => (
                   <div key={i} className="flex items-center justify-between text-sm">
                     <span className={column.primaryKey ? 'font-semibold text-primary' : ''}>{column.name}</span>
                     <span className="text-muted-foreground text-xs">{column.type}</span>
@@ -309,25 +318,41 @@ const ExportScreen: React.FC<ScreenProps> = ({ onBack }) => {
 };
 
 export default function WireframesPage() {
-  const [currentScreen, setCurrentScreen] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [viewport, setViewport] = useState<ViewportType>('desktop');
-  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
+  const [currentScreenIndex, setCurrentScreenIndex] = useState<number>(0);
+  // Selected concept is tracked but not currently used in the UI
+  // Screen state management
   
-  const { execute } = useAI();
-
-  const screens: Screen[] = [
+  const screens = [
     {
       id: 'idea-capture',
       name: 'Idea Capture',
       description: 'Input and initial AI analysis',
-      component: IdeaCapture
+      component: (props: ScreenProps) => (
+        <IdeaCapture 
+          onAnalyze={(idea: string) => {
+            // Handle analyze logic here
+            setCurrentScreenIndex(1);
+          }} 
+          {...props} 
+        />
+      )
     },
     {
       id: 'analysis-dashboard',
       name: 'Validation',
       description: 'AI-generated concepts and validation',
-      component: AnalysisDashboard
+      component: (props: ScreenProps) => (
+        <AnalysisDashboard
+          tags={mockAnalysisResponse.tags}
+          concepts={mockAnalysisResponse.concepts}
+          onConceptSelect={(concept: AIConcept) => {
+            // setSelectedConcept(concept);
+            setCurrentScreenIndex(2);
+          }}
+          onBack={() => setCurrentScreenIndex(0)}
+          {...props}
+        />
+      )
     },
     {
       id: 'research',
@@ -361,6 +386,8 @@ export default function WireframesPage() {
     }
   ];
 
+  const currentScreen = screens[currentScreenIndex];
+  
   const getViewportClass = (): string => {
     switch (viewport) {
       case 'mobile':
@@ -371,56 +398,36 @@ export default function WireframesPage() {
         return 'w-full';
     }
   };
-
-  const handleIdeaAnalyze = async (idea: string): Promise<void> => {
-    const result = await execute<AnalysisData>(idea, 'analyze');
-    if (result.success && result.data) {
-      setAnalysisData(result.data);
-      setCurrentScreen(1);
-    }
-  };
-
+  
   const handleConceptSelect = (concept: AIConcept): void => {
     console.log('Concept selected:', concept);
-    setCurrentScreen(2); // Move to research screen
+    // setSelectedConcept(concept);
+    setCurrentScreenIndex(2); // Move to research screen
   };
 
   const handleNext = (): void => {
-    if (currentScreen < screens.length - 1) {
-      setCurrentScreen(currentScreen + 1);
+    if (currentScreenIndex < screens.length - 1) {
+      setCurrentScreenIndex(prev => prev + 1);
     }
   };
 
   const handleBack = (): void => {
-    if (currentScreen > 0) {
-      setCurrentScreen(currentScreen - 1);
+    if (currentScreenIndex > 0) {
+      setCurrentScreenIndex(prev => prev - 1);
     }
   };
 
   const renderCurrentScreen = (): React.ReactNode => {
-    const ScreenComponent = screens[currentScreen]?.component;
+    if (!currentScreen) return null;
     
-    if (!ScreenComponent) return null;
-
-    const screenProps: ScreenProps = {
-      onNext: handleNext,
-      onBack: handleBack
-    };
-
-    switch (currentScreen) {
-      case 0:
-        screenProps.onAnalyze = handleIdeaAnalyze;
-        break;
-      case 1:
-        screenProps.tags = analysisData?.tags || mockAnalysisResponse.tags;
-        screenProps.concepts = analysisData?.concepts || mockAnalysisResponse.concepts;
-        screenProps.onConceptSelect = handleConceptSelect;
-        break;
-      default:
-        break;
-    }
-
-    return <ScreenComponent {...screenProps} />;
+    const ScreenComponent = currentScreen.component;
+    return (
+      <ScreenComponent 
+        onNext={handleNext}
+        onBack={handleBack}
+        onConceptSelect={handleConceptSelect}
+      />
+    );
   };
 
   return (
@@ -510,7 +517,7 @@ export default function WireframesPage() {
         {/* Screen Navigation */}
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-center space-x-2 md:space-x-4 mb-8 overflow-x-auto">
-            {screens.map((screen, index) => (
+            {screens.map((screen: Screen, index: number) => (
               <motion.button
                 key={screen.id}
                 className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
