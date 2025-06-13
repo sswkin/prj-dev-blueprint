@@ -1,81 +1,156 @@
+import { supabase } from '@/lib/supabase';
 import { AuthResponse, SignupFormData } from '@/lib/types/auth';
 
-// Simulate API delay
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Mock OTP storage (in real app, this would be server-side)
-const mockOTPStore: { [email: string]: string } = {};
-
 export const authService = {
-  async sendOTP(email: string): Promise<AuthResponse> {
-    await delay(1500); // Simulate network delay
-    
-    // Generate 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    
-    // Store OTP (in real app, send via email service)
-    mockOTPStore[email] = otp;
-    
-    // Log OTP for demo purposes (remove in production)
-    console.log(`OTP for ${email}: ${otp}`);
-    
-    return {
-      success: true,
-      message: `OTP sent to ${email}. Check console for demo OTP.`,
-    };
+  async signIn(email: string, password: string): Promise<AuthResponse> {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        return {
+          success: false,
+          message: error.message,
+        };
+      }
+
+      return {
+        success: true,
+        message: 'Login successful!',
+        data: { 
+          user: data.user,
+          session: data.session
+        },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to sign in. Please try again.',
+      };
+    }
   },
 
-  async verifyOTP(email: string, otp: string): Promise<AuthResponse> {
-    await delay(1000);
-    
-    const storedOTP = mockOTPStore[email];
-    
-    if (!storedOTP) {
+  async sendPasswordReset(email: string): Promise<AuthResponse> {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`
+      });
+
+      if (error) {
+        return {
+          success: false,
+          message: error.message,
+        };
+      }
+
+      return {
+        success: true,
+        message: `Password reset email sent to ${email}. Please check your email.`,
+      };
+    } catch (error) {
       return {
         success: false,
-        message: 'No OTP found. Please request a new one.',
+        message: 'Failed to send password reset email. Please try again.',
       };
     }
-    
-    if (storedOTP !== otp) {
-      return {
-        success: false,
-        message: 'Invalid OTP. Please try again.',
-      };
-    }
-    
-    // Clear OTP after successful verification
-    delete mockOTPStore[email];
-    
-    return {
-      success: true,
-      message: 'Login successful!',
-      data: { token: 'mock-jwt-token', user: { email } },
-    };
   },
 
   async signup(data: SignupFormData): Promise<AuthResponse> {
-    await delay(2000);
-    
-    // Simulate email already exists check
-    if (data.email === 'test@example.com') {
+    try {
+      const { data: authData, error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            full_name: data.fullName,
+          }
+        }
+      });
+
+      if (error) {
+        return {
+          success: false,
+          message: error.message,
+        };
+      }
+
+      return {
+        success: true,
+        message: 'Account created successfully! Please check your email to verify your account.',
+        data: { user: authData.user },
+      };
+    } catch (error) {
       return {
         success: false,
-        message: 'An account with this email already exists.',
+        message: 'Failed to create account. Please try again.',
       };
     }
-    
-    return {
-      success: true,
-      message: 'Account created successfully! Please check your email to verify your account.',
-      data: { user: { email: data.email, fullName: data.fullName } },
-    };
   },
 
   async checkEmailExists(email: string): Promise<boolean> {
-    await delay(500);
-    // Simulate some emails already existing
-    const existingEmails = ['test@example.com', 'admin@devblueprint.ai'];
-    return existingEmails.includes(email);
+    try {
+      // Try to send a password reset to check if email exists
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'http://localhost:3000/reset-password'
+      });
+      
+      // If no error, email exists
+      return !error;
+    } catch (error) {
+      return false;
+    }
   },
+
+  async signOut(): Promise<AuthResponse> {
+    try {
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        return {
+          success: false,
+          message: error.message,
+        };
+      }
+
+      return {
+        success: true,
+        message: 'Signed out successfully',
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to sign out',
+      };
+    }
+  },
+
+  async getCurrentUser() {
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      
+      if (error) {
+        return null;
+      }
+
+      return user;
+    } catch (error) {
+      return null;
+    }
+  },
+
+  async getCurrentSession() {
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        return null;
+      }
+
+      return session;
+    } catch (error) {
+      return null;
+    }
+  }
 };

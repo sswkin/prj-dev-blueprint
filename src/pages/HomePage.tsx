@@ -20,7 +20,10 @@ import {
   Mail,
   Github,
   Twitter,
-  Linkedin
+  Linkedin,
+  LogOut,
+  User,
+  CreditCard
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,7 +31,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/useAuth';
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,6 +42,7 @@ export default function HomePage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const { user, loading, signOut } = useAuth();
 
   const testimonials = [
     {
@@ -158,6 +165,14 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, [testimonials.length]);
 
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
+  const getUserInitials = (email: string) => {
+    return email.charAt(0).toUpperCase();
+  };
+
   return (
     <>
       <Helmet>
@@ -183,20 +198,85 @@ export default function HomePage() {
           transition={{ duration: 0.5 }}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center space-x-2">
-                <Code2 className="h-8 w-8 text-primary" />
-                <span className="text-xl font-bold">DevBlueprint AI</span>
+            <div className="flex items-center justify-between h-20">
+              <div className="flex items-center space-x-3">
+                <motion.div
+                  className="flex items-center space-x-3"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="relative">
+                    <img 
+                      src="/logo.svg" 
+                      alt="DevBlueprint AI" 
+                      className="h-12 w-12 drop-shadow-lg" 
+                    />
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-full blur opacity-75"></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                      DevBlueprint
+                    </span>
+                    <span className="text-sm font-medium text-muted-foreground -mt-1">
+                      AI
+                    </span>
+                  </div>
+                </motion.div>
               </div>
               
               <div className="hidden md:flex items-center space-x-8">
                 <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
                 <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
-                <a href="#demo" className="text-muted-foreground hover:text-foreground transition-colors">Demo</a>
-                <Link to="/login" className="text-muted-foreground hover:text-foreground transition-colors">Login</Link>
-                <Button asChild>
-                  <Link to="/signup">Get Started</Link>
-                </Button>
+                
+                {!loading && (
+                  user ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                          <Avatar className="h-8 w-8">
+                            <AvatarFallback>
+                              {getUserInitials(user.email || '')}
+                            </AvatarFallback>
+                          </Avatar>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56" align="end" forceMount>
+                        <div className="flex items-center justify-start gap-2 p-2">
+                          <div className="flex flex-col space-y-1 leading-none">
+                            <p className="font-medium">{user.user_metadata?.full_name || 'User'}</p>
+                            <p className="w-[200px] truncate text-sm text-muted-foreground">
+                              {user.email}
+                            </p>
+                          </div>
+                        </div>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link to="/profile">
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Profile</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link to="/subscriptions">
+                            <CreditCard className="mr-2 h-4 w-4" />
+                            <span>Subscriptions</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={handleSignOut}>
+                          <LogOut className="mr-2 h-4 w-4" />
+                          <span>Log out</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <>
+                      <Link to="/login" className="text-muted-foreground hover:text-foreground transition-colors">Login</Link>
+                      <Button asChild>
+                        <Link to="/signup">Get Started</Link>
+                      </Button>
+                    </>
+                  )
+                )}
               </div>
 
               <button 
@@ -220,11 +300,34 @@ export default function HomePage() {
                 <div className="px-4 py-4 space-y-4">
                   <a href="#features" className="block text-muted-foreground hover:text-foreground">Features</a>
                   <a href="#pricing" className="block text-muted-foreground hover:text-foreground">Pricing</a>
-                  <a href="#demo" className="block text-muted-foreground hover:text-foreground">Demo</a>
-                  <Link to="/login" className="block text-muted-foreground hover:text-foreground">Login</Link>
-                  <Button asChild className="w-full">
-                    <Link to="/signup">Get Started</Link>
-                  </Button>
+                  
+                  {!loading && (
+                    user ? (
+                      <>
+                        <div className="border-t pt-4">
+                          <p className="font-medium">{user.user_metadata?.full_name || 'User'}</p>
+                          <p className="text-sm text-muted-foreground">{user.email}</p>
+                        </div>
+                        <Link to="/profile" className="block text-muted-foreground hover:text-foreground">
+                          Profile
+                        </Link>
+                        <Link to="/subscriptions" className="block text-muted-foreground hover:text-foreground">
+                          Subscriptions
+                        </Link>
+                        <Button onClick={handleSignOut} variant="outline" className="w-full">
+                          <LogOut className="mr-2 h-4 w-4" />
+                          Log out
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Link to="/login" className="block text-muted-foreground hover:text-foreground">Login</Link>
+                        <Button asChild className="w-full">
+                          <Link to="/signup">Get Started</Link>
+                        </Button>
+                      </>
+                    )
+                  )}
                 </div>
               </motion.div>
             )}
@@ -248,14 +351,18 @@ export default function HomePage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button asChild size="lg" className="text-lg px-8 py-6">
-                    <Link to="/signup">
-                      Try it free
+                    <Link to="/wizard">
+                      Get Blueprint
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
-                  <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-                    See a demo
-                  </Button>
+                  {!user && (
+                    <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6">
+                      <Link to="/signup">
+                        Try it free
+                      </Link>
+                    </Button>
+                  )}
                 </div>
               </motion.div>
 
@@ -514,57 +621,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Product Demo */}
-        <section id="demo" className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              className="text-center mb-16"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">See It In Action</h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Watch how DevBlueprint AI transforms your idea into a comprehensive development plan
-              </p>
-            </motion.div>
-
-            <div className="space-y-16">
-              {[
-                { step: 1, title: "Describe Your Idea", description: "Simply describe your project idea in natural language" },
-                { step: 2, title: "AI Analysis", description: "Our AI analyzes your requirements and suggests improvements" },
-                { step: 3, title: "Architecture Design", description: "Generate system architecture and database schemas" },
-                { step: 4, title: "Development Roadmap", description: "Get a detailed timeline with milestones and tasks" },
-                { step: 5, title: "Export Blueprint", description: "Download your complete blueprint in your preferred format" }
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                    <Badge className="mb-4">Step {item.step}</Badge>
-                    <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
-                    <p className="text-lg text-muted-foreground mb-6">{item.description}</p>
-                    <div className="w-full h-64 bg-gradient-to-br from-primary/20 to-purple-600/20 rounded-lg flex items-center justify-center border">
-                      <p className="text-muted-foreground">Demo Screenshot {item.step}</p>
-                    </div>
-                  </div>
-                  <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                    <div className="w-full h-64 bg-gradient-to-br from-blue-500/20 to-green-500/20 rounded-lg flex items-center justify-center border">
-                      <p className="text-muted-foreground">Demo Visual {item.step}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Pricing Table */}
         <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
           <div className="max-w-7xl mx-auto">
@@ -673,9 +729,23 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div>
-                <div className="flex items-center space-x-2 mb-4">
-                  <Code2 className="h-8 w-8 text-primary" />
-                  <span className="text-xl font-bold">DevBlueprint AI</span>
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="relative">
+                    <img 
+                      src="/logo.svg" 
+                      alt="DevBlueprint AI" 
+                      className="h-10 w-10 drop-shadow-lg" 
+                    />
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-full blur opacity-75"></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                      DevBlueprint
+                    </span>
+                    <span className="text-xs font-medium text-muted-foreground -mt-1">
+                      AI
+                    </span>
+                  </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
                   Transform your ideas into actionable development plans with the power of AI.
@@ -692,7 +762,6 @@ export default function HomePage() {
                 <ul className="space-y-2 text-muted-foreground">
                   <li><a href="#" className="hover:text-foreground">Features</a></li>
                   <li><a href="#" className="hover:text-foreground">Pricing</a></li>
-                  <li><a href="#" className="hover:text-foreground">Demo</a></li>
                   <li><a href="#" className="hover:text-foreground">API</a></li>
                 </ul>
               </div>
@@ -732,29 +801,44 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Personal Footer Note */}
+            {/* Personal Footer Note with Bolt.new Badge */}
             <div className="border-t mt-8 pt-6 text-center">
-              <p className="text-sm text-muted-foreground">
-                From the mind of{' '}
-                <a 
-                  href="https://github.com/atssj" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-primary hover:text-primary/80 font-medium transition-colors"
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <p className="text-sm text-muted-foreground">
+                  From the mind of{' '}
+                  <a 
+                    href="https://github.com/atssj" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 font-medium transition-colors"
+                  >
+                    atssj
+                  </a>
+                  , with ❤️ ✨
+                </p>
+                
+                {/* Bolt.new Hackathon Badge */}
+                <motion.div
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-full border border-orange-200 dark:border-orange-700"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  whileHover={{ scale: 1.05 }}
                 >
-                  atssj
-                </a>
-                , with ❤️ ✨ — crafted using{' '}
-                <a 
-                  href="https://bolt.new" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-primary hover:text-primary/80 font-medium transition-colors"
-                >
-                  <Zap className="h-3 w-3" />
-                  Bolt.new
-                </a>
-              </p>
+                  <Zap className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                  <span className="text-sm font-medium text-orange-700 dark:text-orange-300">
+                    Built with{' '}
+                    <a 
+                      href="https://bolt.new" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                    >
+                      bolt.new
+                    </a>
+                  </span>
+                </motion.div>
+              </div>
             </div>
           </div>
         </footer>

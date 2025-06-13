@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, User, Mail, Lock, Eye, EyeOff, Loader2, Code2, CheckCircle } from 'lucide-react';
+import { ArrowLeft, User, Mail, Lock, Eye, EyeOff, Loader2, CheckCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -46,18 +46,11 @@ export default function SignupPage() {
     setError('');
 
     try {
-      // Check if email already exists
-      const emailExists = await authService.checkEmailExists(data.email);
-      if (emailExists) {
-        setError('An account with this email already exists.');
-        setIsLoading(false);
-        return;
-      }
-
       const response = await authService.signup(data);
       
       if (response.success) {
         setSuccess(true);
+        form.clearErrors(); // Clear all form errors on success
         toast.success(response.message);
       } else {
         setError(response.message);
@@ -123,8 +116,7 @@ export default function SignupPage() {
             </Link>
             
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <Code2 className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold">DevBlueprint AI</span>
+              <img src="/logo.svg" alt="DevBlueprint AI" className="h-8" />
             </div>
             
             <h1 className="text-3xl font-bold mb-2">Create your account</h1>
@@ -284,7 +276,7 @@ export default function SignupPage() {
                 <Button 
                   type="submit" 
                   className="w-full" 
-                  disabled={isLoading || !form.formState.isValid}
+                  disabled={isLoading}
                 >
                   {isLoading ? (
                     <>
@@ -307,13 +299,6 @@ export default function SignupPage() {
               </div>
             </CardContent>
           </Card>
-
-          {/* Demo Notice */}
-          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <p className="text-sm text-blue-700 dark:text-blue-300 text-center">
-              <strong>Demo Mode:</strong> Use any email except "test@example.com" to successfully create an account
-            </p>
-          </div>
         </div>
       </div>
     </>
