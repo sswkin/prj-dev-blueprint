@@ -31,7 +31,7 @@ export default function LoginPage() {
 
   const loginForm = useForm<LoginFormDataWithPassword>({
     resolver: zodResolver(loginSchema.extend({
-      password: loginSchema.shape.password || loginSchema.shape.email.min(1, 'Password is required'),
+      password: loginSchema.shape.password.min(1, 'Password is required'),
     })),
     defaultValues: {
       email: '',

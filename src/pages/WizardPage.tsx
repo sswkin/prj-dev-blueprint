@@ -266,6 +266,10 @@ export default function WizardPage() {
             requirements={requirements}
             onFeatureToggle={toggleFeature}
             onGenerateFeatures={generateFeatureSuggestions}
+            onClearFeatures={() => {
+              setFeatureSuggestions(prev => prev.map(f => ({ ...f, selected: false })));
+              setRequirements(prev => ({ ...prev, features: [] }));
+            }}
             isGeneratingFeatures={isGeneratingFeatures}
             hasGeneratedFeatures={hasGeneratedFeatures}
           />

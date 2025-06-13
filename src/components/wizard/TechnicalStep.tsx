@@ -95,9 +95,9 @@ export const TechnicalStep: React.FC<TechnicalStepProps> = ({
                       {category.replace(/([A-Z])/g, ' $1').trim()}
                     </span>
                     <div className="flex flex-wrap gap-1">
-                      {items.map((item) => (
-                        <Badge key={item} variant="outline" className="text-xs">
-                          {item}
+                      {items.map((item: { id: string; name: string; description: string }) => (
+                        <Badge key={item.id} variant="outline" className="text-xs">
+                          {item.name}
                         </Badge>
                       ))}
                     </div>
