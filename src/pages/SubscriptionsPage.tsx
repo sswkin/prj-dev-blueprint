@@ -1,35 +1,43 @@
+// React and core dependencies
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// Third-party libraries
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Crown, 
-  Zap, 
-  Check, 
-  ArrowRight, 
-  Loader2, 
+import { toast } from 'sonner';
+import {
+  AlertCircle,
+  ArrowLeft,
+  ArrowRight,
+  Calendar,
+  Check,
+  CreditCard,
+  Crown,
+  Loader2,
+  Shield,
+  Sparkles,
   Star,
   TrendingUp,
   Users,
-  Shield,
-  Sparkles,
-  CreditCard,
-  Calendar,
-  AlertCircle
+  Zap
 } from 'lucide-react';
 
+// UI Components
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Switch } from '@/components/ui/switch';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { toast } from 'sonner';
 
+// Contexts and Services
 import { useAuth } from '@/contexts/AuthContext';
 import { subscriptionService } from '@/lib/services/subscription';
-import { subscriptionPlans, Subscription } from '@/lib/types/subscription';
+
+// Types
+import type { Subscription } from '@/lib/types/subscription';
+import { subscriptionPlans } from '@/lib/types/subscription';
 
 export default function SubscriptionsPage() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -226,11 +234,15 @@ export default function SubscriptionsPage() {
                       Billing Information
                     </h4>
                     <div className="text-sm text-muted-foreground space-y-1">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4" />
-                        <span>Next billing date: {new Date(subscription.current_period_end).toLocaleDateString()}</span>
-                      </div>
-                      <p>Status: <span className="capitalize font-medium text-foreground">{subscription.status}</span></p>
+                      {subscription && (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4" />
+                            <span>Next billing date: {new Date(subscription.current_period_end).toLocaleDateString()}</span>
+                          </div>
+                          <p>Status: <span className="capitalize font-medium text-foreground">{subscription.status}</span></p>
+                        </>
+                      )}
                     </div>
                   </div>
                 )}

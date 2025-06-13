@@ -1,7 +1,12 @@
-import { FC } from 'react';
+// External dependencies
+import type { FC } from 'react';
+
+// UI Components
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ScreenProps } from '@/pages/WireframesPage';
+
+// Types
+import type { ScreenProps } from '@/components/types';
 
 export const ComponentsScreen: FC<ScreenProps> = ({ onNext, onBack }) => (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-rose-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-8">

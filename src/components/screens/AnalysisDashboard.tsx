@@ -1,14 +1,18 @@
+// External dependencies
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, AlertTriangle } from 'lucide-react';
-import { TagCloud } from '@/components/ui-kit/TagCloud';
-import { ConceptCard } from '@/components/ui-kit/ConceptCard';
+
+// UI Components
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { TagCloud } from '@/components/ui-kit/TagCloud';
+import { ConceptCard } from '@/components/ui-kit/ConceptCard';
 
-import { ScreenProps, AIConcept, Tag } from '../types';
+// Types
+import type { ScreenProps, AIConcept, Tag } from '../types';
 
 export interface AnalysisDashboardProps extends ScreenProps {
   tags: Tag[];
@@ -21,8 +25,7 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
   tags = [],
   concepts = [],
   onConceptSelect,
-  onBack,
-  ...props
+  onBack
 }) => {
   const [selectedRisk, setSelectedRisk] = useState<string | null>(null);
 

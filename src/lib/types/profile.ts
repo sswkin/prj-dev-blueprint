@@ -14,12 +14,12 @@ export interface UserProfile {
 
 export interface ProfileFormData {
   full_name: string;
-  bio: string;
-  location: string;
-  website: string;
-  twitter_handle: string;
-  github_handle: string;
-  linkedin_handle: string;
+  bio?: string;
+  location?: string;
+  website?: string;
+  twitter_handle?: string;
+  github_handle?: string;
+  linkedin_handle?: string;
 }
 
 export interface ProfileResponse {

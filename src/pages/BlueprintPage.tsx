@@ -1,314 +1,61 @@
-import React, { useState } from 'react';
+// React and core dependencies
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+// Third-party libraries
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Play, Pause, RotateCcw, Monitor, Tablet, Smartphone, CheckCircle, Clock, FileText, Download } from 'lucide-react';
+import { 
+  ArrowLeft, 
+  Play, 
+  Pause, 
+  RotateCcw, 
+  Monitor, 
+  Tablet, 
+  Smartphone, 
+  CheckCircle, 
+  Clock
+} from 'lucide-react';
+
+// UI Components
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Link, useNavigate } from 'react-router-dom';
 
-// Import screen components
+// Screen Components
 import { IdeaCapture } from '@/components/screens/IdeaCapture';
 import { AnalysisDashboard } from '@/components/screens/AnalysisDashboard';
+import ResearchScreen from '@/blueprint/screens/ResearchScreen';
+import ArchitectureScreen from '@/blueprint/screens/ArchitectureScreen';
+import ComponentsScreen from '@/blueprint/screens/ComponentsScreen';
+import DatabaseScreen from '@/blueprint/screens/DatabaseScreen';
+import ExportScreen from '@/blueprint/screens/ExportScreen';
+
+// Hooks
 import { useAI } from '@/hooks/useAI';
-import { mockAnalysisResponse, mockComponentsResponse, mockSchemaResponse } from '@/mocks/aiResponses';
+
+// Types
+import type { 
+  AIConcept, 
+  AnalysisData, 
+  ScreenProps,
+  Tag
+} from '@/blueprint/types/blueprint';
+
+// Import mock data
+import { mockAnalysisResponse } from '@/mocks/aiResponses';
 
 // Type definitions
-interface Tag {
-  id: string;
-  text: string;
-  weight: number;
-  category?: 'technology' | 'market' | 'feature' | 'risk';
-  aiGenerated?: boolean;
-}
-
-interface AIConcept {
-  id: string;
-  title: string;
-  description: string;
-  viability: number;
-  marketSize?: string;
-  timeToMarket?: string;
-  complexity?: 'low' | 'medium' | 'high';
-}
-
-interface AnalysisData {
-  tags: Tag[];
-  concepts: AIConcept[];
-  risks?: Array<{
-    id: string;
-    title: string;
-    severity: string;
-    description: string;
-    mitigation: string;
-  }>;
-}
-
 interface Screen {
   id: string;
   name: string;
   description: string;
-  component: React.ComponentType<ScreenProps>;
+  component: React.ComponentType<any>;
   status: 'pending' | 'current' | 'completed';
 }
 
-interface ScreenProps {
-  onAnalyze?: (idea: string) => void;
-  tags?: Tag[];
-  concepts?: AIConcept[];
-  onConceptSelect?: (concept: AIConcept) => void;
-  onBack?: () => void;
-  onNext?: () => void;
-}
-
 type ViewportType = 'desktop' | 'tablet' | 'mobile';
-
-// Mock screens for demonstration
-const ResearchScreen: React.FC<ScreenProps> = ({ onNext, onBack }) => (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-8">
-    <div className="max-w-4xl mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">Market Research</h1>
-        <p className="text-xl text-muted-foreground">AI-powered competitive analysis and market insights</p>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Competitive Analysis</h3>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-              <span>Instagram</span>
-              <Badge variant="destructive">High Competition</Badge>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-              <span>TikTok</span>
-              <Badge variant="destructive">High Competition</Badge>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-              <span>BeReal</span>
-              <Badge variant="secondary">Medium Competition</Badge>
-            </div>
-          </div>
-        </Card>
-        
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Market Opportunities</h3>
-          <div className="space-y-3">
-            <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-              <p className="font-medium text-green-800 dark:text-green-300">Niche Communities</p>
-              <p className="text-sm text-green-600 dark:text-green-400">Focus on specific interests</p>
-            </div>
-            <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-              <p className="font-medium text-blue-800 dark:text-blue-300">Privacy-First</p>
-              <p className="text-sm text-blue-600 dark:text-blue-400">Growing demand for privacy</p>
-            </div>
-          </div>
-        </Card>
-      </div>
-      
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-        <Button onClick={onNext}>
-          Continue to Architecture
-        </Button>
-      </div>
-    </div>
-  </div>
-);
-
-const ArchitectureScreen: React.FC<ScreenProps> = ({ onNext, onBack }) => (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-8">
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">System Architecture</h1>
-        <p className="text-xl text-muted-foreground">AI-generated architecture diagram and tech stack recommendations</p>
-      </div>
-      
-      <Card className="p-8 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-lg mx-auto mb-4 flex items-center justify-center">
-              <Smartphone className="h-8 w-8 text-blue-600" />
-            </div>
-            <h3 className="font-semibold mb-2">Frontend</h3>
-            <div className="space-y-1 text-sm text-muted-foreground">
-              <p>React Native</p>
-              <p>TypeScript</p>
-              <p>Redux Toolkit</p>
-            </div>
-          </div>
-          
-          <div className="text-center">
-            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-lg mx-auto mb-4 flex items-center justify-center">
-              <FileText className="h-8 w-8 text-green-600" />
-            </div>
-            <h3 className="font-semibold mb-2">Backend</h3>
-            <div className="space-y-1 text-sm text-muted-foreground">
-              <p>Node.js</p>
-              <p>Express.js</p>
-              <p>Socket.io</p>
-            </div>
-          </div>
-          
-          <div className="text-center">
-            <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-lg mx-auto mb-4 flex items-center justify-center">
-              <Monitor className="h-8 w-8 text-purple-600" />
-            </div>
-            <h3 className="font-semibold mb-2">Database</h3>
-            <div className="space-y-1 text-sm text-muted-foreground">
-              <p>PostgreSQL</p>
-              <p>Redis</p>
-              <p>MongoDB</p>
-            </div>
-          </div>
-        </div>
-      </Card>
-      
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-        <Button onClick={onNext}>
-          Continue to Components
-        </Button>
-      </div>
-    </div>
-  </div>
-);
-
-const ComponentsScreen: React.FC<ScreenProps> = ({ onNext, onBack }) => (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-green-50 to-emerald-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-8">
-    <div className="max-w-4xl mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">Component Library</h1>
-        <p className="text-xl text-muted-foreground">AI-generated component specifications and code templates</p>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {mockComponentsResponse.screens.slice(0, 4).map((screen, index) => (
-          <Card key={index} className="p-6">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold">{screen.name}</h3>
-              <Badge variant={screen.complexity === 'high' ? 'destructive' : screen.complexity === 'medium' ? 'secondary' : 'default'}>
-                {screen.complexity}
-              </Badge>
-            </div>
-            <p className="text-sm text-muted-foreground mb-4">{screen.description}</p>
-            <div className="space-y-2">
-              <p className="text-xs font-medium text-muted-foreground">Components:</p>
-              <div className="flex flex-wrap gap-1">
-                {screen.components.map((comp, i) => (
-                  <Badge key={i} variant="outline" className="text-xs">{comp}</Badge>
-                ))}
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-      
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-        <Button onClick={onNext}>
-          Continue to Database
-        </Button>
-      </div>
-    </div>
-  </div>
-);
-
-const DatabaseScreen: React.FC<ScreenProps> = ({ onNext, onBack }) => (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50 to-red-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-8">
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">Database Schema</h1>
-        <p className="text-xl text-muted-foreground">AI-generated database design and relationships</p>
-      </div>
-      
-      <Card className="p-8 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockSchemaResponse.tables.slice(0, 6).map((table, index) => (
-            <div key={index} className="p-4 border rounded-lg">
-              <h3 className="font-semibold mb-3 text-center">{table.name}</h3>
-              <div className="space-y-2">
-                {table.columns.slice(0, 4).map((column, i) => (
-                  <div key={i} className="flex items-center justify-between text-sm">
-                    <span className={column.primaryKey ? 'font-semibold text-primary' : ''}>{column.name}</span>
-                    <span className="text-muted-foreground text-xs">{column.type}</span>
-                  </div>
-                ))}
-                {table.columns.length > 4 && (
-                  <p className="text-xs text-muted-foreground text-center">+{table.columns.length - 4} more</p>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
-      
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-        <Button onClick={onNext}>
-          Generate Blueprint
-        </Button>
-      </div>
-    </div>
-  </div>
-);
-
-const ExportScreen: React.FC<ScreenProps> = ({ onBack }) => {
-  const navigate = useNavigate();
-  
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-8">
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="mb-8">
-          <div className="w-24 h-24 bg-green-100 dark:bg-green-900/30 rounded-full mx-auto mb-6 flex items-center justify-center">
-            <CheckCircle className="h-12 w-12 text-green-600" />
-          </div>
-          <h1 className="text-4xl font-bold mb-4">Blueprint Complete!</h1>
-          <p className="text-xl text-muted-foreground">Your comprehensive development blueprint is ready</p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="p-6">
-            <Download className="h-8 w-8 mx-auto mb-4 text-primary" />
-            <h3 className="font-semibold mb-2">Download PDF</h3>
-            <p className="text-sm text-muted-foreground mb-4">Complete blueprint documentation</p>
-            <Button className="w-full">Download PDF</Button>
-          </Card>
-          
-          <Card className="p-6">
-            <FileText className="h-8 w-8 mx-auto mb-4 text-primary" />
-            <h3 className="font-semibold mb-2">Export Code</h3>
-            <p className="text-sm text-muted-foreground mb-4">Starter templates and boilerplate</p>
-            <Button variant="outline" className="w-full">Export Code</Button>
-          </Card>
-        </div>
-        
-        <div className="flex justify-center gap-4">
-          <Button variant="outline" onClick={onBack}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
-          </Button>
-          <Button onClick={() => navigate('/')}>
-            Create New Blueprint
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default function BlueprintPage() {
   const [currentScreen, setCurrentScreen] = useState<number>(0);
@@ -414,24 +161,22 @@ export default function BlueprintPage() {
     if (!ScreenComponent) return null;
 
     const screenProps: ScreenProps = {
+      onAnalyze: handleIdeaAnalyze,
+      tags: analysisData?.tags || mockAnalysisResponse.tags as Tag[],
       onNext: handleNext,
       onBack: handleBack
     };
 
     switch (currentScreen) {
       case 0:
-        screenProps.onAnalyze = handleIdeaAnalyze;
-        break;
+        return <IdeaCapture {...screenProps as any} />;
       case 1:
-        screenProps.tags = analysisData?.tags || mockAnalysisResponse.tags;
-        screenProps.concepts = analysisData?.concepts || mockAnalysisResponse.concepts;
+        screenProps.concepts = analysisData?.concepts || mockAnalysisResponse.concepts as AIConcept[];
         screenProps.onConceptSelect = handleConceptSelect;
-        break;
+        return <AnalysisDashboard {...screenProps as any} />;
       default:
-        break;
+        return <ScreenComponent {...screenProps} />;
     }
-
-    return <ScreenComponent {...screenProps} />;
   };
 
   const getStatusIcon = (status: Screen['status']) => {
