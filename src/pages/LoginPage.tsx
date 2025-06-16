@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
 
+import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -112,7 +113,7 @@ export default function LoginPage() {
             </Link>
             
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <img src="/logo.svg" alt="DevBlueprint AI" className="h-8" />
+              <Logo size="lg" />
             </div>
             
             <h1 className="text-3xl font-bold mb-2">Welcome back</h1>
