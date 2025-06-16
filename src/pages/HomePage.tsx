@@ -207,7 +207,7 @@ export default function HomePage() {
                 >
                   <div className="relative">
                     <img 
-                      src="/logo.svg" 
+                      src="/logo.png" 
                       alt="DevBlueprint AI" 
                       className="h-12 w-12 drop-shadow-lg" 
                     />
