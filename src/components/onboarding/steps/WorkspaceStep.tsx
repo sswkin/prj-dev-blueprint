@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FolderOpen, Lock, Users, Globe, HardDrive, Wifi, UserCheck, Plug } from 'lucide-react';
+import { FolderOpen, Lock, Users, Globe, HardDrive, Wifi, UserCheck, Plug, CheckSquare } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +10,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
-import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 import type { WorkspaceData, TeamData } from '@/types/onboarding';
@@ -63,7 +62,7 @@ export const WorkspaceStep: React.FC<WorkspaceStepProps> = ({
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleInputChange = (field: keyof WorkspaceData, value: any) => {
+  const handleInputChange = (field: keyof WorkspaceData, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
@@ -108,15 +107,6 @@ export const WorkspaceStep: React.FC<WorkspaceStepProps> = ({
     if (validateForm()) {
       onUpdate(formData);
       onNext();
-    }
-  };
-
-  const getAccessLevelIcon = (level: string) => {
-    switch (level) {
-      case 'public': return Globe;
-      case 'team': return Users;
-      case 'private': return Lock;
-      default: return Users;
     }
   };
 
