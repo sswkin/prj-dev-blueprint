@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FolderOpen, Lock, Users, Globe, HardDrive, Wifi, UserCheck, Plug, CheckSquare } from 'lucide-react';
+import { FolderOpen, Lock, Users, Globe, HardDrive, Wifi, UserCheck, Plug } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
