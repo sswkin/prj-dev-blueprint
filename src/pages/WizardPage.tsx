@@ -215,7 +215,8 @@ export default function WizardPage() {
       setCurrentStep(currentStep + 1);
     } else {
       // Generate blueprint and navigate to blueprint page
-      navigate('/blueprint');
+      toast.success('Blueprint generated successfully!');
+      setTimeout(() => navigate('/blueprint'), 1000);
     }
   };
 
@@ -312,26 +313,26 @@ export default function WizardPage() {
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
         {/* Header */}
         <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b">
-          <div className="max-w-6xl mx-auto px-4 py-4">
+          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
             <div className="flex items-center justify-between">
               <Link to="/" className="flex items-center gap-2 text-sm hover:text-primary">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Home
               </Link>
-              
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-medium">Blueprint Wizard</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-primary transition-all duration-300" 
-                      style={{ width: `${progressPercentage}%` }}
-                    />
-                  </div>
-                  <span className="text-sm text-muted-foreground">
-                    {Math.round(progressPercentage)}%
-                  </span>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium">Blueprint Wizard</span>
+              <div className="flex items-center gap-2">
+                <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-primary transition-all duration-300" 
+                    style={{ width: `${progressPercentage}%` }}
+                  />
                 </div>
+                <span className="text-sm text-muted-foreground">
+                  {Math.round(progressPercentage)}%
+                </span>
               </div>
             </div>
           </div>

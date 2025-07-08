@@ -350,14 +350,14 @@ export default function HomePage() {
                   AI-powered workflow for solo devs, startups & early adopters
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button asChild size="lg" className="text-lg px-8 py-6">
-                    <Link to="/wizard">
+                  <Button asChild size="lg" className="text-lg px-8 py-6" data-testid="get-started-btn">
+                    <Link to={user ? "/wizard" : "/signup"}>
                       Get Blueprint
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
                   {!user && (
-                    <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6">
+                    <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6" data-testid="try-free-btn">
                       <Link to="/signup">
                         Try it free
                       </Link>
@@ -835,7 +835,7 @@ export default function HomePage() {
                       className="hover:underline"
                     >
                       bolt.new
-                    </a>
+                    Blueprint Journey
                   </span>
                 </motion.div>
               </div>

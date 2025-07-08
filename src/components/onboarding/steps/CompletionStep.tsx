@@ -26,7 +26,7 @@ export const CompletionStep: React.FC<CompletionStepProps> = ({
   const handleGetStarted = () => {
     // In a real application, you would save the onboarding data here
     console.log('Onboarding completed with data:', onboardingData);
-    navigate('/dashboard');
+    navigate('/wizard');
   };
 
   const handleEditStep = (stepIndex: number) => {

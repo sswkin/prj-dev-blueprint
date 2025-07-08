@@ -62,7 +62,7 @@ export default function LoginPage() {
       
       if (response.success) {
         toast.success(response.message);
-        navigate('/');
+        navigate('/onboarding');
       } else {
         setError(response.message);
       }
