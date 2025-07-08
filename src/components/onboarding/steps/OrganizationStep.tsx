@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Upload, Building2, Users, Mail, Phone, HelpCircle } from 'lucide-react';
+import { Building2, Users, Mail, Phone, HelpCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
