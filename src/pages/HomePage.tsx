@@ -14,7 +14,7 @@ export default function HomePage() {
             bolt.new
           </a>
           Blueprint Journey
-        </span>
+        </div>
       </footer>
     </>
   );
