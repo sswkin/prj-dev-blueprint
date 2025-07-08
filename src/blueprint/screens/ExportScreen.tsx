@@ -50,6 +50,7 @@ const ExportScreen: FC<ScreenProps> = ({ onBack }) => {
         </div>
       </div>
     </div>
+    </div>
   );
 };
 
