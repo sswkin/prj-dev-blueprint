@@ -238,9 +238,9 @@ export default function BlueprintPage() {
 
       <header className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+          <Link to="/wizard" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
             <ArrowLeft className="h-4 w-4" />
-            <span>Back to Projects</span>
+            <span>Back to Wizard</span>
           </Link>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">

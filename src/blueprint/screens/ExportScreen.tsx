@@ -39,9 +39,12 @@ const ExportScreen: FC<ScreenProps> = ({ onBack }) => {
           </Card>
         </div>
         <div className="flex justify-center gap-4">
-          <Button variant="outline" onClick={onBack}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
+          <Button variant="outline" onClick={onBack} className="mr-4">
+          <Button className="w-full" onClick={() => navigate('/wizard')}>
+            Create New Blueprint
+          </Button>
+          <Button onClick={() => navigate('/')}>
+            Return to Home
           </Button>
           <Button onClick={() => navigate('/')}>Create New Blueprint</Button>
         </div>
