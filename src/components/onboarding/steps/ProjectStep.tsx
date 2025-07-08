@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Target, Plus, X, Calendar, Flag, Users, CheckSquare, HelpCircle } from 'lucide-react';
+import { Target, Plus, X, Calendar, Flag, Users, CheckSquare } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 import type { ProjectData, Milestone, Task, WorkspaceData, TeamData } from '@/types/onboarding';
@@ -45,7 +44,7 @@ export const ProjectStep: React.FC<ProjectStepProps> = ({
   const [newMilestone, setNewMilestone] = useState({ title: '', description: '', dueDate: '' });
   const [newTask, setNewTask] = useState({ title: '', description: '', assignee: '', priority: 'medium' as const, dueDate: '' });
 
-  const handleInputChange = (field: keyof ProjectData, value: any) => {
+  const handleInputChange = (field: keyof ProjectData, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));

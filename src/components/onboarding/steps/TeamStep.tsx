@@ -45,7 +45,7 @@ export const TeamStep: React.FC<TeamStepProps> = ({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [newMemberEmail, setNewMemberEmail] = useState('');
 
-  const handleInputChange = (field: keyof TeamData, value: any) => {
+  const handleInputChange = (field: keyof TeamData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
