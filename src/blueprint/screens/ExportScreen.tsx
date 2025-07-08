@@ -1,9 +1,9 @@
 // React and core dependencies
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import type { FC } from 'react';
 
 // Third-party libraries
-import { CheckCircle, Download, FileText } from 'lucide-react';
+import { CheckCircle, Download, FileText, Home } from 'lucide-react';
 
 // UI Components
 import { Button } from '@/components/ui/button';
@@ -43,8 +43,11 @@ const ExportScreen: FC<ScreenProps> = ({ onBack }) => {
           <Button className="w-full" onClick={() => navigate('/wizard')}>
             Create New Blueprint
           </Button>
-          <Button onClick={() => navigate('/')}>
-            Return to Home
+          <Button asChild>
+            <Link to="/">
+              <Home className="mr-2 h-5 w-5" />
+              Return to Home
+            </Link>
           </Button>
           <Button onClick={() => navigate('/')}>Create New Blueprint</Button>
         </div>
