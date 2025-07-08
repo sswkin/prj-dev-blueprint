@@ -53,6 +53,4 @@ const ExportScreen: FC<ScreenProps> = ({ onBack }) => {
   );
 };
 
-export default ExportScreen; 
-  )
-}
+export default ExportScreen;
