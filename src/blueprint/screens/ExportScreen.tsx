@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import type { FC } from 'react';
 
 // Third-party libraries
-import { ArrowLeft, CheckCircle, Download, FileText } from 'lucide-react';
+import { CheckCircle, Download, FileText } from 'lucide-react';
 
 // UI Components
 import { Button } from '@/components/ui/button';
