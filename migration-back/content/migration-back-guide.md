@@ -220,11 +220,11 @@ export default function HomePage() {
   return (
     <>
       <Helmet>
-        <title>Home | DevBlueprint AI</title>
+        <title>Home | BlueprintForDev AI</title>
         <meta name="description" content="Create professional development blueprints" />
       </Helmet>
       <div className="container mx-auto px-4">
-        <h1>Welcome to DevBlueprint AI</h1>
+        <h1>Welcome to BlueprintForDev AI</h1>
       </div>
     </>
   );
@@ -237,7 +237,7 @@ export default function HomePage() {
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Home | DevBlueprint AI',
+  title: 'Home | BlueprintForDev AI',
   description: 'Create professional development blueprints with AI-powered tools',
   keywords: 'development blueprint, AI tools, software architecture, code generation',
 };
@@ -245,7 +245,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="container mx-auto px-4">
-      <h1>Welcome to DevBlueprint AI</h1>
+      <h1>Welcome to BlueprintForDev AI</h1>
     </div>
   );
 }
@@ -265,7 +265,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'DevBlueprint AI',
+  title: 'BlueprintForDev AI',
   description: 'Professional development blueprint creation tool',
 };
 
@@ -324,12 +324,12 @@ export default function UserProfile({ params }: UserProfileProps) {
 ```tsx
 // app/page.tsx
 export const metadata = {
-  title: 'DevBlueprint AI - Professional Development Tools',
+  title: 'BlueprintForDev AI - Professional Development Tools',
   description: 'Create comprehensive development blueprints with AI-powered analysis and recommendations',
   keywords: 'development blueprint, software architecture, AI tools, code generation',
-  authors: [{ name: 'DevBlueprint Team' }],
-  creator: 'DevBlueprint AI',
-  publisher: 'DevBlueprint',
+  authors: [{ name: 'BlueprintForDev Team' }],
+  creator: 'BlueprintForDev AI',
+  publisher: 'BlueprintForDev',
   formatDetection: {
     email: false,
     address: false,
@@ -357,7 +357,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.description,
       url: `https://yoursite.com/blog/${params.slug}`,
-      siteName: 'DevBlueprint AI',
+      siteName: 'BlueprintForDev AI',
       locale: 'en_US',
       type: 'article',
       publishedTime: post.publishedAt,
@@ -381,7 +381,7 @@ export default function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'DevBlueprint AI',
+    name: 'BlueprintForDev AI',
     description: 'Professional development blueprint creation tool',
     url: 'https://yoursite.com',
     applicationCategory: 'DeveloperApplication',
@@ -649,14 +649,14 @@ body {
 
 ```tsx
 // Before: Vite
-import logo from './logo.svg';
+import logo from './logo-transparent.png';
 
 // After: Next.js
 // Place assets in public/ folder for static serving
 // or use next/image for optimized images
 
 import Image from 'next/image';
-import logo from '../public/logo.svg';
+import logo from '../public/logo-transparent.png';
 
 function Header() {
   return (
@@ -802,7 +802,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPost(params.slug);
   
   return {
-    title: `${post.title} | DevBlueprint`,
+    title: `${post.title} | BlueprintForDev`,
     description: post.excerpt,
     openGraph: {
       title: post.title,

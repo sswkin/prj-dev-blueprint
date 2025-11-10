@@ -46,7 +46,7 @@ export const IdeaCapture: React.FC<IdeaCaptureProps> = ({ onAnalyze }) => {
   return (
     <>
       <Helmet>
-        <title>Idea Capture - DevBlueprint AI</title>
+        <title>Idea Capture - BlueprintForDev AI</title>
         <meta name="description" content="Transform your app idea into a comprehensive development blueprint with AI-powered analysis." />
       </Helmet>
 

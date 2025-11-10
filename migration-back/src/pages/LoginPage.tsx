@@ -98,8 +98,8 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title>Login - DevBlueprint AI</title>
-        <meta name="description" content="Sign in to your DevBlueprint AI account to continue building amazing projects." />
+        <title>Login - BlueprintForDev AI</title>
+        <meta name="description" content="Sign in to your BlueprintForDev AI account to continue building amazing projects." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center p-4">
@@ -112,7 +112,7 @@ export default function LoginPage() {
             </Link>
             
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <img src="/logo.svg" alt="DevBlueprint AI" className="h-8" />
+              <img src="/logo-transparent.png" alt="BlueprintForDev AI" className="h-8" />
             </div>
             
             <h1 className="text-3xl font-bold mb-2">Welcome back</h1>

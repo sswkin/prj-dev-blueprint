@@ -124,8 +124,8 @@ export default function ProfilePage() {
     return (
       <>
         <Helmet>
-          <title>Profile - DevBlueprint AI</title>
-          <meta name="description" content="Manage your DevBlueprint AI profile and account settings." />
+          <title>Profile - BlueprintForDev AI</title>
+          <meta name="description" content="Manage your BlueprintForDev AI profile and account settings." />
         </Helmet>
 
         <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
@@ -174,8 +174,8 @@ export default function ProfilePage() {
     return (
       <>
         <Helmet>
-          <title>Profile - DevBlueprint AI</title>
-          <meta name="description" content="Manage your DevBlueprint AI profile and account settings." />
+          <title>Profile - BlueprintForDev AI</title>
+          <meta name="description" content="Manage your BlueprintForDev AI profile and account settings." />
         </Helmet>
 
         <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
@@ -208,8 +208,8 @@ export default function ProfilePage() {
     return (
       <>
         <Helmet>
-          <title>Profile - DevBlueprint AI</title>
-          <meta name="description" content="Manage your DevBlueprint AI profile and account settings." />
+          <title>Profile - BlueprintForDev AI</title>
+          <meta name="description" content="Manage your BlueprintForDev AI profile and account settings." />
         </Helmet>
 
         <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
@@ -242,8 +242,8 @@ export default function ProfilePage() {
   return (
     <>
       <Helmet>
-        <title>{profile.full_name ? `${profile.full_name} - Profile` : 'Profile'} - DevBlueprint AI</title>
-        <meta name="description" content="Manage your DevBlueprint AI profile and account settings." />
+        <title>{profile.full_name ? `${profile.full_name} - Profile` : 'Profile'} - BlueprintForDev AI</title>
+        <meta name="description" content="Manage your BlueprintForDev AI profile and account settings." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">

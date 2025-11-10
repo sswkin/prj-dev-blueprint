@@ -66,8 +66,8 @@ export default function SignupPage() {
     return (
       <>
         <Helmet>
-          <title>Account Created - DevBlueprint AI</title>
-          <meta name="description" content="Your DevBlueprint AI account has been created successfully. Please check your email to verify your account." />
+          <title>Account Created - BlueprintForDev AI</title>
+          <meta name="description" content="Your BlueprintForDev AI account has been created successfully. Please check your email to verify your account." />
         </Helmet>
 
         <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center p-4">
@@ -102,8 +102,8 @@ export default function SignupPage() {
   return (
     <>
       <Helmet>
-        <title>Sign Up - DevBlueprint AI</title>
-        <meta name="description" content="Create your DevBlueprint AI account to start transforming your ideas into detailed code blueprints." />
+        <title>Sign Up - BlueprintForDev AI</title>
+        <meta name="description" content="Create your BlueprintForDev AI account to start transforming your ideas into detailed code blueprints." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center p-4">
@@ -116,7 +116,7 @@ export default function SignupPage() {
             </Link>
             
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <img src="/logo.svg" alt="DevBlueprint AI" className="h-8" />
+              <img src="/logo-transparent.png" alt="BlueprintForDev AI" className="h-8" />
             </div>
             
             <h1 className="text-3xl font-bold mb-2">Create your account</h1>
@@ -129,7 +129,7 @@ export default function SignupPage() {
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl text-center">Sign up</CardTitle>
               <CardDescription className="text-center">
-                Create your account to get started with DevBlueprint AI
+                Create your account to get started with BlueprintForDev AI
               </CardDescription>
             </CardHeader>
             

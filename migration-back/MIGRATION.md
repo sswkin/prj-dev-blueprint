@@ -67,13 +67,13 @@ export default function LoginPage() { ... }
 ```tsx
 // Before: layout.tsx
 export const metadata: Metadata = {
-  title: 'DevBlueprint AI',
+  title: 'BlueprintForDev AI',
   description: '...'
 };
 
 // After: HomePage.tsx
 <Helmet>
-  <title>DevBlueprint AI</title>
+  <title>BlueprintForDev AI</title>
   <meta name="description" content="..." />
 </Helmet>
 ```

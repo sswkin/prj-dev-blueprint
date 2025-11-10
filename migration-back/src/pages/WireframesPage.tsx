@@ -258,8 +258,8 @@ const WireframesPage: FC = () => {
   return (
     <>
       <Helmet>
-        <title>Interactive Wireframes - DevBlueprint AI</title>
-        <meta name="description" content="Experience the complete DevBlueprint AI workflow through interactive wireframes and prototypes." />
+        <title>Interactive Wireframes - BlueprintForDev AI</title>
+        <meta name="description" content="Experience the complete BlueprintForDev AI workflow through interactive wireframes and prototypes." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">

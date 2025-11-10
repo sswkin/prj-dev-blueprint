@@ -7,15 +7,15 @@ export default function NotFoundPage() {
   return (
     <>
       <Helmet>
-        <title>Page Not Found - DevBlueprint AI</title>
-        <meta name="description" content="The page you're looking for doesn't exist. Return to DevBlueprint AI to continue building amazing projects." />
+        <title>Page Not Found - BlueprintForDev AI</title>
+        <meta name="description" content="The page you're looking for doesn't exist. Return to BlueprintForDev AI to continue building amazing projects." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center p-4">
         <div className="text-center max-w-md mx-auto">
           <div className="flex items-center justify-center space-x-2 mb-8">
             <Code2 className="h-12 w-12 text-primary" />
-            <span className="text-3xl font-bold">DevBlueprint AI</span>
+            <span className="text-3xl font-bold">BlueprintForDev AI</span>
           </div>
           
           <div className="mb-8">

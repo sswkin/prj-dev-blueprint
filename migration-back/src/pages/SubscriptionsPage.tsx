@@ -102,8 +102,8 @@ export default function SubscriptionsPage() {
     return (
       <>
         <Helmet>
-          <title>Subscriptions - DevBlueprint AI</title>
-          <meta name="description" content="Manage your DevBlueprint AI subscription and billing preferences." />
+          <title>Subscriptions - BlueprintForDev AI</title>
+          <meta name="description" content="Manage your BlueprintForDev AI subscription and billing preferences." />
         </Helmet>
 
         <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
@@ -123,8 +123,8 @@ export default function SubscriptionsPage() {
   return (
     <>
       <Helmet>
-        <title>Subscriptions - DevBlueprint AI</title>
-        <meta name="description" content="Manage your DevBlueprint AI subscription and billing preferences." />
+        <title>Subscriptions - BlueprintForDev AI</title>
+        <meta name="description" content="Manage your BlueprintForDev AI subscription and billing preferences." />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">

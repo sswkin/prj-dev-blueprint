@@ -57,7 +57,7 @@
   
   <!-- Text -->
   <text x="56" y="25" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="url(#textGradient)">
-    DevBlueprint
+    BlueprintForDev
   </text>
   <text x="56" y="42" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#8B5CF6" opacity="0.8">
     AI

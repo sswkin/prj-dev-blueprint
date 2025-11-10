@@ -305,7 +305,7 @@ export default function WizardPage() {
   return (
     <>
       <Helmet>
-        <title>Create Blueprint - DevBlueprint AI</title>
+        <title>Create Blueprint - BlueprintForDev AI</title>
         <meta name="description" content="Create a comprehensive development blueprint for your software project with our step-by-step wizard." />
       </Helmet>
 
