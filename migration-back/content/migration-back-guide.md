@@ -649,14 +649,14 @@ body {
 
 ```tsx
 // Before: Vite
-import logo from './logo-transparent.png';
+import logo from './logo.jpg';
 
 // After: Next.js
 // Place assets in public/ folder for static serving
 // or use next/image for optimized images
 
 import Image from 'next/image';
-import logo from '../public/logo-transparent.png';
+import logo from '../public/logo.jpg';
 
 function Header() {
   return (

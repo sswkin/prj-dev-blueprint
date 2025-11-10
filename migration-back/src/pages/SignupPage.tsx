@@ -116,7 +116,7 @@ export default function SignupPage() {
             </Link>
             
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <img src="/logo-transparent.png" alt="BlueprintForDev AI" className="h-8" />
+              <img src="/logo.jpg" alt="BlueprintForDev AI" className="h-8" />
             </div>
             
             <h1 className="text-3xl font-bold mb-2">Create your account</h1>

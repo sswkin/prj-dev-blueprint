@@ -207,7 +207,7 @@ export default function HomePage() {
                 >
                   <div className="relative">
                     <img 
-                      src="/logo-transparent.png" 
+                      src="/logo.jpg" 
                       alt="BlueprintForDev AI" 
                       className="h-12 w-12 drop-shadow-lg" 
                     />
@@ -732,7 +732,7 @@ export default function HomePage() {
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="relative">
                     <img 
-                      src="/logo-transparent.png" 
+                      src="/logo.jpg" 
                       alt="BlueprintForDev AI" 
                       className="h-10 w-10 drop-shadow-lg" 
                     />
