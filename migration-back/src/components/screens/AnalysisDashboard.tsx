@@ -67,7 +67,7 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
   return (
     <>
       <Helmet>
-        <title>Analysis Dashboard - DevBlueprint AI</title>
+        <title>Analysis Dashboard - BlueprintForDev AI</title>
         <meta name="description" content="AI-powered analysis of your app idea with concept validation and risk assessment." />
       </Helmet>
 

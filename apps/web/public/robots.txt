@@ -1,0 +1,42 @@
+# https://blueprintfordev.xyz/robots.txt
+
+# Allow all search engines
+User-agent: *
+Allow: /
+
+# Disallow admin or private pages (if any)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /private/
+
+# Allow important pages
+Allow: /assets/
+Allow: /favicon.ico
+Allow: /logo-transparent.png
+
+# Sitemap location
+Sitemap: https://blueprintfordev.xyz/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Popular search engines specific rules
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block problematic bots
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

@@ -105,7 +105,7 @@ your-nextjs-project/
 ├── public/
 │   ├── favicon.ico
 │   ├── favicon.svg
-│   ├── logo.svg
+│   ├── logo-transparent.png
 │   └── vercel.svg
 ├── app/                    # App Router (Next.js 13+)
 │   ├── globals.css

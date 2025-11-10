@@ -46,7 +46,7 @@ export default function HomePage() {
 
   const testimonials = [
     {
-      quote: "DevBlueprint AI transformed how I approach new projects. What used to take days of planning now takes minutes.",
+      quote: "BlueprintForDev AI transformed how I approach new projects. What used to take days of planning now takes minutes.",
       author: "Sarah Chen",
       role: "Solo Developer",
       company: "TechStart"
@@ -133,7 +133,7 @@ export default function HomePage() {
 
   const faqItems = [
     {
-      question: "How does DevBlueprint AI work?",
+      question: "How does BlueprintForDev AI work?",
       answer: "Our AI analyzes your project idea and generates a comprehensive blueprint including architecture diagrams, development roadmap, technology recommendations, and detailed implementation steps."
     },
     {
@@ -176,16 +176,16 @@ export default function HomePage() {
   return (
     <>
       <Helmet>
-        <title>DevBlueprint AI - Go from idea to code blueprint in minutes</title>
+        <title>BlueprintForDev AI - Go from idea to code blueprint in minutes</title>
         <meta name="description" content="AI-powered workflow for solo developers, startups & early adopters. Transform your ideas into detailed code blueprints with our intelligent platform." />
         <meta name="keywords" content="AI, code blueprint, development, startup, solo developer, planning, ideation" />
         
-        <meta property="og:title" content="DevBlueprint AI - Go from idea to code blueprint in minutes" />
+        <meta property="og:title" content="BlueprintForDev AI - Go from idea to code blueprint in minutes" />
         <meta property="og:description" content="AI-powered workflow for solo developers, startups & early adopters" />
         <meta property="og:type" content="website" />
         
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="DevBlueprint AI - Go from idea to code blueprint in minutes" />
+        <meta name="twitter:title" content="BlueprintForDev AI - Go from idea to code blueprint in minutes" />
         <meta name="twitter:description" content="AI-powered workflow for solo developers, startups & early adopters" />
       </Helmet>
 
@@ -207,15 +207,15 @@ export default function HomePage() {
                 >
                   <div className="relative">
                     <img 
-                      src="/logo.svg" 
-                      alt="DevBlueprint AI" 
+                      src="/logo-transparent.png" 
+                      alt="BlueprintForDev AI" 
                       className="h-12 w-12 drop-shadow-lg" 
                     />
                     <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-full blur opacity-75"></div>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                      DevBlueprint
+                      BlueprintForDev
                     </span>
                     <span className="text-sm font-medium text-muted-foreground -mt-1">
                       AI
@@ -701,7 +701,7 @@ export default function HomePage() {
               transition={{ duration: 0.6 }}
             >
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-              <p className="text-xl text-muted-foreground">Everything you need to know about DevBlueprint AI</p>
+              <p className="text-xl text-muted-foreground">Everything you need to know about BlueprintForDev AI</p>
             </motion.div>
 
             <motion.div
@@ -732,15 +732,15 @@ export default function HomePage() {
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="relative">
                     <img 
-                      src="/logo.svg" 
-                      alt="DevBlueprint AI" 
+                      src="/logo-transparent.png" 
+                      alt="BlueprintForDev AI" 
                       className="h-10 w-10 drop-shadow-lg" 
                     />
                     <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-full blur opacity-75"></div>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                      DevBlueprint
+                      BlueprintForDev
                     </span>
                     <span className="text-xs font-medium text-muted-foreground -mt-1">
                       AI
@@ -792,7 +792,7 @@ export default function HomePage() {
 
             <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
               <p className="text-muted-foreground">
-                © 2025 DevBlueprint AI. All rights reserved.
+                © 2025 BlueprintForDev AI. All rights reserved.
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
                 <a href="#" className="text-muted-foreground hover:text-foreground">Privacy Policy</a>
