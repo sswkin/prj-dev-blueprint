@@ -19,9 +19,8 @@ const defaultSections: FooterSection[] = [
   {
     title: "Product",
     links: [
-      { label: "Features", href: "#features" },
-      { label: "Pricing", href: "#pricing" },
-      { label: "Documentation", href: "#docs" },
+      { label: "Features", href: "/features" },
+      { label: "Pricing", href: "/pricing" },
     ],
   },
   {
@@ -29,8 +28,7 @@ const defaultSections: FooterSection[] = [
     links: [
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
-      { label: "Blog", href: "#blog" },
-      { label: "Careers", href: "#careers" },
+      { label: "Blog", href: "/blog" },
     ],
   },
   {
@@ -39,7 +37,7 @@ const defaultSections: FooterSection[] = [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
       { label: "Cookies", href: "/cookies" },
-      { label: "Contact", href: "#contact" },
+      { label: "Contact", href: "/contact" },
     ],
   },
 ];
