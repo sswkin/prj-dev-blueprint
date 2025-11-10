@@ -13,7 +13,7 @@ Disallow: /private/
 # Allow important pages
 Allow: /assets/
 Allow: /favicon.ico
-Allow: /logo-transparent.png
+Allow: /logo.jpg
 
 # Sitemap location
 Sitemap: https://blueprintfordev.xyz/sitemap.xml

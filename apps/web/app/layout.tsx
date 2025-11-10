@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 
 import "./globals.css";
+import CookieConsent from "./components/CookieConsent";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://blueprintfordev.xyz"),
@@ -90,7 +91,7 @@ export default function RootLayout({
         <link rel="canonical" href="https://blueprintfordev.xyz" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.svg" />
-        <link rel="apple-touch-icon" href="/logo-transparent.png" />
+        <link rel="apple-touch-icon" href="/logo.jpg" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="color-scheme" content="light dark" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -101,6 +102,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-background font-sans antialiased">
         {children}
+        <CookieConsent />
       </body>
     </html>
   );
