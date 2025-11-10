@@ -12,9 +12,10 @@ interface HeaderNavProps {
 
 const defaultLinks: NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "#features" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Features", href: "/features" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function HeaderNav({

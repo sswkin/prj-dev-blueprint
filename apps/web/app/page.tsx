@@ -70,7 +70,7 @@ export default function Home() {
                     Get started
                   </a>
                   <a
-                    href="#learn-more"
+                    href="/features"
                     className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors"
                   >
                     Learn more <span aria-hidden="true">→</span>
@@ -129,6 +129,14 @@ export default function Home() {
                       </p>
                     </div>
                   ))}
+                </div>
+                <div className="text-center mt-12">
+                  <a
+                    href="/features"
+                    className="inline-block px-6 py-3 border border-border text-foreground font-semibold rounded-md hover:bg-accent transition-colors"
+                  >
+                    View all features
+                  </a>
                 </div>
               </div>
             </section>
