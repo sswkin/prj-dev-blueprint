@@ -1,0 +1,34 @@
+{
+  "name": "prj-dev-blueprint",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.2.5",
+  "workspaces": [
+    "apps/*",
+    "migration-back",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^2.3.3",
+    "turbo": "^2.3.3",
+    "@types/bun": "latest",
+    "prettier": "^3.5.3",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "engines": {
+    "bun": ">=1.2.5"
+  }
+}
