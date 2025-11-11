@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* View Transitions */
+@supports (view-transition-name: auto) {
+  html {
+    view-transition-name: root;
+  }
+
+  ::view-transition-group(root) {
+    animation-duration: 0.3s;
+  }
+
+  ::view-transition-old(root) {
+    animation: fade-out 0.3s ease-in-out forwards;
+  }
+
+  ::view-transition-new(root) {
+    animation: fade-in 0.3s ease-in-out forwards;
+  }
+
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

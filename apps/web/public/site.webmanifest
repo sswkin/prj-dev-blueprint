@@ -1,0 +1,27 @@
+{
+  "name": "BlueprintForDev",
+  "short_name": "BlueprintDev",
+  "description": "Generate comprehensive development project blueprints with architecture, components, database design, and implementation guidance.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["productivity", "developer", "tools"],
+  "lang": "en",
+  "dir": "ltr"
+}
