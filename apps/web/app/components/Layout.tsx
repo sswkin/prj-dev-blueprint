@@ -8,17 +8,18 @@ interface LayoutProps {
   showBreadcrumb?: boolean;
 }
 
-export default function Layout({ children, showBreadcrumb = true }: LayoutProps) {
+export default function Layout({
+  children,
+  showBreadcrumb = true,
+}: LayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header sticky={true} />
-      
+
       {showBreadcrumb && <Breadcrumb />}
-      
-      <main className="flex-1">
-        {children}
-      </main>
-      
+
+      <main className="flex-1">{children}</main>
+
       <Footer />
     </div>
   );

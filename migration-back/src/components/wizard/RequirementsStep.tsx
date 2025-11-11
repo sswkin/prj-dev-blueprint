@@ -1,9 +1,15 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Lightbulb, Loader2 } from 'lucide-react';
-import { ProjectRequirements } from '@/types/wizard';
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Lightbulb, Loader2 } from "lucide-react";
+import { ProjectRequirements } from "@/types/wizard";
 
 interface RequirementsStepProps {
   requirements: ProjectRequirements;
@@ -18,7 +24,7 @@ export const RequirementsStep: React.FC<RequirementsStepProps> = ({
   onRequirementsChange,
   onRefineDescription,
   isRefining,
-  refinedContent
+  refinedContent,
 }) => {
   return (
     <Card className="border-2">
@@ -28,7 +34,8 @@ export const RequirementsStep: React.FC<RequirementsStepProps> = ({
           Project Requirements
         </CardTitle>
         <CardDescription>
-          Describe your software project in detail. Be as specific as possible about your goals, target audience, and key features.
+          Describe your software project in detail. Be as specific as possible
+          about your goals, target audience, and key features.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -40,11 +47,17 @@ export const RequirementsStep: React.FC<RequirementsStepProps> = ({
             id="description"
             placeholder="Describe your project, its purpose, and what you want to achieve..."
             value={requirements.description}
-            onChange={(e) => onRequirementsChange({ ...requirements, description: e.target.value })}
+            onChange={(e) =>
+              onRequirementsChange({
+                ...requirements,
+                description: e.target.value,
+              })
+            }
             className="min-h-[200px]"
           />
           <p className="text-xs text-muted-foreground">
-            Minimum 50 characters required. The more detailed your description, the better we can assist you.
+            Minimum 50 characters required. The more detailed your description,
+            the better we can assist you.
           </p>
         </div>
 
@@ -72,7 +85,9 @@ export const RequirementsStep: React.FC<RequirementsStepProps> = ({
 
         {refinedContent && (
           <div className="space-y-2">
-            <label className="text-sm font-medium">AI-Refined Description</label>
+            <label className="text-sm font-medium">
+              AI-Refined Description
+            </label>
             <div className="p-4 bg-muted rounded-lg">
               <p className="text-sm whitespace-pre-wrap">{refinedContent}</p>
             </div>
@@ -80,7 +95,12 @@ export const RequirementsStep: React.FC<RequirementsStepProps> = ({
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => onRequirementsChange({ ...requirements, description: refinedContent })}
+                onClick={() =>
+                  onRequirementsChange({
+                    ...requirements,
+                    description: refinedContent,
+                  })
+                }
               >
                 Use Refined Version
               </Button>

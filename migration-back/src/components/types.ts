@@ -1,14 +1,18 @@
-import { AIConcept as AIConceptBase, Tag as TagBase } from '@/pages/WireframesPage';
+import {
+  AIConcept as AIConceptBase,
+  Tag as TagBase,
+} from "@/pages/WireframesPage";
 
-export interface Tag extends Omit<TagBase, 'category' | 'aiGenerated'> {
-  category?: TagBase['category'];
+export interface Tag extends Omit<TagBase, "category" | "aiGenerated"> {
+  category?: TagBase["category"];
   aiGenerated?: boolean;
 }
 
-export interface AIConcept extends Omit<AIConceptBase, 'marketSize' | 'timeToMarket' | 'complexity'> {
+export interface AIConcept
+  extends Omit<AIConceptBase, "marketSize" | "timeToMarket" | "complexity"> {
   marketSize?: string;
   timeToMarket?: string;
-  complexity?: 'low' | 'medium' | 'high';
+  complexity?: "low" | "medium" | "high";
 }
 
 export interface ScreenProps {
@@ -22,4 +26,4 @@ export interface ScreenProps {
   originalIdea?: string;
 }
 
-export type ViewportType = 'mobile' | 'tablet' | 'desktop';
+export type ViewportType = "mobile" | "tablet" | "desktop";

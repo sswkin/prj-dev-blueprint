@@ -5,7 +5,8 @@ import Footer from "@/app/components/Footer";
 
 export const metadata: Metadata = {
   title: "Home",
-  description: "Generate comprehensive development project blueprints with architecture, components, database design, and implementation guidance.",
+  description:
+    "Generate comprehensive development project blueprints with architecture, components, database design, and implementation guidance.",
 };
 
 export default function Home() {
@@ -13,7 +14,8 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "BlueprintForDev",
-    description: "Generate comprehensive development project blueprints with architecture, components, database design, and implementation guidance. Streamline your development process with AI-powered project planning.",
+    description:
+      "Generate comprehensive development project blueprints with architecture, components, database design, and implementation guidance. Streamline your development process with AI-powered project planning.",
     url: "https://blueprintfordev.xyz",
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
@@ -31,14 +33,14 @@ export default function Home() {
       "Component library planning",
       "Database design guidance",
       "Implementation roadmaps",
-      "Best practices recommendations"
+      "Best practices recommendations",
     ],
     screenshot: "https://blueprintfordev.xyz/assets/og-image.png",
     mainEntity: {
       "@type": "SoftwareApplication",
       name: "BlueprintForDev",
-      description: "AI-powered development project blueprint generator"
-    }
+      description: "AI-powered development project blueprint generator",
+    },
   };
 
   return (
@@ -86,7 +88,8 @@ export default function Home() {
                   Everything you need to plan your project
                 </h2>
                 <p className="mt-4 text-lg text-muted-foreground">
-                  Generate comprehensive development blueprints with AI-powered guidance
+                  Generate comprehensive development blueprints with AI-powered
+                  guidance
                 </p>
               </div>
               <div className="mx-auto mt-16 max-w-5xl">
@@ -94,27 +97,33 @@ export default function Home() {
                   {[
                     {
                       title: "Project Architecture",
-                      description: "Generate comprehensive architecture diagrams and technical specifications for your project.",
+                      description:
+                        "Generate comprehensive architecture diagrams and technical specifications for your project.",
                     },
                     {
                       title: "Component Library",
-                      description: "Plan and organize your component structure with best practices and reusability in mind.",
+                      description:
+                        "Plan and organize your component structure with best practices and reusability in mind.",
                     },
                     {
                       title: "Database Design",
-                      description: "Get guidance on database schema design, relationships, and optimization strategies.",
+                      description:
+                        "Get guidance on database schema design, relationships, and optimization strategies.",
                     },
                     {
                       title: "Implementation Roadmaps",
-                      description: "Receive step-by-step implementation plans with clear milestones and deliverables.",
+                      description:
+                        "Receive step-by-step implementation plans with clear milestones and deliverables.",
                     },
                     {
                       title: "Best Practices",
-                      description: "Follow industry-standard best practices and coding conventions for your tech stack.",
+                      description:
+                        "Follow industry-standard best practices and coding conventions for your tech stack.",
                     },
                     {
                       title: "AI-Powered",
-                      description: "Leverage AI to streamline your development process and make informed decisions.",
+                      description:
+                        "Leverage AI to streamline your development process and make informed decisions.",
                     },
                   ].map((feature) => (
                     <div

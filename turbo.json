@@ -32,6 +32,9 @@
     "preview": {
       "dependsOn": ["build"],
       "outputs": ["dist/**", ".next/**"]
+    },
+    "format": {
+      "cache": false
     }
   },
   "globalDependencies": [

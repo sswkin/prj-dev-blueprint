@@ -1,13 +1,17 @@
-import { supabase } from '@/lib/supabase';
-import { UserProfile, ProfileFormData, ProfileResponse } from '@/lib/types/profile';
+import { supabase } from "@/lib/supabase";
+import {
+  UserProfile,
+  ProfileFormData,
+  ProfileResponse,
+} from "@/lib/types/profile";
 
 export const profileService = {
   async getProfile(userId: string): Promise<ProfileResponse> {
     try {
       const { data, error } = await supabase
-        .from('user_profiles')
-        .select('*')
-        .eq('id', userId);
+        .from("user_profiles")
+        .select("*")
+        .eq("id", userId);
 
       if (error) {
         return {
@@ -20,31 +24,35 @@ export const profileService = {
       if (!data || data.length === 0) {
         return {
           success: true,
-          message: 'No profile found',
+          message: "No profile found",
           data: undefined,
         };
       }
 
       return {
         success: true,
-        message: 'Profile fetched successfully',
+        message: "Profile fetched successfully",
         data: data[0] as UserProfile,
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to fetch profile',
+        message: "Failed to fetch profile",
       };
     }
   },
 
-  async createProfile(userId: string, userEmail: string, fullName?: string): Promise<ProfileResponse> {
+  async createProfile(
+    userId: string,
+    userEmail: string,
+    fullName?: string,
+  ): Promise<ProfileResponse> {
     try {
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from("user_profiles")
         .insert({
           id: userId,
-          full_name: fullName || userEmail.split('@')[0], // Use email prefix as fallback
+          full_name: fullName || userEmail.split("@")[0], // Use email prefix as fallback
         })
         .select()
         .single();
@@ -58,42 +66,55 @@ export const profileService = {
 
       return {
         success: true,
-        message: 'Profile created successfully',
+        message: "Profile created successfully",
         data: data as UserProfile,
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to create profile',
+        message: "Failed to create profile",
       };
     }
   },
 
-  async getOrCreateProfile(userId: string, userEmail: string, fullName?: string): Promise<ProfileResponse> {
+  async getOrCreateProfile(
+    userId: string,
+    userEmail: string,
+    fullName?: string,
+  ): Promise<ProfileResponse> {
     // First try to get existing profile
     const getResponse = await this.getProfile(userId);
-    
+
     if (getResponse.success && getResponse.data) {
       return getResponse;
     }
 
     // If no profile exists, create one
     if (getResponse.success && !getResponse.data) {
-      const createResponse = await this.createProfile(userId, userEmail, fullName);
-      
+      const createResponse = await this.createProfile(
+        userId,
+        userEmail,
+        fullName,
+      );
+
       // If creation fails due to duplicate key constraint, try to fetch the existing profile
-      if (!createResponse.success && createResponse.message.includes('duplicate key value violates unique constraint')) {
+      if (
+        !createResponse.success &&
+        createResponse.message.includes(
+          "duplicate key value violates unique constraint",
+        )
+      ) {
         // Profile likely exists due to race condition, try fetching again
         const retryGetResponse = await this.getProfile(userId);
-        
+
         if (retryGetResponse.success && retryGetResponse.data) {
           return retryGetResponse;
         }
-        
+
         // If we still can't get the profile, return the original creation error
         return createResponse;
       }
-      
+
       return createResponse;
     }
 
@@ -101,15 +122,18 @@ export const profileService = {
     return getResponse;
   },
 
-  async updateProfile(userId: string, profileData: ProfileFormData): Promise<ProfileResponse> {
+  async updateProfile(
+    userId: string,
+    profileData: ProfileFormData,
+  ): Promise<ProfileResponse> {
     try {
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from("user_profiles")
         .update({
           ...profileData,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', userId)
+        .eq("id", userId)
         .select()
         .single();
 
@@ -122,28 +146,31 @@ export const profileService = {
 
       return {
         success: true,
-        message: 'Profile updated successfully',
+        message: "Profile updated successfully",
         data: data as UserProfile,
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to update profile',
+        message: "Failed to update profile",
       };
     }
   },
 
-  async uploadAvatar(userId: string, file: File): Promise<{ success: boolean; message: string; url?: string }> {
+  async uploadAvatar(
+    userId: string,
+    file: File,
+  ): Promise<{ success: boolean; message: string; url?: string }> {
     try {
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${userId}-${Math.random()}.${fileExt}`;
       const filePath = `avatars/${fileName}`;
 
       // Upload file to Supabase Storage
       const { error: uploadError } = await supabase.storage
-        .from('avatars')
+        .from("avatars")
         .upload(filePath, file, {
-          cacheControl: '3600',
+          cacheControl: "3600",
           upsert: true,
         });
 
@@ -155,15 +182,15 @@ export const profileService = {
       }
 
       // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(filePath);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("avatars").getPublicUrl(filePath);
 
       // Update user profile with new avatar URL
       const { error: updateError } = await supabase
-        .from('user_profiles')
+        .from("user_profiles")
         .update({ avatar_url: publicUrl })
-        .eq('id', userId);
+        .eq("id", userId);
 
       if (updateError) {
         return {
@@ -174,27 +201,30 @@ export const profileService = {
 
       return {
         success: true,
-        message: 'Avatar uploaded successfully',
+        message: "Avatar uploaded successfully",
         url: publicUrl,
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to upload avatar',
+        message: "Failed to upload avatar",
       };
     }
   },
 
-  async deleteAvatar(userId: string, avatarUrl: string): Promise<{ success: boolean; message: string }> {
+  async deleteAvatar(
+    userId: string,
+    avatarUrl: string,
+  ): Promise<{ success: boolean; message: string }> {
     try {
       // Extract file path from URL
-      const urlParts = avatarUrl.split('/');
+      const urlParts = avatarUrl.split("/");
       const fileName = urlParts[urlParts.length - 1];
       const filePath = `avatars/${fileName}`;
 
       // Delete file from storage
       const { error: deleteError } = await supabase.storage
-        .from('avatars')
+        .from("avatars")
         .remove([filePath]);
 
       if (deleteError) {
@@ -206,9 +236,9 @@ export const profileService = {
 
       // Update user profile to remove avatar URL
       const { error: updateError } = await supabase
-        .from('user_profiles')
+        .from("user_profiles")
         .update({ avatar_url: null })
-        .eq('id', userId);
+        .eq("id", userId);
 
       if (updateError) {
         return {
@@ -219,12 +249,12 @@ export const profileService = {
 
       return {
         success: true,
-        message: 'Avatar deleted successfully',
+        message: "Avatar deleted successfully",
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to delete avatar',
+        message: "Failed to delete avatar",
       };
     }
   },

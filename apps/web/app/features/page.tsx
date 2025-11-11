@@ -3,110 +3,123 @@ import Layout from "@/app/components/Layout";
 
 export const metadata: Metadata = {
   title: "Features",
-  description: "Explore BlueprintForDev's comprehensive features for AI-powered project planning, architecture design, and development guidance.",
+  description:
+    "Explore BlueprintForDev's comprehensive features for AI-powered project planning, architecture design, and development guidance.",
 };
 
 export default function Features() {
   const mainFeatures = [
     {
       title: "Project Architecture Generation",
-      description: "Automatically generate comprehensive architecture diagrams and technical specifications tailored to your project needs.",
+      description:
+        "Automatically generate comprehensive architecture diagrams and technical specifications tailored to your project needs.",
       details: [
         "Visual architecture diagrams with component relationships",
         "Technology stack recommendations based on project requirements",
         "Scalability and performance considerations",
         "Security architecture patterns",
-        "Integration guidelines and API design"
+        "Integration guidelines and API design",
       ],
-      icon: "🏗️"
+      icon: "🏗️",
     },
     {
       title: "Component Library Planning",
-      description: "Get intelligent recommendations for organizing your component structure with best practices and reusability in mind.",
+      description:
+        "Get intelligent recommendations for organizing your component structure with best practices and reusability in mind.",
       details: [
         "Hierarchical component organization",
         "Reusable component identification",
         "State management strategies",
         "Props and data flow patterns",
-        "Component testing guidelines"
+        "Component testing guidelines",
       ],
-      icon: "🧩"
+      icon: "🧩",
     },
     {
       title: "Database Design Guidance",
-      description: "Receive expert guidance on database schema design, relationships, and optimization strategies.",
+      description:
+        "Receive expert guidance on database schema design, relationships, and optimization strategies.",
       details: [
         "Entity-relationship diagrams",
         "Database normalization recommendations",
         "Indexing and query optimization",
         "Migration strategies",
-        "Performance monitoring setup"
+        "Performance monitoring setup",
       ],
-      icon: "🗄️"
+      icon: "🗄️",
     },
     {
       title: "Implementation Roadmaps",
-      description: "Get step-by-step implementation plans with clear milestones, deliverables, and timeline estimates.",
+      description:
+        "Get step-by-step implementation plans with clear milestones, deliverables, and timeline estimates.",
       details: [
         "Phased development approach",
         "Task breakdown with time estimates",
         "Dependencies and critical path analysis",
         "Risk assessment and mitigation strategies",
-        "Quality gates and testing milestones"
+        "Quality gates and testing milestones",
       ],
-      icon: "🗺️"
+      icon: "🗺️",
     },
     {
       title: "Best Practices & Standards",
-      description: "Follow industry-standard best practices and coding conventions specific to your technology stack.",
+      description:
+        "Follow industry-standard best practices and coding conventions specific to your technology stack.",
       details: [
         "Code organization standards",
         "Naming conventions and style guides",
         "Error handling patterns",
         "Security best practices",
-        "Performance optimization techniques"
+        "Performance optimization techniques",
       ],
-      icon: "⭐"
+      icon: "⭐",
     },
     {
       title: "AI-Powered Insights",
-      description: "Leverage cutting-edge AI to get intelligent recommendations and make data-driven decisions.",
+      description:
+        "Leverage cutting-edge AI to get intelligent recommendations and make data-driven decisions.",
       details: [
         "Intelligent technology stack recommendations",
         "Predictive project timeline estimation",
         "Automated code review suggestions",
         "Performance bottleneck identification",
-        "Architecture improvement recommendations"
+        "Architecture improvement recommendations",
       ],
-      icon: "🤖"
-    }
+      icon: "🤖",
+    },
   ];
 
   const additionalFeatures = [
     {
       title: "Multi-Framework Support",
-      description: "Support for popular frameworks including React, Vue, Angular, Next.js, Nuxt, and more."
+      description:
+        "Support for popular frameworks including React, Vue, Angular, Next.js, Nuxt, and more.",
     },
     {
       title: "Cloud Integration",
-      description: "Guidance for AWS, Azure, GCP deployment strategies and infrastructure as code."
+      description:
+        "Guidance for AWS, Azure, GCP deployment strategies and infrastructure as code.",
     },
     {
       title: "Team Collaboration",
-      description: "Features designed for team workflows, including version control integration and code review processes."
+      description:
+        "Features designed for team workflows, including version control integration and code review processes.",
     },
     {
       title: "Documentation Generation",
-      description: "Automatic generation of technical documentation, API specs, and developer guides."
+      description:
+        "Automatic generation of technical documentation, API specs, and developer guides.",
     },
     {
       title: "Testing Strategy",
-      description: "Comprehensive testing recommendations including unit, integration, and end-to-end testing approaches."
+      description:
+        "Comprehensive testing recommendations including unit, integration, and end-to-end testing approaches.",
     },
     {
       title: "DevOps Integration",
-      description: "CI/CD pipeline recommendations and deployment automation strategies."
-    }
+      description:
+        "CI/CD pipeline recommendations and deployment automation strategies.",
+    },
   ];
 
   return (
@@ -118,8 +131,9 @@ export default function Features() {
             Comprehensive Features for Modern Development
           </h1>
           <p className="text-lg text-muted-foreground leading-8 max-w-3xl mx-auto">
-            Discover how BlueprintForDev empowers developers with AI-powered tools for every aspect of project planning, 
-            from initial architecture design to final implementation guidance.
+            Discover how BlueprintForDev empowers developers with AI-powered
+            tools for every aspect of project planning, from initial
+            architecture design to final implementation guidance.
           </p>
         </section>
 
@@ -130,13 +144,17 @@ export default function Features() {
               Core Features
             </h2>
             <p className="text-lg text-muted-foreground">
-              Everything you need to plan, design, and implement your next project
+              Everything you need to plan, design, and implement your next
+              project
             </p>
           </div>
-          
+
           <div className="space-y-12">
             {mainFeatures.map((feature, index) => (
-              <div key={feature.title} className="flex flex-col lg:flex-row gap-8 items-start">
+              <div
+                key={feature.title}
+                className="flex flex-col lg:flex-row gap-8 items-start"
+              >
                 <div className="lg:w-1/3">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="text-3xl">{feature.icon}</span>
@@ -173,7 +191,7 @@ export default function Features() {
               Extended features to support your entire development workflow
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {additionalFeatures.map((feature) => (
               <div
@@ -202,23 +220,23 @@ export default function Features() {
                 {
                   title: "Save Time",
                   description: "Reduce project planning time by up to 70%",
-                  icon: "⏰"
+                  icon: "⏰",
                 },
                 {
                   title: "Improve Quality",
                   description: "Follow proven best practices and patterns",
-                  icon: "🏆"
+                  icon: "🏆",
                 },
                 {
                   title: "Scale Confidently",
                   description: "Design for growth from the start",
-                  icon: "📈"
+                  icon: "📈",
                 },
                 {
                   title: "Reduce Risk",
                   description: "Avoid common architectural mistakes",
-                  icon: "🛡️"
-                }
+                  icon: "🛡️",
+                },
               ].map((benefit) => (
                 <div key={benefit.title} className="text-center">
                   <div className="text-3xl mb-3">{benefit.icon}</div>
@@ -241,8 +259,9 @@ export default function Features() {
               Ready to Experience These Features?
             </h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Start creating comprehensive project blueprints with our AI-powered platform. 
-              Join thousands of developers who trust BlueprintForDev for their project planning needs.
+              Start creating comprehensive project blueprints with our
+              AI-powered platform. Join thousands of developers who trust
+              BlueprintForDev for their project planning needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

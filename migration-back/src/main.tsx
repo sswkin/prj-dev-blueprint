@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { AuthProvider } from '@/contexts/AuthContext';
-import App from './App';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { AuthProvider } from "@/contexts/AuthContext";
+import App from "./App";
+import "./index.css";
 
 // Create a client for React Query
 const queryClient = new QueryClient({
@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
   },
 });
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
@@ -29,5 +29,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </AuthProvider>
       </QueryClientProvider>
     </HelmetProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

@@ -37,18 +37,21 @@ docker-compose down
 ## Dockerfile Features
 
 ### Multi-Stage Build
+
 - **Base Stage**: Uses Node.js 18 Alpine for minimal size
 - **Dependencies Stage**: Installs only production dependencies
 - **Builder Stage**: Builds the Next.js application with optimizations
 - **Runner Stage**: Creates a minimal production image
 
 ### Optimizations
+
 - Uses Next.js standalone output for smaller final image
 - Non-root user for security
 - Health check included
 - Optimized layer caching for faster rebuilds
 
 ### Security Features
+
 - Runs as non-root user (nextjs:nodejs)
 - Minimal attack surface with Alpine Linux
 - No development tools in production image
@@ -56,13 +59,16 @@ docker-compose down
 ## Configuration
 
 ### Environment Variables
+
 The Docker setup includes these environment variables:
+
 - `NODE_ENV=production` - Sets production mode
 - `NEXT_TELEMETRY_DISABLED=1` - Disables Next.js telemetry
 - `PORT=3000` - Application port
 - `HOSTNAME=0.0.0.0` - Bind address
 
 ### Health Check
+
 Includes a built-in health check that validates the application is responding correctly.
 
 ## Development Setup
@@ -78,16 +84,19 @@ Note: This requires creating a `Dockerfile.dev` for development with hot reloadi
 ## Production Deployment
 
 ### Build for Production
+
 ```bash
 docker build -t your-registry/nextjs-app:tag .
 ```
 
 ### Push to Registry
+
 ```bash
 docker push your-registry/nextjs-app:tag
 ```
 
 ### Run in Production
+
 ```bash
 docker run -d \
   --name nextjs-app \
@@ -114,6 +123,7 @@ docker run -d \
    - Enable BuildKit: `DOCKER_BUILDKIT=1 docker build`
 
 ### Debugging
+
 ```bash
 # Access container shell
 docker exec -it <container-id> sh

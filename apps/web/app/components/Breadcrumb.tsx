@@ -82,9 +82,11 @@ function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   segments.forEach((segment, index) => {
     currentPath += `/${segment}`;
     const isLast = index === segments.length - 1;
-    
+
     breadcrumbs.push({
-      label: routeLabels[currentPath] || segment.charAt(0).toUpperCase() + segment.slice(1),
+      label:
+        routeLabels[currentPath] ||
+        segment.charAt(0).toUpperCase() + segment.slice(1),
       href: currentPath,
       isCurrentPage: isLast,
     });
@@ -126,7 +128,7 @@ export default function Breadcrumb({
               <ChevronRightIcon className="h-4 w-4 text-muted-foreground" />
             </>
           )}
-          
+
           {breadcrumbs.map((item, index) => (
             <div key={item.href} className="flex items-center space-x-2">
               {item.isCurrentPage ? (

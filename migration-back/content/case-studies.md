@@ -5,6 +5,7 @@
 **Keywords:** vite to nextjs case study, nextjs migration success story, nextjs performance comparison, framework migration results, nextjs business impact, react migration case study, nextjs vs vite performance
 
 ## Table of Contents
+
 - [Case Study 1: E-commerce Platform Migration](#case-study-ecommerce)
 - [Case Study 2: SaaS Dashboard Application](#case-study-saas)
 - [Case Study 3: Content Management System](#case-study-cms)
@@ -44,21 +45,25 @@
 ### Migration Strategy
 
 **Phase 1: Infrastructure Setup (2 weeks)**
+
 - Next.js project initialization
 - CI/CD pipeline configuration
 - Development environment setup
 
 **Phase 2: Core Pages Migration (4 weeks)**
+
 - Homepage and category pages
 - Product detail pages
 - User authentication flow
 
 **Phase 3: Advanced Features (6 weeks)**
+
 - Search and filtering
 - Shopping cart and checkout
 - Admin dashboard
 
 **Phase 4: Optimization and Testing (4 weeks)**
+
 - Performance optimization
 - SEO implementation
 - Load testing and monitoring
@@ -66,6 +71,7 @@
 ### Technical Implementation
 
 #### Before (Vite + React)
+
 ```typescript
 // Product page with client-side rendering
 import { useState, useEffect } from 'react';
@@ -106,6 +112,7 @@ export default function ProductPage() {
 ```
 
 #### After (Next.js)
+
 ```typescript
 // app/products/[productId]/page.tsx
 import { Metadata } from 'next';
@@ -123,7 +130,7 @@ interface ProductPageProps {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const product = await getProduct(params.productId);
-  
+
   if (!product) {
     return {
       title: 'Product Not Found',
@@ -152,7 +159,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const product = await getProduct(params.productId);
-  
+
   if (!product) {
     notFound();
   }
@@ -191,24 +198,24 @@ export default async function ProductPage({ params }: ProductPageProps) {
           { label: product.name },
         ]}
       />
-      
+
       <StructuredData type="article" data={productJsonLd} />
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
         <ProductImages images={product.images} />
-        
+
         <div className="product-details">
           <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
           <p className="text-gray-600 mb-6">{product.description}</p>
-          
+
           <div className="price text-2xl font-bold text-blue-600 mb-6">
             ${product.price}
           </div>
-          
+
           <AddToCartButton productId={product.id} />
         </div>
       </div>
-      
+
       <RelatedProducts products={relatedProducts} />
     </div>
   );
@@ -218,6 +225,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 ### Performance Results
 
 #### Before Migration (Vite + React)
+
 - **Lighthouse Performance Score**: 76/100
 - **First Contentful Paint**: 2.8s
 - **Largest Contentful Paint**: 4.2s
@@ -226,6 +234,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 - **SEO Score**: 82/100
 
 #### After Migration (Next.js)
+
 - **Lighthouse Performance Score**: 94/100
 - **First Contentful Paint**: 1.4s
 - **Largest Contentful Paint**: 2.1s
@@ -234,29 +243,33 @@ export default async function ProductPage({ params }: ProductPageProps) {
 - **SEO Score**: 98/100
 
 #### Performance Improvements
-| Metric | Before | After | Improvement |
-|--------|---------|-------|-------------|
-| **LCP** | 4.2s | 2.1s | **50% faster** |
-| **FCP** | 2.8s | 1.4s | **50% faster** |
-| **TTI** | 5.1s | 2.8s | **45% faster** |
-| **CLS** | 0.18 | 0.05 | **72% better** |
-| **Performance** | 76 | 94 | **+24%** |
+
+| Metric          | Before | After | Improvement    |
+| --------------- | ------ | ----- | -------------- |
+| **LCP**         | 4.2s   | 2.1s  | **50% faster** |
+| **FCP**         | 2.8s   | 1.4s  | **50% faster** |
+| **TTI**         | 5.1s   | 2.8s  | **45% faster** |
+| **CLS**         | 0.18   | 0.05  | **72% better** |
+| **Performance** | 76     | 94    | **+24%**       |
 
 ### Business Impact
 
 #### SEO and Traffic Improvements
+
 - **Organic Traffic**: +34% increase in 3 months
 - **Search Rankings**: Average position improved from 8.2 to 3.7 for target keywords
 - **Product Page Visibility**: +67% increase in product page views
 - **International Traffic**: +89% increase from non-English speaking countries
 
 #### Conversion and Revenue Impact
+
 - **Conversion Rate**: +18% improvement
 - **Average Order Value**: +12% increase
 - **Page Load Speed**: Users spending 45% more time on product pages
 - **Mobile Conversions**: +23% improvement on mobile devices
 
 #### Cost Savings
+
 - **Hosting Costs**: -15% reduction due to optimized bundles
 - **CDN Costs**: -22% reduction in bandwidth usage
 - **Development Time**: -30% faster feature development with Next.js tools
@@ -289,6 +302,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 ### Technical Implementation
 
 #### Server-Side Data Fetching with Next.js
+
 ```typescript
 // app/dashboard/page.tsx
 import { Suspense } from 'react';
@@ -312,11 +326,11 @@ async function DashboardData() {
       <div className="lg:col-span-3">
         <DashboardStats data={stats} />
       </div>
-      
+
       <div className="lg:col-span-2">
         <PerformanceChart data={chartData} />
       </div>
-      
+
       <div>
         <RecentActivity data={activity} />
       </div>
@@ -351,10 +365,11 @@ export default async function DashboardPage() {
 ```
 
 #### WebSocket Integration
+
 ```typescript
 // lib/websocket.ts
-import { useEffect, useState } from 'react';
-import { useWebSocket } from '@/hooks/useWebSocket';
+import { useEffect, useState } from "react";
+import { useWebSocket } from "@/hooks/useWebSocket";
 
 interface DashboardWebSocketProps {
   onDataUpdate: (data: any) => void;
@@ -362,22 +377,25 @@ interface DashboardWebSocketProps {
 
 export function DashboardWebSocket({ onDataUpdate }: DashboardWebSocketProps) {
   const { sendMessage, lastMessage, readyState } = useWebSocket(
-    process.env.NEXT_PUBLIC_WS_URL!
+    process.env.NEXT_PUBLIC_WS_URL!,
   );
 
   useEffect(() => {
-    if (readyState === 1) { // OPEN
-      sendMessage(JSON.stringify({
-        type: 'subscribe',
-        channel: 'dashboard-updates'
-      }));
+    if (readyState === 1) {
+      // OPEN
+      sendMessage(
+        JSON.stringify({
+          type: "subscribe",
+          channel: "dashboard-updates",
+        }),
+      );
     }
   }, [readyState, sendMessage]);
 
   useEffect(() => {
     if (lastMessage) {
       const data = JSON.parse(lastMessage);
-      if (data.type === 'dashboard-update') {
+      if (data.type === "dashboard-update") {
         onDataUpdate(data.payload);
       }
     }
@@ -387,7 +405,7 @@ export function DashboardWebSocket({ onDataUpdate }: DashboardWebSocketProps) {
 }
 
 // hooks/useWebSocket.ts
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 export function useWebSocket(url: string) {
   const ws = useRef<WebSocket | null>(null);
@@ -423,6 +441,7 @@ export function useWebSocket(url: string) {
 ### Performance Results
 
 #### Before Migration (Vite + React)
+
 - **Initial Load Time**: 3.4s
 - **Time to Interactive**: 4.2s
 - **Bundle Size**: 2.1MB
@@ -430,6 +449,7 @@ export function useWebSocket(url: string) {
 - **Concurrent Users Support**: 5,000
 
 #### After Migration (Next.js)
+
 - **Initial Load Time**: 1.8s
 - **Time to Interactive**: 2.1s
 - **Bundle Size**: 1.4MB (33% reduction)
@@ -437,6 +457,7 @@ export function useWebSocket(url: string) {
 - **Concurrent Users Support**: 15,000 (200% increase)
 
 #### Real-time Updates Performance
+
 - **Update Latency**: 150ms (from 800ms)
 - **WebSocket Connections**: 10,000+ concurrent supported
 - **CPU Usage**: -40% reduction during peak loads
@@ -444,12 +465,14 @@ export function useWebSocket(url: string) {
 ### Business Impact
 
 #### User Experience Improvements
+
 - **User Satisfaction**: +42% improvement in dashboard usability scores
 - **Support Tickets**: -65% reduction in performance-related complaints
 - **User Retention**: +28% improvement in 30-day retention
 - **Feature Adoption**: +35% increase in advanced feature usage
 
 #### Technical Improvements
+
 - **Deployment Speed**: 60% faster deployments with Next.js
 - **Error Rate**: -78% reduction in client-side errors
 - **Development Velocity**: +45% faster feature delivery
@@ -483,27 +506,28 @@ export function useWebSocket(url: string) {
 ### Technical Implementation
 
 #### Multi-tenant Middleware
+
 ```typescript
 // middleware.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { getTenantByDomain } from '@/lib/tenant-service';
+import { NextRequest, NextResponse } from "next/server";
+import { getTenantByDomain } from "@/lib/tenant-service";
 
 export async function middleware(request: NextRequest) {
-  const hostname = request.headers.get('host') || '';
+  const hostname = request.headers.get("host") || "";
   const url = request.nextUrl;
-  
+
   // Extract subdomain for tenant identification
-  const subdomain = hostname.split('.')[0];
-  
-  if (subdomain && subdomain !== 'www' && subdomain !== 'app') {
+  const subdomain = hostname.split(".")[0];
+
+  if (subdomain && subdomain !== "www" && subdomain !== "app") {
     const tenant = await getTenantByDomain(subdomain);
-    
+
     if (tenant) {
       // Add tenant information to request headers
       const requestHeaders = new Headers(request.headers);
-      requestHeaders.set('x-tenant-id', tenant.id);
-      requestHeaders.set('x-tenant-domain', hostname);
-      
+      requestHeaders.set("x-tenant-id", tenant.id);
+      requestHeaders.set("x-tenant-domain", hostname);
+
       return NextResponse.next({
         request: {
           headers: requestHeaders,
@@ -511,18 +535,19 @@ export async function middleware(request: NextRequest) {
       });
     }
   }
-  
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)',
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
   ],
 };
 ```
 
 #### Headless CMS Integration
+
 ```typescript
 // lib/sanity/client.ts
 import { createClient } from '@sanity/client';
@@ -555,7 +580,7 @@ export const articleQueries = {
     mainImage,
     seo
   }`,
-  
+
   singleArticle: `*[_type == "article" && slug.current == $slug][0] {
     _id,
     title,
@@ -600,26 +625,26 @@ interface ArticlePageProps {
 export default async function ArticlePage({ params, searchParams }: ArticlePageProps) {
   const { tenant, slug } = params;
   const isPreview = searchParams.preview === 'true';
-  
+
   // Add tenant context to the query
   const query = `*[_type == "article" && slug.current == $slug && tenant._ref == $tenantId][0]`;
-  
+
   const article = await client.fetch(
     query,
     { slug, tenantId: tenant, preview: isPreview }
   );
-  
+
   if (!article) {
     notFound();
   }
-  
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <article>
         <header className="mb-8">
           <h1 className="text-4xl font-bold mb-4">{article.title}</h1>
           <p className="text-xl text-gray-600 mb-6">{article.excerpt}</p>
-          
+
           <div className="flex items-center text-sm text-gray-500">
             <time dateTime={article.publishedAt}>
               {new Date(article.publishedAt).toLocaleDateString()}
@@ -628,11 +653,11 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
             <span>By {article.author.name}</span>
           </div>
         </header>
-        
+
         <div className="prose prose-lg max-w-none">
           <PortableText value={article.body} />
         </div>
-        
+
         {article.relatedArticles && (
           <section className="mt-16 pt-8 border-t">
             <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
@@ -648,18 +673,21 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 ### Performance Results
 
 #### Before Migration (Vite + React)
+
 - **Content Load Time**: 2.1s average
 - **SEO Visibility**: 65/100
 - **Global Load Distribution**: 45% of traffic outside primary region
 - **Content Updates**: 5-10 minutes propagation time
 
 #### After Migration (Next.js)
+
 - **Content Load Time**: 0.8s average
 - **SEO Visibility**: 96/100
 - **Global Load Distribution**: 89% served from edge locations
 - **Content Updates**: Instant propagation
 
 #### Multi-tenant Performance
+
 - **Tenant Support**: 500+ concurrent tenants
 - **CDN Efficiency**: 95% cache hit rate
 - **Edge Performance**: 23ms average latency globally
@@ -667,12 +695,14 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 ### Business Impact
 
 #### Content Performance
+
 - **Organic Traffic**: +156% increase in 6 months
 - **Content Engagement**: +89% increase in time on page
 - **Global Reach**: +234% increase in international traffic
 - **Content Discovery**: +67% increase in related content views
 
 #### Operational Improvements
+
 - **Content Publishing Speed**: 10x faster content deployment
 - **Development Efficiency**: +50% faster new feature development
 - **Maintenance Overhead**: -70% reduction in manual content management
@@ -706,6 +736,7 @@ export default async function ArticlePage({ params, searchParams }: ArticlePageP
 ### Technical Implementation
 
 #### Video Component with Next.js
+
 ```typescript
 // components/VideoPlayer.tsx
 'use client';
@@ -748,15 +779,15 @@ export default function VideoPlayer({
         lowLatencyMode: true,
         backBufferLength: 90,
       });
-      
+
       hlsRef.current = hls;
       hls.loadSource(streamingUrl);
       hls.attachMedia(video);
-      
+
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         console.log('HLS manifest loaded');
       });
-      
+
       hls.on(Hls.Events.ERROR, (event, data) => {
         if (data.fatal) {
           switch (data.type) {
@@ -850,7 +881,7 @@ export default function VideoPlayer({
         preload="metadata"
         playsInline
       />
-      
+
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
         <div className="flex items-center space-x-4">
           <button
@@ -867,7 +898,7 @@ export default function VideoPlayer({
               </svg>
             )}
           </button>
-          
+
           <div className="flex-1">
             <input
               type="range"
@@ -878,11 +909,11 @@ export default function VideoPlayer({
               className="w-full"
             />
           </div>
-          
+
           <div className="text-white text-sm">
             {Math.floor(currentTime)} / {Math.floor(duration)}s
           </div>
-          
+
           <input
             type="range"
             min="0"
@@ -900,6 +931,7 @@ export default function VideoPlayer({
 ```
 
 #### SEO-Optimized Video Page
+
 ```typescript
 // app/videos/[slug]/page.tsx
 import { Metadata } from 'next';
@@ -916,7 +948,7 @@ interface VideoPageProps {
 
 export async function generateMetadata({ params }: VideoPageProps): Promise<Metadata> {
   const video = await getVideo(params.slug);
-  
+
   if (!video) {
     return {
       title: 'Video Not Found',
@@ -956,7 +988,7 @@ export async function generateMetadata({ params }: VideoPageProps): Promise<Meta
 
 export default async function VideoPage({ params }: VideoPageProps) {
   const video = await getVideo(params.slug);
-  
+
   if (!video) {
     notFound();
   }
@@ -986,7 +1018,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd) }}
       />
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <VideoPlayer
@@ -995,24 +1027,24 @@ export default async function VideoPage({ params }: VideoPageProps) {
             thumbnailUrl={video.thumbnailUrl}
             streamingUrl={video.streamingUrl}
           />
-          
+
           <div className="mt-6">
             <h1 className="text-3xl font-bold mb-4">{video.title}</h1>
-            <VideoMetadata 
+            <VideoMetadata
               views={video.viewCount}
               likes={video.likeCount}
               uploadDate={video.uploadDate}
               duration={video.duration}
             />
           </div>
-          
+
           <div className="mt-6">
             <p className="text-gray-600">{video.description}</p>
           </div>
-          
+
           <CommentsSection videoId={video.id} />
         </div>
-        
+
         <div>
           <RelatedVideos videos={relatedVideos} />
         </div>
@@ -1025,6 +1057,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
 ### Performance Results
 
 #### Before Migration (Vite + React)
+
 - **Video Start Time**: 3.2s average
 - **Buffering Events**: 12 per hour average
 - **Video Quality Adaptation**: 2-3 quality drops per session
@@ -1032,6 +1065,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
 - **Global Load Time**: 4.1s
 
 #### After Migration (Next.js)
+
 - **Video Start Time**: 1.1s average (66% improvement)
 - **Buffering Events**: 3 per hour average (75% reduction)
 - **Video Quality Adaptation**: 0-1 quality drops per session
@@ -1039,6 +1073,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
 - **Global Load Time**: 1.8s (56% improvement)
 
 #### Streaming Performance
+
 - **Adaptive Bitrate**: 6 quality levels supported
 - **Edge Caching**: 92% cache hit rate
 - **Global CDN**: 40+ edge locations
@@ -1047,12 +1082,14 @@ export default async function VideoPage({ params }: VideoPageProps) {
 ### Business Impact
 
 #### User Engagement
+
 - **View Completion Rate**: +34% increase
 - **Session Duration**: +45% longer average sessions
 - **User Retention**: +28% improvement in 7-day retention
 - **Content Discovery**: +67% increase in related video views
 
 #### Revenue Impact
+
 - **Subscription Conversions**: +23% improvement
 - **Premium Content Views**: +89% increase
 - **Ad Revenue**: +15% increase due to improved engagement
@@ -1063,61 +1100,69 @@ export default async function VideoPage({ params }: VideoPageProps) {
 ### Comprehensive Performance Comparison
 
 #### Core Web Vitals Analysis
-| Metric | Vite (Avg) | Next.js (Avg) | Improvement | Industry Benchmark |
-|--------|------------|---------------|-------------|-------------------|
-| **LCP (Largest Contentful Paint)** | 3.2s | 1.8s | **44% faster** | <2.5s ✅ |
-| **FID (First Input Delay)** | 185ms | 89ms | **52% faster** | <100ms ✅ |
-| **CLS (Cumulative Layout Shift)** | 0.16 | 0.07 | **56% better** | <0.1 ✅ |
-| **FCP (First Contentful Paint)** | 2.1s | 1.1s | **48% faster** | <1.8s ✅ |
-| **TTI (Time to Interactive)** | 4.2s | 2.3s | **45% faster** | <3.8s ✅ |
+
+| Metric                             | Vite (Avg) | Next.js (Avg) | Improvement    | Industry Benchmark |
+| ---------------------------------- | ---------- | ------------- | -------------- | ------------------ |
+| **LCP (Largest Contentful Paint)** | 3.2s       | 1.8s          | **44% faster** | <2.5s ✅           |
+| **FID (First Input Delay)**        | 185ms      | 89ms          | **52% faster** | <100ms ✅          |
+| **CLS (Cumulative Layout Shift)**  | 0.16       | 0.07          | **56% better** | <0.1 ✅            |
+| **FCP (First Contentful Paint)**   | 2.1s       | 1.1s          | **48% faster** | <1.8s ✅           |
+| **TTI (Time to Interactive)**      | 4.2s       | 2.3s          | **45% faster** | <3.8s ✅           |
 
 #### SEO Performance Metrics
-| Metric | Vite (Avg) | Next.js (Avg) | Improvement |
-|--------|------------|---------------|-------------|
-| **Lighthouse SEO Score** | 78/100 | 95/100 | **+22%** |
-| **Meta Tags Coverage** | 65% | 98% | **+51%** |
-| **Structured Data** | 23% | 89% | **+287%** |
-| **Internal Linking** | 34% | 87% | **+156%** |
-| **Image Optimization** | 45% | 94% | **+109%** |
+
+| Metric                   | Vite (Avg) | Next.js (Avg) | Improvement |
+| ------------------------ | ---------- | ------------- | ----------- |
+| **Lighthouse SEO Score** | 78/100     | 95/100        | **+22%**    |
+| **Meta Tags Coverage**   | 65%        | 98%           | **+51%**    |
+| **Structured Data**      | 23%        | 89%           | **+287%**   |
+| **Internal Linking**     | 34%        | 87%           | **+156%**   |
+| **Image Optimization**   | 45%        | 94%           | **+109%**   |
 
 #### Bundle Size and Performance
-| Component | Vite Size | Next.js Size | Reduction |
-|-----------|-----------|--------------|-----------|
-| **Main Bundle** | 420KB | 315KB | **25% smaller** |
-| **Vendor Bundle** | 280KB | 210KB | **25% smaller** |
-| **CSS Bundle** | 45KB | 32KB | **29% smaller** |
-| **Total Gzipped** | 745KB | 557KB | **25% smaller** |
+
+| Component         | Vite Size | Next.js Size | Reduction       |
+| ----------------- | --------- | ------------ | --------------- |
+| **Main Bundle**   | 420KB     | 315KB        | **25% smaller** |
+| **Vendor Bundle** | 280KB     | 210KB        | **25% smaller** |
+| **CSS Bundle**    | 45KB      | 32KB         | **29% smaller** |
+| **Total Gzipped** | 745KB     | 557KB        | **25% smaller** |
 
 #### Development Experience Metrics
-| Metric | Vite | Next.js | Improvement |
-|--------|------|---------|-------------|
-| **Build Time** | 18s | 22s | **-18%** (Slower build, faster runtime) |
-| **Hot Reload** | 200ms | 300ms | **-33%** (Acceptable tradeoff) |
-| **Bundle Analysis** | Manual | Built-in | **+100%** |
-| **TypeScript Support** | Good | Excellent | **+20%** |
-| **Debug Experience** | Basic | Advanced | **+40%** |
+
+| Metric                 | Vite   | Next.js   | Improvement                             |
+| ---------------------- | ------ | --------- | --------------------------------------- |
+| **Build Time**         | 18s    | 22s       | **-18%** (Slower build, faster runtime) |
+| **Hot Reload**         | 200ms  | 300ms     | **-33%** (Acceptable tradeoff)          |
+| **Bundle Analysis**    | Manual | Built-in  | **+100%**                               |
+| **TypeScript Support** | Good   | Excellent | **+20%**                                |
+| **Debug Experience**   | Basic  | Advanced  | **+40%**                                |
 
 ### Cross-Industry Performance Analysis
 
 #### E-commerce Applications
+
 - **Conversion Rate**: +18% average improvement
 - **Page Load Speed**: 50% faster on average
 - **Mobile Performance**: 45% improvement
 - **SEO Traffic**: +34% organic traffic increase
 
 #### SaaS Dashboard Applications
+
 - **User Engagement**: +42% improvement
 - **Real-time Performance**: 75% reduction in latency
 - **Scalability**: 200% increase in concurrent users
 - **Development Velocity**: +45% faster feature delivery
 
 #### Content Management Systems
+
 - **Content Performance**: 60% faster content delivery
 - **SEO Visibility**: +156% organic traffic increase
 - **Multi-tenant Support**: 10x improvement in tenant handling
 - **Content Publishing**: 10x faster deployment
 
 #### Media Streaming Platforms
+
 - **Video Start Time**: 66% faster average startup
 - **Buffering Reduction**: 75% fewer buffering events
 - **Quality Adaptation**: 60% improvement in stream stability
@@ -1128,36 +1173,44 @@ export default async function VideoPage({ params }: VideoPageProps) {
 ### ROI Analysis by Industry Sector
 
 #### E-commerce Platforms
+
 **Investment**: $150,000 - $300,000
 **Timeline**: 4-6 months
 **ROI Metrics**:
+
 - **Revenue Impact**: +15-25% increase in online sales
 - **Customer Acquisition**: +20-30% reduction in CAC
 - **Customer Lifetime Value**: +18% improvement
 - **Break-even Period**: 8-12 months
 
 #### SaaS Applications
+
 **Investment**: $100,000 - $200,000
 **Timeline**: 3-4 months
 **ROI Metrics**:
+
 - **User Retention**: +25-35% improvement
 - **Feature Adoption**: +40% increase
 - **Support Costs**: -50% reduction in performance tickets
 - **Break-even Period**: 6-9 months
 
 #### Media Companies
+
 **Investment**: $200,000 - $400,000
 **Timeline**: 5-7 months
 **ROI Metrics**:
+
 - **Content Engagement**: +30-50% improvement
 - **Subscription Conversions**: +20-30% increase
 - **Global Reach**: +150% international growth
 - **Break-even Period**: 10-15 months
 
 #### Enterprise Applications
+
 **Investment**: $250,000 - $500,000
 **Timeline**: 6-8 months
 **ROI Metrics**:
+
 - **User Productivity**: +35% improvement in key metrics
 - **System Reliability**: +60% reduction in downtime
 - **Compliance**: 100% achievement of security standards
@@ -1166,46 +1219,51 @@ export default async function VideoPage({ params }: VideoPageProps) {
 ### Cost-Benefit Analysis
 
 #### Development Costs
-| Cost Category | Vite (Annual) | Next.js (Annual) | Difference |
-|---------------|---------------|------------------|------------|
-| **Development Time** | 2,400 hours | 1,680 hours | **-30%** |
-| **Testing & QA** | 800 hours | 560 hours | **-30%** |
-| **Bug Fixes** | 400 hours | 240 hours | **-40%** |
-| **Performance Optimization** | 600 hours | 300 hours | **-50%** |
-| **Documentation** | 200 hours | 120 hours | **-40%** |
-| **Total Development** | 4,400 hours | 2,900 hours | **-34%** |
+
+| Cost Category                | Vite (Annual) | Next.js (Annual) | Difference |
+| ---------------------------- | ------------- | ---------------- | ---------- |
+| **Development Time**         | 2,400 hours   | 1,680 hours      | **-30%**   |
+| **Testing & QA**             | 800 hours     | 560 hours        | **-30%**   |
+| **Bug Fixes**                | 400 hours     | 240 hours        | **-40%**   |
+| **Performance Optimization** | 600 hours     | 300 hours        | **-50%**   |
+| **Documentation**            | 200 hours     | 120 hours        | **-40%**   |
+| **Total Development**        | 4,400 hours   | 2,900 hours      | **-34%**   |
 
 #### Infrastructure and Operations
-| Cost Category | Vite (Annual) | Next.js (Annual) | Difference |
-|---------------|---------------|------------------|------------|
-| **Server Costs** | $12,000 | $8,400 | **-30%** |
-| **CDN Costs** | $8,000 | $5,200 | **-35%** |
-| **Monitoring & Analytics** | $3,600 | $2,400 | **-33%** |
-| **Security & Compliance** | $6,000 | $3,000 | **-50%** |
-| **Total Infrastructure** | $29,600 | $19,000 | **-36%** |
+
+| Cost Category              | Vite (Annual) | Next.js (Annual) | Difference |
+| -------------------------- | ------------- | ---------------- | ---------- |
+| **Server Costs**           | $12,000       | $8,400           | **-30%**   |
+| **CDN Costs**              | $8,000        | $5,200           | **-35%**   |
+| **Monitoring & Analytics** | $3,600        | $2,400           | **-33%**   |
+| **Security & Compliance**  | $6,000        | $3,000           | **-50%**   |
+| **Total Infrastructure**   | $29,600       | $19,000          | **-36%**   |
 
 #### Business Value Creation
-| Value Metric | Vite Baseline | Next.js Impact | Annual Value |
-|--------------|---------------|----------------|--------------|
-| **Conversion Rate** | 2.1% | +0.4% | $240,000 |
-| **Customer Retention** | 68% | +12% | $180,000 |
-| **Development Velocity** | 100% | +35% | $105,000 |
-| **Support Tickets** | 1,200/year | -50% | $30,000 |
-| **SEO Traffic** | 100% | +34% | $170,000 |
-| **Total Annual Value** | - | - | **$725,000** |
+
+| Value Metric             | Vite Baseline | Next.js Impact | Annual Value |
+| ------------------------ | ------------- | -------------- | ------------ |
+| **Conversion Rate**      | 2.1%          | +0.4%          | $240,000     |
+| **Customer Retention**   | 68%           | +12%           | $180,000     |
+| **Development Velocity** | 100%          | +35%           | $105,000     |
+| **Support Tickets**      | 1,200/year    | -50%           | $30,000      |
+| **SEO Traffic**          | 100%          | +34%           | $170,000     |
+| **Total Annual Value**   | -             | -              | **$725,000** |
 
 ### Market Competitiveness Analysis
 
 #### Performance Benchmarks vs Competitors
-| Performance Metric | Your Vite App | Your Next.js App | Industry Leader | Advantage |
-|-------------------|---------------|------------------|-----------------|-----------|
-| **Page Load Speed** | 3.2s | 1.8s | 2.1s | **+17% faster** |
-| **Mobile Performance** | 72/100 | 94/100 | 89/100 | **+6% better** |
-| **SEO Score** | 78/100 | 95/100 | 87/100 | **+9% better** |
-| **Time to Market** | 100% | 65% | 80% | **+23% faster** |
-| **Development Cost** | 100% | 66% | 85% | **+20% cheaper** |
+
+| Performance Metric     | Your Vite App | Your Next.js App | Industry Leader | Advantage        |
+| ---------------------- | ------------- | ---------------- | --------------- | ---------------- |
+| **Page Load Speed**    | 3.2s          | 1.8s             | 2.1s            | **+17% faster**  |
+| **Mobile Performance** | 72/100        | 94/100           | 89/100          | **+6% better**   |
+| **SEO Score**          | 78/100        | 95/100           | 87/100          | **+9% better**   |
+| **Time to Market**     | 100%          | 65%              | 80%             | **+23% faster**  |
+| **Development Cost**   | 100%          | 66%              | 85%             | **+20% cheaper** |
 
 #### Competitive Advantages Gained
+
 1. **SEO Dominance**: 95+ SEO scores consistently rank in top 3 results
 2. **Mobile Excellence**: 94+ mobile scores exceed 90% of competitors
 3. **Performance Leadership**: 44% faster than industry average
@@ -1215,15 +1273,17 @@ export default async function VideoPage({ params }: VideoPageProps) {
 ### Risk Assessment and Mitigation
 
 #### Migration Risks
-| Risk Category | Probability | Impact | Mitigation Strategy |
-|---------------|-------------|---------|-------------------|
-| **Timeline Overrun** | Medium | High | Agile methodology with 20% buffer time |
-| **Performance Regression** | Low | High | Comprehensive testing and monitoring |
-| **SEO Traffic Loss** | Low | Critical | Gradual rollout with SEO monitoring |
-| **User Experience Issues** | Medium | High | A/B testing and user feedback loops |
-| **Technical Debt** | Low | Medium | Code reviews and architectural oversight |
+
+| Risk Category              | Probability | Impact   | Mitigation Strategy                      |
+| -------------------------- | ----------- | -------- | ---------------------------------------- |
+| **Timeline Overrun**       | Medium      | High     | Agile methodology with 20% buffer time   |
+| **Performance Regression** | Low         | High     | Comprehensive testing and monitoring     |
+| **SEO Traffic Loss**       | Low         | Critical | Gradual rollout with SEO monitoring      |
+| **User Experience Issues** | Medium      | High     | A/B testing and user feedback loops      |
+| **Technical Debt**         | Low         | Medium   | Code reviews and architectural oversight |
 
 #### Success Probability Analysis
+
 - **Timeline Adherence**: 85% probability with proper planning
 - **Performance Improvement**: 95% probability based on case studies
 - **Business Impact**: 80% probability with 6-12 month timeline
@@ -1264,34 +1324,50 @@ export function calculateMigrationROI(
     conversion_increase: number; // percentage
     cost_reduction: number; // percentage
     development_speed: number; // percentage
-  }
+  },
 ) {
   // Calculate current baseline
   const currentMonthlyRevenue = currentMetrics.monthly_revenue;
   const currentDevelopmentCost = currentMetrics.development_cost;
   const currentInfrastructureCost = currentMetrics.infrastructure_cost;
-  
+
   // Calculate migration investment
-  const totalMigrationCost = Object.values(migrationCosts).reduce((sum, cost) => sum + cost, 0);
-  
+  const totalMigrationCost = Object.values(migrationCosts).reduce(
+    (sum, cost) => sum + cost,
+    0,
+  );
+
   // Calculate annual benefits
-  const annualRevenueIncrease = currentMonthlyRevenue * 12 * (expectedImprovements.conversion_increase / 100);
-  const annualCostSavings = (currentDevelopmentCost + currentInfrastructureCost) * 12 * (expectedImprovements.cost_reduction / 100);
-  const efficiencyGains = currentDevelopmentCost * 12 * (expectedImprovements.development_speed / 100);
-  
-  const totalAnnualBenefits = annualRevenueIncrease + annualCostSavings + efficiencyGains;
-  
+  const annualRevenueIncrease =
+    currentMonthlyRevenue *
+    12 *
+    (expectedImprovements.conversion_increase / 100);
+  const annualCostSavings =
+    (currentDevelopmentCost + currentInfrastructureCost) *
+    12 *
+    (expectedImprovements.cost_reduction / 100);
+  const efficiencyGains =
+    currentDevelopmentCost *
+    12 *
+    (expectedImprovements.development_speed / 100);
+
+  const totalAnnualBenefits =
+    annualRevenueIncrease + annualCostSavings + efficiencyGains;
+
   // Calculate ROI metrics
   const paybackPeriod = totalMigrationCost / (totalAnnualBenefits / 12);
-  const threeYearROI = ((totalAnnualBenefits * 3 - totalMigrationCost) / totalMigrationCost) * 100;
-  
+  const threeYearROI =
+    ((totalAnnualBenefits * 3 - totalMigrationCost) / totalMigrationCost) * 100;
+
   return {
     totalMigrationCost,
     totalAnnualBenefits,
     paybackPeriodMonths: Math.round(paybackPeriod),
     threeYearROI: Math.round(threeYearROI),
     netPresentValue: totalAnnualBenefits * 2.5 - totalMigrationCost, // 2.5 NPV factor
-    breakEvenDate: new Date(Date.now() + paybackPeriod * 30 * 24 * 60 * 60 * 1000),
+    breakEvenDate: new Date(
+      Date.now() + paybackPeriod * 30 * 24 * 60 * 60 * 1000,
+    ),
     riskAdjustedROI: threeYearROI * 0.85, // 15% risk adjustment
   };
 }
@@ -1317,10 +1393,10 @@ const exampleROI = calculateMigrationROI(
     conversion_increase: 18,
     cost_reduction: 36,
     development_speed: 35,
-  }
+  },
 );
 
-console.log('Migration ROI Analysis:', exampleROI);
+console.log("Migration ROI Analysis:", exampleROI);
 // Returns comprehensive ROI analysis with specific metrics
 ```
 
@@ -1329,18 +1405,21 @@ console.log('Migration ROI Analysis:', exampleROI);
 ### Critical Success Factors
 
 #### 1. Strategic Planning and Assessment
+
 - **Thorough Analysis**: Invest 15-20% of project time in pre-migration analysis
 - **Stakeholder Alignment**: Ensure business and technical stakeholders agree on objectives
 - **Risk Assessment**: Create comprehensive risk mitigation plans
 - **Success Metrics**: Define clear, measurable success criteria
 
 #### 2. Incremental Migration Strategy
+
 - **Phased Approach**: Migrate in 3-4 phases to minimize risk
 - **Feature Parity**: Ensure all functionality works before moving to next phase
 - **Testing Strategy**: Implement comprehensive testing at each phase
 - **Rollback Plan**: Always maintain ability to rollback to previous state
 
 #### 3. Performance Monitoring
+
 - **Baseline Metrics**: Establish performance baselines before migration
 - **Real-time Monitoring**: Implement comprehensive performance monitoring
 - **User Experience Tracking**: Monitor user experience metrics continuously
@@ -1349,32 +1428,40 @@ console.log('Migration ROI Analysis:', exampleROI);
 ### Common Pitfalls and How to Avoid Them
 
 #### Pitfall 1: Underestimating Migration Complexity
+
 **Problem**: Teams often underestimate the scope and complexity of migration
-**Solution**: 
+**Solution**:
+
 - Add 25-30% buffer to timeline estimates
 - Plan for unexpected technical challenges
 - Involve experienced Next.js developers early
 - Create detailed technical migration plan
 
 #### Pitfall 2: Neglecting SEO Impact
+
 **Problem**: Migrations can temporarily harm SEO performance
 **Solution**:
+
 - Implement proper redirect mapping
 - Maintain URL structure where possible
 - Use Next.js built-in SEO features
 - Monitor SEO metrics closely during migration
 
 #### Pitfall 3: Ignoring User Experience
+
 **Problem**: Focus on technical migration without considering user impact
 **Solution**:
+
 - Involve UX team in migration planning
 - Conduct user testing throughout process
 - Implement gradual rollout strategies
 - Gather and act on user feedback
 
 #### Pitfall 4: Insufficient Testing
+
 **Problem**: Inadequate testing leads to production issues
 **Solution**:
+
 - Implement comprehensive testing strategy
 - Test on real user devices and browsers
 - Conduct load testing for performance
@@ -1383,6 +1470,7 @@ console.log('Migration ROI Analysis:', exampleROI);
 ### Best Practices for Future Migrations
 
 #### Technical Best Practices
+
 1. **Use Next.js 14+ Features**: Leverage App Router, Server Components, and latest optimizations
 2. **Implement Proper TypeScript**: Strong typing prevents runtime errors
 3. **Optimize Images**: Use Next.js Image component for automatic optimization
@@ -1390,6 +1478,7 @@ console.log('Migration ROI Analysis:', exampleROI);
 5. **Caching Strategy**: Use Next.js built-in caching and revalidation
 
 #### Project Management Best Practices
+
 1. **Cross-functional Team**: Include developers, designers, SEO experts, and business stakeholders
 2. **Regular Communication**: Establish clear communication channels and regular updates
 3. **Documentation**: Maintain detailed documentation throughout the process
@@ -1397,6 +1486,7 @@ console.log('Migration ROI Analysis:', exampleROI);
 5. **Post-Migration Support**: Plan for support and maintenance after migration
 
 #### Business Best Practices
+
 1. **ROI Tracking**: Implement comprehensive ROI tracking from day one
 2. **User Feedback**: Establish user feedback mechanisms
 3. **Competitive Analysis**: Monitor competitive landscape changes
@@ -1406,24 +1496,28 @@ console.log('Migration ROI Analysis:', exampleROI);
 ### Recommendations by Use Case
 
 #### E-commerce Platforms
+
 - **Priority**: SEO and conversion optimization
 - **Focus Areas**: Product pages, category pages, checkout flow
 - **Timeline**: 4-6 months for full migration
 - **Key Metrics**: Conversion rate, page load speed, mobile performance
 
 #### SaaS Applications
+
 - **Priority**: User experience and scalability
 - **Focus Areas**: Dashboard performance, real-time features, authentication
 - **Timeline**: 3-4 months for full migration
 - **Key Metrics**: User engagement, system performance, feature adoption
 
 #### Content Management Systems
+
 - **Priority**: Content delivery and SEO
 - **Focus Areas**: Article pages, media optimization, search functionality
 - **Timeline**: 5-7 months for full migration
 - **Key Metrics**: Content performance, SEO visibility, publishing speed
 
 #### Media Streaming Platforms
+
 - **Priority**: Video performance and user experience
 - **Focus Areas**: Video player, streaming optimization, global delivery
 - **Timeline**: 6-8 months for full migration
@@ -1433,4 +1527,4 @@ This comprehensive case study analysis demonstrates the significant benefits of 
 
 ---
 
-*This completes our comprehensive case studies section. Next, we'll create the SEO-optimized landing page to tie everything together.*
+_This completes our comprehensive case studies section. Next, we'll create the SEO-optimized landing page to tie everything together._

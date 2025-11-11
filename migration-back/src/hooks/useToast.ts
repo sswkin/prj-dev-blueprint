@@ -1,9 +1,9 @@
 // React and core dependencies
-import { useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
+import { useState, useEffect } from "react";
+import type { ReactNode } from "react";
 
 // UI Components
-import type { ToastActionElement } from '@/components/ui/toast';
+import type { ToastActionElement } from "@/components/ui/toast";
 
 /**
  * Maximum number of toasts that can be shown at once
@@ -23,7 +23,7 @@ export interface ToasterToast {
   title?: ReactNode;
   description?: ReactNode;
   action?: ToastActionElement;
-  variant?: 'default' | 'destructive';
+  variant?: "default" | "destructive";
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
@@ -32,16 +32,17 @@ export interface ToasterToast {
  * Action types for the toast reducer
  */
 export const ToastActionType = {
-  ADD_TOAST: 'ADD_TOAST',
-  UPDATE_TOAST: 'UPDATE_TOAST',
-  DISMISS_TOAST: 'DISMISS_TOAST',
-  REMOVE_TOAST: 'REMOVE_TOAST',
+  ADD_TOAST: "ADD_TOAST",
+  UPDATE_TOAST: "UPDATE_TOAST",
+  DISMISS_TOAST: "DISMISS_TOAST",
+  REMOVE_TOAST: "REMOVE_TOAST",
 } as const;
 
 /**
  * Type for the toast action types
  */
-export type ToastActionType = typeof ToastActionType[keyof typeof ToastActionType];
+export type ToastActionType =
+  (typeof ToastActionType)[keyof typeof ToastActionType];
 
 /**
  * Counter for generating unique toast IDs
@@ -71,11 +72,11 @@ export type ToastAction =
     }
   | {
       type: typeof ToastActionType.DISMISS_TOAST;
-      toastId?: ToasterToast['id'];
+      toastId?: ToasterToast["id"];
     }
   | {
       type: typeof ToastActionType.REMOVE_TOAST;
-      toastId?: ToasterToast['id'];
+      toastId?: ToasterToast["id"];
     };
 
 /**
@@ -116,7 +117,10 @@ const addToRemoveQueue = (toastId: string): void => {
  * @param action - Action to perform
  * @returns New toast state
  */
-export const toastReducer = (state: ToastState, action: ToastAction): ToastState => {
+export const toastReducer = (
+  state: ToastState,
+  action: ToastAction,
+): ToastState => {
   switch (action.type) {
     case ToastActionType.ADD_TOAST:
       return {
@@ -128,7 +132,7 @@ export const toastReducer = (state: ToastState, action: ToastAction): ToastState
       return {
         ...state,
         toasts: state.toasts.map((t) =>
-          t.id === action.toast.id ? { ...t, ...action.toast } : t
+          t.id === action.toast.id ? { ...t, ...action.toast } : t,
         ),
       };
 
@@ -151,7 +155,7 @@ export const toastReducer = (state: ToastState, action: ToastAction): ToastState
                 ...t,
                 open: false,
               }
-            : t
+            : t,
         ),
       };
     }
@@ -194,7 +198,7 @@ function dispatch(action: ToastAction): void {
 /**
  * Type for toast creation props
  */
-export type ToastProps = Omit<ToasterToast, 'id'>;
+export type ToastProps = Omit<ToasterToast, "id">;
 
 /**
  * Creates a new toast notification
@@ -210,7 +214,8 @@ export function createToast(props: ToastProps) {
       toast: { ...props, id },
     });
 
-  const dismiss = () => dispatch({ type: ToastActionType.DISMISS_TOAST, toastId: id });
+  const dismiss = () =>
+    dispatch({ type: ToastActionType.DISMISS_TOAST, toastId: id });
 
   dispatch({
     type: ToastActionType.ADD_TOAST,
@@ -251,6 +256,7 @@ export function useToast() {
   return {
     ...state,
     toast: createToast,
-    dismiss: (toastId?: string) => dispatch({ type: ToastActionType.DISMISS_TOAST, toastId }),
+    dismiss: (toastId?: string) =>
+      dispatch({ type: ToastActionType.DISMISS_TOAST, toastId }),
   };
-} 
+}

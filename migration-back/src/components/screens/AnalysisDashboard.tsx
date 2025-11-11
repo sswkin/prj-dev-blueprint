@@ -1,18 +1,24 @@
 // External dependencies
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, AlertTriangle } from 'lucide-react';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import { ArrowLeft, AlertTriangle } from "lucide-react";
 
 // UI Components
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { TagCloud } from '@/components/ui-kit/TagCloud';
-import { ConceptCard } from '@/components/ui-kit/ConceptCard';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { TagCloud } from "@/components/ui-kit/TagCloud";
+import { ConceptCard } from "@/components/ui-kit/ConceptCard";
 
 // Types
-import type { ScreenProps, AIConcept, Tag } from '../types';
+import type { ScreenProps, AIConcept, Tag } from "../types";
 
 export interface AnalysisDashboardProps extends ScreenProps {
   tags: Tag[];
@@ -25,42 +31,42 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
   tags = [],
   concepts = [],
   onConceptSelect,
-  onBack
+  onBack,
 }) => {
   const [selectedRisk, setSelectedRisk] = useState<string | null>(null);
 
   const risks = [
     {
-      id: '1',
-      title: 'Market Saturation',
-      severity: 'high',
-      description: 'High competition in the social media space',
-      mitigation: 'Focus on unique value proposition and niche targeting'
+      id: "1",
+      title: "Market Saturation",
+      severity: "high",
+      description: "High competition in the social media space",
+      mitigation: "Focus on unique value proposition and niche targeting",
     },
     {
-      id: '2',
-      title: 'Technical Complexity',
-      severity: 'medium',
-      description: 'Real-time features require advanced infrastructure',
-      mitigation: 'Start with MVP and scale gradually'
+      id: "2",
+      title: "Technical Complexity",
+      severity: "medium",
+      description: "Real-time features require advanced infrastructure",
+      mitigation: "Start with MVP and scale gradually",
     },
     {
-      id: '3',
-      title: 'User Acquisition',
-      severity: 'medium',
-      description: 'Challenging to build initial user base',
-      mitigation: 'Implement referral system and community building'
-    }
+      id: "3",
+      title: "User Acquisition",
+      severity: "medium",
+      description: "Challenging to build initial user base",
+      mitigation: "Implement referral system and community building",
+    },
   ];
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'high':
-        return 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300';
-      case 'medium':
-        return 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300';
+      case "high":
+        return "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300";
+      case "medium":
+        return "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300";
       default:
-        return 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300';
+        return "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300";
     }
   };
 
@@ -68,7 +74,10 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
     <>
       <Helmet>
         <title>Analysis Dashboard - BlueprintForDev AI</title>
-        <meta name="description" content="AI-powered analysis of your app idea with concept validation and risk assessment." />
+        <meta
+          name="description"
+          content="AI-powered analysis of your app idea with concept validation and risk assessment."
+        />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -79,11 +88,15 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <Button variant="ghost" onClick={onBack} className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              onClick={onBack}
+              className="flex items-center gap-2"
+            >
               <ArrowLeft className="h-4 w-4" />
               Back to Idea Capture
             </Button>
-            
+
             <div className="flex items-center gap-2">
               <Badge variant="secondary">Step 2/7</Badge>
               <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -100,22 +113,36 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
             transition={{ delay: 0.1 }}
           >
             <div className="flex items-center justify-between max-w-4xl mx-auto">
-              {['Capture', 'Validation', 'Research', 'Architecture', 'Components', 'Schema', 'Export'].map((step, index) => (
+              {[
+                "Capture",
+                "Validation",
+                "Research",
+                "Architecture",
+                "Components",
+                "Schema",
+                "Export",
+              ].map((step, index) => (
                 <div key={step} className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    index <= 1 
-                      ? 'bg-indigo-500 text-white' 
-                      : 'bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400'
-                  }`}>
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                      index <= 1
+                        ? "bg-indigo-500 text-white"
+                        : "bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400"
+                    }`}
+                  >
                     {index + 1}
                   </div>
                   <span className="ml-2 text-sm font-medium text-slate-600 dark:text-slate-400">
                     {step}
                   </span>
                   {index < 6 && (
-                    <div className={`w-12 h-0.5 mx-4 ${
-                      index < 1 ? 'bg-indigo-500' : 'bg-slate-200 dark:bg-slate-700'
-                    }`} />
+                    <div
+                      className={`w-12 h-0.5 mx-4 ${
+                        index < 1
+                          ? "bg-indigo-500"
+                          : "bg-slate-200 dark:bg-slate-700"
+                      }`}
+                    />
                   )}
                 </div>
               ))}
@@ -134,7 +161,7 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
                 <CardContent className="p-6">
                   <TagCloud
                     tags={tags}
-                    onTagClick={(tag) => console.log('Tag clicked:', tag)}
+                    onTagClick={(tag) => console.log("Tag clicked:", tag)}
                   />
                 </CardContent>
               </Card>
@@ -151,7 +178,7 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                   AI-Generated Concepts
                 </h2>
-                
+
                 <div className="grid grid-cols-1 gap-4">
                   {concepts.map((concept, index) => (
                     <motion.div
@@ -192,7 +219,11 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
                     <motion.div
                       key={risk.id}
                       className="p-4 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                      onClick={() => setSelectedRisk(selectedRisk === risk.id ? null : risk.id)}
+                      onClick={() =>
+                        setSelectedRisk(
+                          selectedRisk === risk.id ? null : risk.id,
+                        )
+                      }
                       whileHover={{ scale: 1.02 }}
                     >
                       <div className="flex items-center justify-between mb-2">
@@ -203,15 +234,15 @@ export const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({
                           {risk.severity}
                         </Badge>
                       </div>
-                      
+
                       <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
                         {risk.description}
                       </p>
-                      
+
                       {selectedRisk === risk.id && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
+                          animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
                           className="pt-2 border-t border-slate-200 dark:border-slate-700"
                         >

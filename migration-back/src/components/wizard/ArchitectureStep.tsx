@@ -1,23 +1,37 @@
-import { Target } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ProjectRequirements, Architecture } from '@/types/wizard';
-import { architectureOptions } from '@/data/wizard-options';
+import { Target } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ProjectRequirements, Architecture } from "@/types/wizard";
+import { architectureOptions } from "@/data/wizard-options";
 
 interface ArchitectureStepProps {
   requirements: ProjectRequirements;
   onRequirementsChange: (requirements: ProjectRequirements) => void;
 }
 
-export function ArchitectureStep({ requirements, onRequirementsChange }: ArchitectureStepProps) {
-  const toggleArchitectureOption = (category: keyof Architecture, optionName: string) => {
+export function ArchitectureStep({
+  requirements,
+  onRequirementsChange,
+}: ArchitectureStepProps) {
+  const toggleArchitectureOption = (
+    category: keyof Architecture,
+    optionName: string,
+  ) => {
     onRequirementsChange({
       ...requirements,
       architecture: {
         ...requirements.architecture,
         [category]: requirements.architecture[category].includes(optionName)
-          ? requirements.architecture[category].filter((item: string) => item !== optionName)
-          : [...requirements.architecture[category], optionName]
-      }
+          ? requirements.architecture[category].filter(
+              (item: string) => item !== optionName,
+            )
+          : [...requirements.architecture[category], optionName],
+      },
     });
   };
 
@@ -37,9 +51,16 @@ export function ArchitectureStep({ requirements, onRequirementsChange }: Archite
         {Object.entries(architectureOptions).map(([category, options]) => (
           <div key={category} className="space-y-3">
             <div className="flex items-center gap-2">
-              <h4 className="font-medium">{category.replace(/([A-Z])/g, ' $1').trim()}</h4>
+              <h4 className="font-medium">
+                {category.replace(/([A-Z])/g, " $1").trim()}
+              </h4>
               <span className="text-xs font-medium text-muted-foreground">
-                {requirements.architecture[category as keyof typeof requirements.architecture].length} selected
+                {
+                  requirements.architecture[
+                    category as keyof typeof requirements.architecture
+                  ].length
+                }{" "}
+                selected
               </span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -47,11 +68,18 @@ export function ArchitectureStep({ requirements, onRequirementsChange }: Archite
                 <div
                   key={option.name}
                   className={`flex items-start space-x-3 p-3 border rounded-lg cursor-pointer transition-all hover:border-primary/50 ${
-                    requirements.architecture[category as keyof typeof requirements.architecture].includes(option.name)
-                      ? 'border-primary bg-primary/5'
-                      : 'border-muted'
+                    requirements.architecture[
+                      category as keyof typeof requirements.architecture
+                    ].includes(option.name)
+                      ? "border-primary bg-primary/5"
+                      : "border-muted"
                   }`}
-                  onClick={() => toggleArchitectureOption(category as keyof Architecture, option.name)}
+                  onClick={() =>
+                    toggleArchitectureOption(
+                      category as keyof Architecture,
+                      option.name,
+                    )
+                  }
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
@@ -60,7 +88,9 @@ export function ArchitectureStep({ requirements, onRequirementsChange }: Archite
                         {option.category}
                       </span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">{option.description}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {option.description}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -76,11 +106,18 @@ export function ArchitectureStep({ requirements, onRequirementsChange }: Archite
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label htmlFor="timeline" className="text-sm font-medium">Project Timeline *</label>
+              <label htmlFor="timeline" className="text-sm font-medium">
+                Project Timeline *
+              </label>
               <select
                 id="timeline"
                 value={requirements.timeline}
-                onChange={(e) => onRequirementsChange({ ...requirements, timeline: e.target.value })}
+                onChange={(e) =>
+                  onRequirementsChange({
+                    ...requirements,
+                    timeline: e.target.value,
+                  })
+                }
                 className="w-full p-2 border rounded-md"
               >
                 <option value="">Select timeline</option>
@@ -92,11 +129,18 @@ export function ArchitectureStep({ requirements, onRequirementsChange }: Archite
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="budget" className="text-sm font-medium">Budget Range</label>
+              <label htmlFor="budget" className="text-sm font-medium">
+                Budget Range
+              </label>
               <select
                 id="budget"
                 value={requirements.budget}
-                onChange={(e) => onRequirementsChange({ ...requirements, budget: e.target.value })}
+                onChange={(e) =>
+                  onRequirementsChange({
+                    ...requirements,
+                    budget: e.target.value,
+                  })
+                }
                 className="w-full p-2 border rounded-md"
               >
                 <option value="">Select budget</option>
@@ -109,12 +153,19 @@ export function ArchitectureStep({ requirements, onRequirementsChange }: Archite
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="audience" className="text-sm font-medium">Target Audience *</label>
+            <label htmlFor="audience" className="text-sm font-medium">
+              Target Audience *
+            </label>
             <textarea
               id="audience"
               placeholder="Describe your target users, their needs, and how they will use your application..."
               value={requirements.targetAudience}
-              onChange={(e) => onRequirementsChange({ ...requirements, targetAudience: e.target.value })}
+              onChange={(e) =>
+                onRequirementsChange({
+                  ...requirements,
+                  targetAudience: e.target.value,
+                })
+              }
               className="w-full min-h-[100px] p-2 border rounded-md"
             />
           </div>
@@ -122,4 +173,4 @@ export function ArchitectureStep({ requirements, onRequirementsChange }: Archite
       </CardContent>
     </Card>
   );
-} 
+}

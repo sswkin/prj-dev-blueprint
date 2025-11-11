@@ -1,15 +1,20 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
-import { 
-  Code2, 
-  Lightbulb, 
-  FileText, 
-  Download, 
-  ArrowRight, 
-  Check, 
+import { useState, useEffect } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import {
+  Code2,
+  Lightbulb,
+  FileText,
+  Download,
+  ArrowRight,
+  Check,
   Star,
   ChevronLeft,
   ChevronRight,
@@ -23,69 +28,93 @@ import {
   Linkedin,
   LogOut,
   User,
-  CreditCard
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { Input } from '@/components/ui/input';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/useAuth';
+  CreditCard,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/useAuth";
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isYearly, setIsYearly] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const { user, loading, signOut } = useAuth();
 
   const testimonials = [
     {
-      quote: "BlueprintForDev AI transformed how I approach new projects. What used to take days of planning now takes minutes.",
+      quote:
+        "BlueprintForDev AI transformed how I approach new projects. What used to take days of planning now takes minutes.",
       author: "Sarah Chen",
       role: "Solo Developer",
-      company: "TechStart"
+      company: "TechStart",
     },
     {
-      quote: "The AI-generated blueprints are incredibly detailed and save our team weeks of initial planning.",
+      quote:
+        "The AI-generated blueprints are incredibly detailed and save our team weeks of initial planning.",
       author: "Marcus Rodriguez",
       role: "CTO",
-      company: "InnovateLabs"
+      company: "InnovateLabs",
     },
     {
-      quote: "Finally, a tool that understands the complexity of turning ideas into actionable development plans.",
+      quote:
+        "Finally, a tool that understands the complexity of turning ideas into actionable development plans.",
       author: "Emily Johnson",
       role: "Product Manager",
-      company: "StartupXYZ"
-    }
+      company: "StartupXYZ",
+    },
   ];
 
   const features = [
     {
       icon: Lightbulb,
       title: "AI Ideation",
-      description: "Transform vague concepts into structured project ideas with intelligent suggestions and refinements."
+      description:
+        "Transform vague concepts into structured project ideas with intelligent suggestions and refinements.",
     },
     {
       icon: Target,
       title: "Smart Planning",
-      description: "Generate comprehensive project roadmaps with milestones, dependencies, and resource allocation."
+      description:
+        "Generate comprehensive project roadmaps with milestones, dependencies, and resource allocation.",
     },
     {
       icon: Code2,
       title: "Code Prompts",
-      description: "Get AI-generated prompts and templates for your specific tech stack and project requirements."
+      description:
+        "Get AI-generated prompts and templates for your specific tech stack and project requirements.",
     },
     {
       icon: Download,
       title: "Export Blueprint",
-      description: "Download detailed blueprints in multiple formats including PDF, Markdown, and JSON."
-    }
+      description:
+        "Download detailed blueprints in multiple formats including PDF, Markdown, and JSON.",
+    },
   ];
 
   const pricingPlans = [
@@ -97,9 +126,9 @@ export default function HomePage() {
         "1 blueprint per month",
         "Basic AI suggestions",
         "PDF export",
-        "Community support"
+        "Community support",
       ],
-      popular: false
+      popular: false,
     },
     {
       name: "Pro",
@@ -111,9 +140,9 @@ export default function HomePage() {
         "All export formats",
         "Priority support",
         "Custom templates",
-        "Team collaboration"
+        "Team collaboration",
       ],
-      popular: true
+      popular: true,
     },
     {
       name: "Team",
@@ -125,37 +154,43 @@ export default function HomePage() {
         "Advanced analytics",
         "Custom integrations",
         "Dedicated support",
-        "SSO authentication"
+        "SSO authentication",
       ],
-      popular: false
-    }
+      popular: false,
+    },
   ];
 
   const faqItems = [
     {
       question: "How does BlueprintForDev AI work?",
-      answer: "Our AI analyzes your project idea and generates a comprehensive blueprint including architecture diagrams, development roadmap, technology recommendations, and detailed implementation steps."
+      answer:
+        "Our AI analyzes your project idea and generates a comprehensive blueprint including architecture diagrams, development roadmap, technology recommendations, and detailed implementation steps.",
     },
     {
       question: "What programming languages and frameworks are supported?",
-      answer: "We support all major programming languages and frameworks including React, Vue, Angular, Node.js, Python, Java, .NET, and many more. Our AI adapts to your specific tech stack preferences."
+      answer:
+        "We support all major programming languages and frameworks including React, Vue, Angular, Node.js, Python, Java, .NET, and many more. Our AI adapts to your specific tech stack preferences.",
     },
     {
       question: "Can I collaborate with my team on blueprints?",
-      answer: "Yes! Pro and Team plans include collaboration features where you can share blueprints, leave comments, and work together in real-time on project planning."
+      answer:
+        "Yes! Pro and Team plans include collaboration features where you can share blueprints, leave comments, and work together in real-time on project planning.",
     },
     {
       question: "What formats can I export blueprints in?",
-      answer: "You can export blueprints as PDF documents, Markdown files, JSON data, or interactive HTML reports. Pro users get access to all formats."
+      answer:
+        "You can export blueprints as PDF documents, Markdown files, JSON data, or interactive HTML reports. Pro users get access to all formats.",
     },
     {
       question: "Is there a free trial available?",
-      answer: "Yes! You can start with our free plan that includes 1 blueprint generation per month. No credit card required to get started."
+      answer:
+        "Yes! You can start with our free plan that includes 1 blueprint generation per month. No credit card required to get started.",
     },
     {
       question: "How accurate are the AI-generated blueprints?",
-      answer: "Our AI is trained on thousands of successful projects and best practices. While blueprints provide an excellent starting point, we recommend reviewing and customizing them based on your specific requirements."
-    }
+      answer:
+        "Our AI is trained on thousands of successful projects and best practices. While blueprints provide an excellent starting point, we recommend reviewing and customizing them based on your specific requirements.",
+    },
   ];
 
   useEffect(() => {
@@ -176,22 +211,42 @@ export default function HomePage() {
   return (
     <>
       <Helmet>
-        <title>BlueprintForDev AI - Go from idea to code blueprint in minutes</title>
-        <meta name="description" content="AI-powered workflow for solo developers, startups & early adopters. Transform your ideas into detailed code blueprints with our intelligent platform." />
-        <meta name="keywords" content="AI, code blueprint, development, startup, solo developer, planning, ideation" />
-        
-        <meta property="og:title" content="BlueprintForDev AI - Go from idea to code blueprint in minutes" />
-        <meta property="og:description" content="AI-powered workflow for solo developers, startups & early adopters" />
+        <title>
+          BlueprintForDev AI - Go from idea to code blueprint in minutes
+        </title>
+        <meta
+          name="description"
+          content="AI-powered workflow for solo developers, startups & early adopters. Transform your ideas into detailed code blueprints with our intelligent platform."
+        />
+        <meta
+          name="keywords"
+          content="AI, code blueprint, development, startup, solo developer, planning, ideation"
+        />
+
+        <meta
+          property="og:title"
+          content="BlueprintForDev AI - Go from idea to code blueprint in minutes"
+        />
+        <meta
+          property="og:description"
+          content="AI-powered workflow for solo developers, startups & early adopters"
+        />
         <meta property="og:type" content="website" />
-        
+
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="BlueprintForDev AI - Go from idea to code blueprint in minutes" />
-        <meta name="twitter:description" content="AI-powered workflow for solo developers, startups & early adopters" />
+        <meta
+          name="twitter:title"
+          content="BlueprintForDev AI - Go from idea to code blueprint in minutes"
+        />
+        <meta
+          name="twitter:description"
+          content="AI-powered workflow for solo developers, startups & early adopters"
+        />
       </Helmet>
 
       <div className="min-h-screen bg-background">
         {/* Navigation */}
-        <motion.nav 
+        <motion.nav
           className="fixed top-0 w-full bg-background/80 backdrop-blur-lg border-b z-50"
           initial={{ y: -100 }}
           animate={{ y: 0 }}
@@ -206,10 +261,10 @@ export default function HomePage() {
                   transition={{ duration: 0.2 }}
                 >
                   <div className="relative">
-                    <img 
-                      src="/logo.jpg" 
-                      alt="BlueprintForDev AI" 
-                      className="h-12 w-12 drop-shadow-lg" 
+                    <img
+                      src="/logo.jpg"
+                      alt="BlueprintForDev AI"
+                      className="h-12 w-12 drop-shadow-lg"
                     />
                     <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-full blur opacity-75"></div>
                   </div>
@@ -223,27 +278,46 @@ export default function HomePage() {
                   </div>
                 </motion.div>
               </div>
-              
+
               <div className="hidden md:flex items-center space-x-8">
-                <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
-                <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
-                
-                {!loading && (
-                  user ? (
+                <a
+                  href="#features"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Features
+                </a>
+                <a
+                  href="#pricing"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Pricing
+                </a>
+
+                {!loading &&
+                  (user ? (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                        <Button
+                          variant="ghost"
+                          className="relative h-8 w-8 rounded-full"
+                        >
                           <Avatar className="h-8 w-8">
                             <AvatarFallback>
-                              {getUserInitials(user.email || '')}
+                              {getUserInitials(user.email || "")}
                             </AvatarFallback>
                           </Avatar>
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-56" align="end" forceMount>
+                      <DropdownMenuContent
+                        className="w-56"
+                        align="end"
+                        forceMount
+                      >
                         <div className="flex items-center justify-start gap-2 p-2">
                           <div className="flex flex-col space-y-1 leading-none">
-                            <p className="font-medium">{user.user_metadata?.full_name || 'User'}</p>
+                            <p className="font-medium">
+                              {user.user_metadata?.full_name || "User"}
+                            </p>
                             <p className="w-[200px] truncate text-sm text-muted-foreground">
                               {user.email}
                             </p>
@@ -270,20 +344,28 @@ export default function HomePage() {
                     </DropdownMenu>
                   ) : (
                     <>
-                      <Link to="/login" className="text-muted-foreground hover:text-foreground transition-colors">Login</Link>
+                      <Link
+                        to="/login"
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        Login
+                      </Link>
                       <Button asChild>
                         <Link to="/signup">Get Started</Link>
                       </Button>
                     </>
-                  )
-                )}
+                  ))}
               </div>
 
-              <button 
+              <button
                 className="md:hidden"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {isMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
               </button>
             </div>
           </div>
@@ -293,41 +375,69 @@ export default function HomePage() {
               <motion.div
                 className="md:hidden bg-background border-t"
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
+                animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
                 <div className="px-4 py-4 space-y-4">
-                  <a href="#features" className="block text-muted-foreground hover:text-foreground">Features</a>
-                  <a href="#pricing" className="block text-muted-foreground hover:text-foreground">Pricing</a>
-                  
-                  {!loading && (
-                    user ? (
+                  <a
+                    href="#features"
+                    className="block text-muted-foreground hover:text-foreground"
+                  >
+                    Features
+                  </a>
+                  <a
+                    href="#pricing"
+                    className="block text-muted-foreground hover:text-foreground"
+                  >
+                    Pricing
+                  </a>
+
+                  {!loading &&
+                    (user ? (
                       <>
                         <div className="border-t pt-4">
-                          <p className="font-medium">{user.user_metadata?.full_name || 'User'}</p>
-                          <p className="text-sm text-muted-foreground">{user.email}</p>
+                          <p className="font-medium">
+                            {user.user_metadata?.full_name || "User"}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {user.email}
+                          </p>
                         </div>
-                        <Link to="/profile" className="block text-muted-foreground hover:text-foreground">
+                        <Link
+                          to="/profile"
+                          className="block text-muted-foreground hover:text-foreground"
+                        >
                           Profile
                         </Link>
-                        <Link to="/subscriptions" className="block text-muted-foreground hover:text-foreground">
+                        <Link
+                          to="/subscriptions"
+                          className="block text-muted-foreground hover:text-foreground"
+                        >
                           Subscriptions
                         </Link>
-                        <Button onClick={handleSignOut} variant="outline" className="w-full">
+                        <Button
+                          onClick={handleSignOut}
+                          variant="outline"
+                          className="w-full"
+                        >
                           <LogOut className="mr-2 h-4 w-4" />
                           Log out
                         </Button>
                       </>
                     ) : (
                       <>
-                        <Link to="/login" className="block text-muted-foreground hover:text-foreground">Login</Link>
+                        <Link
+                          to="/login"
+                          className="block text-muted-foreground hover:text-foreground"
+                        >
+                          Login
+                        </Link>
                         <Button asChild className="w-full">
                           <Link to="/signup">Get Started</Link>
                         </Button>
                       </>
-                    )
-                  )}
+                    ))}
                 </div>
               </motion.div>
             )}
@@ -357,10 +467,13 @@ export default function HomePage() {
                     </Link>
                   </Button>
                   {!user && (
-                    <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6">
-                      <Link to="/signup">
-                        Try it free
-                      </Link>
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="lg"
+                      className="text-lg px-8 py-6"
+                    >
+                      <Link to="/signup">Try it free</Link>
                     </Button>
                   )}
                 </div>
@@ -378,7 +491,9 @@ export default function HomePage() {
                     <div className="text-center">
                       <Lightbulb className="h-16 w-16 mx-auto mb-4 text-yellow-500" />
                       <h3 className="text-lg font-semibold">Idea</h3>
-                      <p className="text-sm text-muted-foreground">Your concept</p>
+                      <p className="text-sm text-muted-foreground">
+                        Your concept
+                      </p>
                     </div>
                     <div className="flex justify-center">
                       <ArrowRight className="h-8 w-8 text-primary animate-pulse" />
@@ -386,7 +501,9 @@ export default function HomePage() {
                     <div className="text-center">
                       <FileText className="h-16 w-16 mx-auto mb-4 text-green-500" />
                       <h3 className="text-lg font-semibold">Blueprint</h3>
-                      <p className="text-sm text-muted-foreground">Ready to code</p>
+                      <p className="text-sm text-muted-foreground">
+                        Ready to code
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -417,7 +534,8 @@ export default function HomePage() {
                         Weeks of Planning
                       </h3>
                       <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
-                        Turning ideas into actionable development plans takes forever, delaying project starts and momentum
+                        Turning ideas into actionable development plans takes
+                        forever, delaying project starts and momentum
                       </p>
                     </div>
                   </div>
@@ -428,7 +546,8 @@ export default function HomePage() {
                         Missed Requirements
                       </h3>
                       <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
-                        Important details get overlooked in the rush to start coding, leading to costly revisions later
+                        Important details get overlooked in the rush to start
+                        coding, leading to costly revisions later
                       </p>
                     </div>
                   </div>
@@ -439,7 +558,8 @@ export default function HomePage() {
                         Analysis Paralysis
                       </h3>
                       <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
-                        Too many technology choices lead to decision fatigue and endless research without progress
+                        Too many technology choices lead to decision fatigue and
+                        endless research without progress
                       </p>
                     </div>
                   </div>
@@ -464,7 +584,8 @@ export default function HomePage() {
                         Minutes, Not Weeks
                       </h3>
                       <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
-                        AI generates comprehensive blueprints in under 5 minutes, accelerating your development timeline
+                        AI generates comprehensive blueprints in under 5
+                        minutes, accelerating your development timeline
                       </p>
                     </div>
                   </div>
@@ -475,7 +596,8 @@ export default function HomePage() {
                         Nothing Overlooked
                       </h3>
                       <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
-                        Comprehensive analysis ensures all requirements are captured and documented systematically
+                        Comprehensive analysis ensures all requirements are
+                        captured and documented systematically
                       </p>
                     </div>
                   </div>
@@ -486,7 +608,8 @@ export default function HomePage() {
                         Smart Recommendations
                       </h3>
                       <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
-                        AI suggests optimal tech stack based on your project needs, eliminating decision paralysis
+                        AI suggests optimal tech stack based on your project
+                        needs, eliminating decision paralysis
                       </p>
                     </div>
                   </div>
@@ -506,9 +629,12 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Powerful Features</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                Powerful Features
+              </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Everything you need to transform ideas into actionable development plans
+                Everything you need to transform ideas into actionable
+                development plans
               </p>
             </motion.div>
 
@@ -524,7 +650,7 @@ export default function HomePage() {
                 >
                   <Card className="h-full hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20">
                     <CardHeader>
-                      <motion.div 
+                      <motion.div
                         className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4"
                         whileHover={{ rotate: 5 }}
                         transition={{ duration: 0.2 }}
@@ -534,7 +660,9 @@ export default function HomePage() {
                       <CardTitle>{feature.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="text-base">{feature.description}</CardDescription>
+                      <CardDescription className="text-base">
+                        {feature.description}
+                      </CardDescription>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -553,8 +681,12 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Trusted by Developers</h2>
-              <p className="text-xl text-muted-foreground">Join thousands of developers who've transformed their workflow</p>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                Trusted by Developers
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Join thousands of developers who've transformed their workflow
+              </p>
             </motion.div>
 
             {/* Testimonial Carousel */}
@@ -572,16 +704,22 @@ export default function HomePage() {
                     >
                       <div className="flex justify-center mb-4">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                          <Star
+                            key={i}
+                            className="h-5 w-5 text-yellow-400 fill-current"
+                          />
                         ))}
                       </div>
                       <blockquote className="text-xl mb-6 italic">
                         "{testimonials[currentTestimonial].quote}"
                       </blockquote>
                       <div>
-                        <cite className="font-semibold">{testimonials[currentTestimonial].author}</cite>
+                        <cite className="font-semibold">
+                          {testimonials[currentTestimonial].author}
+                        </cite>
                         <p className="text-muted-foreground">
-                          {testimonials[currentTestimonial].role} at {testimonials[currentTestimonial].company}
+                          {testimonials[currentTestimonial].role} at{" "}
+                          {testimonials[currentTestimonial].company}
                         </p>
                       </div>
                     </motion.div>
@@ -590,13 +728,22 @@ export default function HomePage() {
               </Card>
 
               <button
-                onClick={() => setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
+                onClick={() =>
+                  setCurrentTestimonial(
+                    (prev) =>
+                      (prev - 1 + testimonials.length) % testimonials.length,
+                  )
+                }
                 className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background border shadow-md hover:shadow-lg transition-shadow"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <button
-                onClick={() => setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)}
+                onClick={() =>
+                  setCurrentTestimonial(
+                    (prev) => (prev + 1) % testimonials.length,
+                  )
+                }
                 className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background border shadow-md hover:shadow-lg transition-shadow"
               >
                 <ChevronRight className="h-5 w-5" />
@@ -605,24 +752,29 @@ export default function HomePage() {
 
             {/* Company Logos */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-60">
-              {['TechStart', 'InnovateLabs', 'StartupXYZ', 'DevCorp'].map((company, index) => (
-                <motion.div
-                  key={index}
-                  className="text-center text-2xl font-bold text-muted-foreground"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 0.6 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  {company}
-                </motion.div>
-              ))}
+              {["TechStart", "InnovateLabs", "StartupXYZ", "DevCorp"].map(
+                (company, index) => (
+                  <motion.div
+                    key={index}
+                    className="text-center text-2xl font-bold text-muted-foreground"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0.6 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                  >
+                    {company}
+                  </motion.div>
+                ),
+              )}
             </div>
           </div>
         </section>
 
         {/* Pricing Table */}
-        <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
+        <section
+          id="pricing"
+          className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50"
+        >
           <div className="max-w-7xl mx-auto">
             <motion.div
               className="text-center mb-16"
@@ -631,14 +783,31 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
-              <p className="text-xl text-muted-foreground mb-8">Choose the plan that fits your needs</p>
-              
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                Simple, Transparent Pricing
+              </h2>
+              <p className="text-xl text-muted-foreground mb-8">
+                Choose the plan that fits your needs
+              </p>
+
               <div className="flex items-center justify-center space-x-4">
-                <span className={!isYearly ? "font-semibold" : "text-muted-foreground"}>Monthly</span>
+                <span
+                  className={
+                    !isYearly ? "font-semibold" : "text-muted-foreground"
+                  }
+                >
+                  Monthly
+                </span>
                 <Switch checked={isYearly} onCheckedChange={setIsYearly} />
-                <span className={isYearly ? "font-semibold" : "text-muted-foreground"}>
-                  Yearly <Badge variant="secondary" className="ml-2">Save 20%</Badge>
+                <span
+                  className={
+                    isYearly ? "font-semibold" : "text-muted-foreground"
+                  }
+                >
+                  Yearly{" "}
+                  <Badge variant="secondary" className="ml-2">
+                    Save 20%
+                  </Badge>
                 </span>
               </div>
             </motion.div>
@@ -652,9 +821,13 @@ export default function HomePage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
-                  <Card className={`relative h-full ${plan.popular ? 'border-primary shadow-lg scale-105' : ''}`}>
+                  <Card
+                    className={`relative h-full ${plan.popular ? "border-primary shadow-lg scale-105" : ""}`}
+                  >
                     {plan.popular && (
-                      <Badge className="absolute -top-2 left-1/2 -translate-x-1/2">Most Popular</Badge>
+                      <Badge className="absolute -top-2 left-1/2 -translate-x-1/2">
+                        Most Popular
+                      </Badge>
                     )}
                     <CardHeader>
                       <CardTitle className="text-2xl">{plan.name}</CardTitle>
@@ -664,22 +837,35 @@ export default function HomePage() {
                           ${isYearly ? plan.price.yearly : plan.price.monthly}
                         </span>
                         <span className="text-muted-foreground">
-                          {plan.price.monthly === 0 ? '' : isYearly ? '/year' : '/month'}
+                          {plan.price.monthly === 0
+                            ? ""
+                            : isYearly
+                              ? "/year"
+                              : "/month"}
                         </span>
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <ul className="space-y-2">
                         {plan.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-center space-x-2">
+                          <li
+                            key={featureIndex}
+                            className="flex items-center space-x-2"
+                          >
                             <Check className="h-4 w-4 text-green-500" />
                             <span className="text-sm">{feature}</span>
                           </li>
                         ))}
                       </ul>
-                      <Button asChild className="w-full" variant={plan.popular ? "default" : "outline"}>
+                      <Button
+                        asChild
+                        className="w-full"
+                        variant={plan.popular ? "default" : "outline"}
+                      >
                         <Link to="/signup">
-                          {plan.name === "Free" ? "Get Started" : "Start Free Trial"}
+                          {plan.name === "Free"
+                            ? "Get Started"
+                            : "Start Free Trial"}
                         </Link>
                       </Button>
                     </CardContent>
@@ -700,8 +886,12 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-              <p className="text-xl text-muted-foreground">Everything you need to know about BlueprintForDev AI</p>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Everything you need to know about BlueprintForDev AI
+              </p>
             </motion.div>
 
             <motion.div
@@ -713,7 +903,9 @@ export default function HomePage() {
               <Accordion type="single" collapsible>
                 {faqItems.map((item, index) => (
                   <AccordionItem key={index} value={`item-${index}`}>
-                    <AccordionTrigger className="text-left">{item.question}</AccordionTrigger>
+                    <AccordionTrigger className="text-left">
+                      {item.question}
+                    </AccordionTrigger>
                     <AccordionContent className="text-muted-foreground">
                       {item.answer}
                     </AccordionContent>
@@ -731,10 +923,10 @@ export default function HomePage() {
               <div>
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="relative">
-                    <img 
-                      src="/logo.jpg" 
-                      alt="BlueprintForDev AI" 
-                      className="h-10 w-10 drop-shadow-lg" 
+                    <img
+                      src="/logo.jpg"
+                      alt="BlueprintForDev AI"
+                      className="h-10 w-10 drop-shadow-lg"
                     />
                     <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-purple-600/20 rounded-full blur opacity-75"></div>
                   </div>
@@ -748,7 +940,8 @@ export default function HomePage() {
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  Transform your ideas into actionable development plans with the power of AI.
+                  Transform your ideas into actionable development plans with
+                  the power of AI.
                 </p>
                 <div className="flex space-x-4">
                   <Github className="h-5 w-5 text-muted-foreground hover:text-foreground cursor-pointer" />
@@ -760,26 +953,55 @@ export default function HomePage() {
               <div>
                 <h3 className="font-semibold mb-4">Product</h3>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li><a href="#" className="hover:text-foreground">Features</a></li>
-                  <li><a href="#" className="hover:text-foreground">Pricing</a></li>
-                  <li><a href="#" className="hover:text-foreground">API</a></li>
+                  <li>
+                    <a href="#" className="hover:text-foreground">
+                      Features
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-foreground">
+                      Pricing
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-foreground">
+                      API
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               <div>
                 <h3 className="font-semibold mb-4">Company</h3>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li><a href="#" className="hover:text-foreground">About</a></li>
-                  <li><a href="#" className="hover:text-foreground">Blog</a></li>
-                  <li><a href="#" className="hover:text-foreground">Careers</a></li>
-                  <li><a href="#" className="hover:text-foreground">Contact</a></li>
+                  <li>
+                    <a href="#" className="hover:text-foreground">
+                      About
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-foreground">
+                      Blog
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-foreground">
+                      Careers
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-foreground">
+                      Contact
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               <div>
                 <h3 className="font-semibold mb-4">Stay Updated</h3>
                 <p className="text-muted-foreground mb-4">
-                  Get the latest updates and tips for better development planning.
+                  Get the latest updates and tips for better development
+                  planning.
                 </p>
                 <div className="flex space-x-2">
                   <Input placeholder="Enter your email" className="flex-1" />
@@ -795,9 +1017,24 @@ export default function HomePage() {
                 © 2025 BlueprintForDev AI. All rights reserved.
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
-                <a href="#" className="text-muted-foreground hover:text-foreground">Privacy Policy</a>
-                <a href="#" className="text-muted-foreground hover:text-foreground">Terms of Service</a>
-                <a href="#" className="text-muted-foreground hover:text-foreground">Cookie Policy</a>
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  Privacy Policy
+                </a>
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  Terms of Service
+                </a>
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  Cookie Policy
+                </a>
               </div>
             </div>
 
@@ -805,10 +1042,10 @@ export default function HomePage() {
             <div className="border-t mt-8 pt-6 text-center">
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <p className="text-sm text-muted-foreground">
-                  From the mind of{' '}
-                  <a 
-                    href="https://github.com/atssj" 
-                    target="_blank" 
+                  From the mind of{" "}
+                  <a
+                    href="https://github.com/atssj"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary hover:text-primary/80 font-medium transition-colors"
                   >
@@ -816,7 +1053,7 @@ export default function HomePage() {
                   </a>
                   , with ❤️ ✨
                 </p>
-                
+
                 {/* Bolt.new Hackathon Badge */}
                 <motion.div
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-full border border-orange-200 dark:border-orange-700"
@@ -827,10 +1064,10 @@ export default function HomePage() {
                 >
                   <Zap className="h-4 w-4 text-orange-600 dark:text-orange-400" />
                   <span className="text-sm font-medium text-orange-700 dark:text-orange-300">
-                    Built with{' '}
-                    <a 
-                      href="https://bolt.new" 
-                      target="_blank" 
+                    Built with{" "}
+                    <a
+                      href="https://bolt.new"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="hover:underline"
                     >

@@ -2,7 +2,7 @@ export interface Tag {
   id: string;
   text: string;
   weight: number;
-  category?: 'technology' | 'market' | 'feature' | 'risk' | string;
+  category?: "technology" | "market" | "feature" | "risk" | string;
   aiGenerated?: boolean;
 }
 
@@ -13,7 +13,7 @@ export interface AIConcept {
   viability: number;
   marketSize?: string;
   timeToMarket?: string;
-  complexity?: 'low' | 'medium' | 'high';
+  complexity?: "low" | "medium" | "high";
 }
 
 export interface AnalysisData {
@@ -38,4 +38,4 @@ export interface ScreenProps {
   tags: Tag[];
   concepts: AIConcept[];
   originalIdea?: string;
-} 
+}

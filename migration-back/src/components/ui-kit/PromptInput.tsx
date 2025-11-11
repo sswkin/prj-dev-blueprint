@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Send, Command } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, Send, Command } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PromptInputProps {
   suggestions?: string[];
@@ -14,17 +14,17 @@ export const PromptInput: React.FC<PromptInputProps> = ({
   suggestions = [],
   onCommand,
   placeholder = "Ask AI to help with your project...",
-  className
+  className,
 }) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [filteredSuggestions, setFilteredSuggestions] = useState(suggestions);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (value.startsWith('/')) {
-      const filtered = suggestions.filter(s => 
-        s.toLowerCase().includes(value.toLowerCase())
+    if (value.startsWith("/")) {
+      const filtered = suggestions.filter((s) =>
+        s.toLowerCase().includes(value.toLowerCase()),
       );
       setFilteredSuggestions(filtered);
       setShowSuggestions(filtered.length > 0);
@@ -37,7 +37,7 @@ export const PromptInput: React.FC<PromptInputProps> = ({
     e.preventDefault();
     if (value.trim()) {
       onCommand(value.trim());
-      setValue('');
+      setValue("");
       setShowSuggestions(false);
     }
   };
@@ -60,7 +60,7 @@ export const PromptInput: React.FC<PromptInputProps> = ({
             onChange={(e) => setValue(e.target.value)}
             placeholder={placeholder}
             className="w-full pl-12 pr-12 py-4 bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-slate-600 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200 text-slate-900 dark:text-white placeholder-slate-500"
-            onFocus={() => value.startsWith('/') && setShowSuggestions(true)}
+            onFocus={() => value.startsWith("/") && setShowSuggestions(true)}
           />
           <button
             type="submit"

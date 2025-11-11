@@ -1,14 +1,14 @@
 // External dependencies
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 // UI Components
-import { InputHero } from '@/components/ui-kit/InputHero';
-import { AIIndicator } from '@/components/ui-kit/AIIndicator';
+import { InputHero } from "@/components/ui-kit/InputHero";
+import { AIIndicator } from "@/components/ui-kit/AIIndicator";
 
 // Types
-import type { ScreenProps } from '@/components/types';
+import type { ScreenProps } from "@/components/types";
 
 export interface IdeaCaptureProps extends ScreenProps {
   onAnalyze?: (idea: string) => void;
@@ -22,16 +22,16 @@ export const IdeaCapture: React.FC<IdeaCaptureProps> = ({ onAnalyze }) => {
 
   const handleAnalyze = async (idea: string) => {
     if (!onAnalyze) {
-      console.warn('onAnalyze function is not provided');
+      console.warn("onAnalyze function is not provided");
       return;
     }
-    
+
     setIsAnalyzing(true);
     setProgress(0);
 
     // Simulate AI analysis progress
     const progressInterval = setInterval(() => {
-      setProgress(prev => {
+      setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           setIsAnalyzing(false);
@@ -47,7 +47,10 @@ export const IdeaCapture: React.FC<IdeaCaptureProps> = ({ onAnalyze }) => {
     <>
       <Helmet>
         <title>Idea Capture - BlueprintForDev AI</title>
-        <meta name="description" content="Transform your app idea into a comprehensive development blueprint with AI-powered analysis." />
+        <meta
+          name="description"
+          content="Transform your app idea into a comprehensive development blueprint with AI-powered analysis."
+        />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">

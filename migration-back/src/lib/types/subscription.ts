@@ -1,8 +1,8 @@
 export interface Subscription {
   id: string;
   user_id: string;
-  plan: 'free' | 'pro' | 'team';
-  status: 'active' | 'canceled' | 'past_due' | 'trialing';
+  plan: "free" | "pro" | "team";
+  status: "active" | "canceled" | "past_due" | "trialing";
   current_period_start: string;
   current_period_end: string;
   cancel_at_period_end: boolean;
@@ -25,44 +25,44 @@ export interface SubscriptionPlan {
 
 export const subscriptionPlans: SubscriptionPlan[] = [
   {
-    id: 'free',
-    name: 'Free',
+    id: "free",
+    name: "Free",
     price: { monthly: 0, yearly: 0 },
-    description: 'Perfect for getting started',
+    description: "Perfect for getting started",
     features: [
-      '1 blueprint per month',
-      'Basic AI suggestions',
-      'PDF export',
-      'Community support'
+      "1 blueprint per month",
+      "Basic AI suggestions",
+      "PDF export",
+      "Community support",
     ],
   },
   {
-    id: 'pro',
-    name: 'Pro',
+    id: "pro",
+    name: "Pro",
     price: { monthly: 29, yearly: 290 },
-    description: 'For serious developers',
+    description: "For serious developers",
     features: [
-      'Unlimited blueprints',
-      'Advanced AI planning',
-      'All export formats',
-      'Priority support',
-      'Custom templates',
-      'Team collaboration'
+      "Unlimited blueprints",
+      "Advanced AI planning",
+      "All export formats",
+      "Priority support",
+      "Custom templates",
+      "Team collaboration",
     ],
     popular: true,
   },
   {
-    id: 'team',
-    name: 'Team',
+    id: "team",
+    name: "Team",
     price: { monthly: 99, yearly: 990 },
-    description: 'For growing teams',
+    description: "For growing teams",
     features: [
-      'Everything in Pro',
-      'Team management',
-      'Advanced analytics',
-      'Custom integrations',
-      'Dedicated support',
-      'SSO authentication'
+      "Everything in Pro",
+      "Team management",
+      "Advanced analytics",
+      "Custom integrations",
+      "Dedicated support",
+      "SSO authentication",
     ],
   },
 ];

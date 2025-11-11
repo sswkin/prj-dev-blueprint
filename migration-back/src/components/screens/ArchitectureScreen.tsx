@@ -1,18 +1,20 @@
 // External dependencies
-import type { FC } from 'react';
+import type { FC } from "react";
 
 // UI Components
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 // Types
-import type { ScreenProps } from '@/components/types';
+import type { ScreenProps } from "@/components/types";
 
 export const ArchitectureScreen: FC<ScreenProps> = ({ onNext, onBack }) => (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-8">
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-2 text-slate-800 dark:text-white">System Architecture</h2>
+        <h2 className="text-3xl font-bold mb-2 text-slate-800 dark:text-white">
+          System Architecture
+        </h2>
         <p className="text-slate-600 dark:text-slate-300">
           Design the high-level structure of your application
         </p>
@@ -60,9 +62,7 @@ export const ArchitectureScreen: FC<ScreenProps> = ({ onNext, onBack }) => (
         <Button variant="outline" onClick={onBack}>
           Back
         </Button>
-        <Button onClick={onNext}>
-          Next: Components
-        </Button>
+        <Button onClick={onNext}>Next: Components</Button>
       </div>
     </div>
   </div>

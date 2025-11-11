@@ -5,6 +5,7 @@
 **Keywords:** vite to nextjs implementation, nextjs migration steps, react router to nextjs conversion, migration implementation guide, nextjs configuration, react migration tutorial, vite to nextjs code examples
 
 ## Table of Contents
+
 - [Environment Setup and Prerequisites](#environment-setup)
 - [Project Structure Migration](#project-structure)
 - [Configuration Files Setup](#configuration-files)
@@ -21,6 +22,7 @@
 Before beginning the migration process, ensure your development environment meets the following requirements:
 
 #### Node.js and Package Manager
+
 ```bash
 # Check current versions
 node --version  # Should be 18.0.0 or higher
@@ -32,6 +34,7 @@ nvm use 18
 ```
 
 #### Development Tools Setup
+
 ```bash
 # Install essential development tools globally
 npm install -g @next/codemod
@@ -71,6 +74,7 @@ npm list | grep -i vite > vite-dependencies.txt
 ### 1. Directory Structure Transformation
 
 #### Before (Vite Project Structure)
+
 ```
 your-vite-project/
 ├── public/
@@ -100,6 +104,7 @@ your-vite-project/
 ```
 
 #### After (Next.js Project Structure)
+
 ```
 your-nextjs-project/
 ├── public/
@@ -148,15 +153,16 @@ your-nextjs-project/
 #### 2.1 Main Application Entry Point
 
 **Before (Vite):**
+
 ```tsx
 // src/main.tsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { HelmetProvider } from 'react-helmet-async';
-import App from './App';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { HelmetProvider } from "react-helmet-async";
+import App from "./App";
+import "./index.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -167,7 +173,7 @@ const queryClient = new QueryClient({
   },
 });
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
@@ -176,28 +182,29 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
       </QueryClientProvider>
     </HelmetProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 ```
 
 **After (Next.js):**
+
 ```tsx
 // app/layout.tsx
-import './globals.css';
-import { Inter } from 'next/font/google';
-import { HelmetProvider } from 'react-helmet-async';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
+import "./globals.css";
+import { Inter } from "next/font/google";
+import { HelmetProvider } from "react-helmet-async";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: {
-    default: 'My App - Next.js',
-    template: '%s | My App',
+    default: "My App - Next.js",
+    template: "%s | My App",
   },
-  description: 'My awesome app description built with Next.js',
-  keywords: ['nextjs', 'react', 'typescript', 'web development'],
+  description: "My awesome app description built with Next.js",
+  keywords: ["nextjs", "react", "typescript", "web development"],
 };
 
 export default function RootLayout({
@@ -230,21 +237,22 @@ export default function RootLayout({
 ### 1. Next.js Configuration
 
 **next.config.js:**
+
 ```javascript
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
     appDir: true,
-    serverComponentsExternalPackages: ['@supabase/supabase-js'],
+    serverComponentsExternalPackages: ["@supabase/supabase-js"],
   },
 
   images: {
     domains: [
-      'images.unsplash.com',
-      'via.placeholder.com',
-      'your-cdn-domain.com'
+      "images.unsplash.com",
+      "via.placeholder.com",
+      "your-cdn-domain.com",
     ],
-    formats: ['image/webp', 'image/avif'],
+    formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
@@ -260,13 +268,13 @@ const nextConfig = {
       };
     }
 
-    if (process.env.ANALYZE === 'true') {
-      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+    if (process.env.ANALYZE === "true") {
+      const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
       config.plugins.push(
         new BundleAnalyzerPlugin({
-          analyzerMode: 'static',
+          analyzerMode: "static",
           openAnalyzer: false,
-        })
+        }),
       );
     }
 
@@ -276,15 +284,15 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
         ],
       },
@@ -298,6 +306,7 @@ module.exports = nextConfig;
 ### 2. TypeScript Configuration
 
 **tsconfig.json:**
+
 ```json
 {
   "compilerOptions": {
@@ -328,12 +337,7 @@ module.exports = nextConfig;
       "@/types/*": ["./src/types/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
 ```
@@ -345,15 +349,19 @@ module.exports = nextConfig;
 #### 1.1 Home Page Migration
 
 **Before (Vite):**
+
 ```tsx
 // src/pages/HomePage.tsx
-import { Helmet } from 'react-helmet-async';
-import { useQuery } from 'react-query';
-import HeroSection from '@/components/sections/HeroSection';
-import { getHomePageData } from '@/services/api';
+import { Helmet } from "react-helmet-async";
+import { useQuery } from "react-query";
+import HeroSection from "@/components/sections/HeroSection";
+import { getHomePageData } from "@/services/api";
 
 export default function HomePage() {
-  const { data: pageData, isLoading } = useQuery('homePageData', getHomePageData);
+  const { data: pageData, isLoading } = useQuery(
+    "homePageData",
+    getHomePageData,
+  );
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -365,7 +373,7 @@ export default function HomePage() {
         <title>Home - My Awesome App</title>
         <meta name="description" content="Discover amazing features" />
       </Helmet>
-      
+
       <div className="min-h-screen">
         <HeroSection data={pageData.hero} />
       </div>
@@ -375,16 +383,17 @@ export default function HomePage() {
 ```
 
 **After (Next.js):**
+
 ```tsx
 // app/page.tsx
-import { Metadata } from 'next';
-import { getHomePageData } from '@/lib/services/api';
-import HeroSection from '@/components/sections/HeroSection';
+import { Metadata } from "next";
+import { getHomePageData } from "@/lib/services/api";
+import HeroSection from "@/components/sections/HeroSection";
 
 export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Discover amazing features with our innovative platform',
-  keywords: 'homepage, features, benefits, product overview',
+  title: "Home",
+  description: "Discover amazing features with our innovative platform",
+  keywords: "homepage, features, benefits, product overview",
 };
 
 export default async function HomePage() {
@@ -401,9 +410,10 @@ export default async function HomePage() {
 ### 2. Dynamic Routing Migration
 
 **Before (React Router):**
+
 ```tsx
 // Vite - Dynamic routing
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 function UserProfile() {
   const { userId } = useParams();
@@ -412,10 +422,11 @@ function UserProfile() {
 ```
 
 **After (Next.js):**
+
 ```tsx
 // app/users/[userId]/page.tsx
-import { useRouter } from 'next/navigation';
-import { Metadata } from 'next';
+import { useRouter } from "next/navigation";
+import { Metadata } from "next";
 
 type UserProfileProps = {
   params: {
@@ -423,7 +434,9 @@ type UserProfileProps = {
   };
 };
 
-export async function generateMetadata({ params }: UserProfileProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: UserProfileProps): Promise<Metadata> {
   return {
     title: `User ${params.userId} Profile`,
     description: `View profile for user ${params.userId}`,
@@ -432,7 +445,7 @@ export async function generateMetadata({ params }: UserProfileProps): Promise<Me
 
 export default function UserProfile({ params }: UserProfileProps) {
   const { userId } = params;
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1>User ID: {userId}</h1>
@@ -444,33 +457,34 @@ export default function UserProfile({ params }: UserProfileProps) {
 ### 3. API Routes Implementation
 
 **app/api/users/route.ts:**
+
 ```typescript
-import { NextRequest, NextResponse } from 'next/server';
-import { getUsers, createUser } from '@/lib/database/users';
-import { z } from 'zod';
+import { NextRequest, NextResponse } from "next/server";
+import { getUsers, createUser } from "@/lib/database/users";
+import { z } from "zod";
 
 const CreateUserSchema = z.object({
   name: z.string().min(1).max(100),
   email: z.string().email(),
-  role: z.enum(['user', 'admin']).default('user'),
+  role: z.enum(["user", "admin"]).default("user"),
 });
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
-    
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+
     const users = await getUsers({ page, limit });
-    
+
     return NextResponse.json({
       success: true,
       data: users,
     });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to fetch users' },
-      { status: 500 }
+      { error: "Failed to fetch users" },
+      { status: 500 },
     );
   }
 }
@@ -479,27 +493,30 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const validatedData = CreateUserSchema.parse(body);
-    
+
     const newUser = await createUser(validatedData);
-    
-    return NextResponse.json({
-      success: true,
-      data: newUser,
-    }, { status: 201 });
+
+    return NextResponse.json(
+      {
+        success: true,
+        data: newUser,
+      },
+      { status: 201 },
+    );
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { 
-          error: 'Validation error',
-          details: error.errors 
+        {
+          error: "Validation error",
+          details: error.errors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
-    
+
     return NextResponse.json(
-      { error: 'Failed to create user' },
-      { status: 500 }
+      { error: "Failed to create user" },
+      { status: 500 },
     );
   }
 }
@@ -510,13 +527,14 @@ export async function POST(request: NextRequest) {
 ### 1. Server-Side Data Fetching
 
 **app/blog/page.tsx:**
+
 ```typescript
 import { getBlogPosts } from '@/lib/services/blog';
 import BlogPostCard from '@/components/blog/BlogPostCard';
 
 export default async function BlogPage() {
   const posts = await getBlogPosts();
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8">Blog</h1>
@@ -533,25 +551,30 @@ export default async function BlogPage() {
 ### 2. Client-Side Data Fetching with React Query
 
 **components/PostList.tsx:**
-```tsx
-'use client';
 
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { useState } from 'react';
-import { getPosts, createPost } from '@/lib/services/posts';
-import PostForm from './PostForm';
+```tsx
+"use client";
+
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useState } from "react";
+import { getPosts, createPost } from "@/lib/services/posts";
+import PostForm from "./PostForm";
 
 export default function PostList() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const queryClient = useQueryClient();
 
-  const { data: posts, isLoading, error } = useQuery('posts', getPosts, {
+  const {
+    data: posts,
+    isLoading,
+    error,
+  } = useQuery("posts", getPosts, {
     staleTime: 5 * 60 * 1000,
   });
 
   const createMutation = useMutation(createPost, {
     onSuccess: () => {
-      queryClient.invalidateQueries('posts');
+      queryClient.invalidateQueries("posts");
       setIsFormVisible(false);
     },
   });
@@ -572,7 +595,7 @@ export default function PostList() {
           onClick={() => setIsFormVisible(!isFormVisible)}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          {isFormVisible ? 'Cancel' : 'New Post'}
+          {isFormVisible ? "Cancel" : "New Post"}
         </button>
       </div>
 
@@ -601,6 +624,7 @@ export default function PostList() {
 ### 1. Global Styles Setup
 
 **app/globals.css:**
+
 ```css
 @tailwind base;
 @tailwind components;
@@ -622,7 +646,7 @@ export default function PostList() {
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     color: rgb(var(--foreground-rgb));
     background: linear-gradient(
@@ -637,7 +661,12 @@ export default function PostList() {
     @apply border-border;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-semibold;
   }
 }
@@ -667,24 +696,22 @@ export default function PostList() {
 ### 1. Testing Setup
 
 **jest.config.js:**
+
 ```javascript
-const nextJest = require('next/jest');
+const nextJest = require("next/jest");
 
 const createJestConfig = nextJest({
-  dir: './',
+  dir: "./",
 });
 
 const customJestConfig = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleNameMapping: {
-    '^@/components/(.*)$': '<rootDir>/src/components/$1',
-    '^@/lib/(.*)$': '<rootDir>/src/lib/$1',
+    "^@/components/(.*)$": "<rootDir>/src/components/$1",
+    "^@/lib/(.*)$": "<rootDir>/src/lib/$1",
   },
-  testEnvironment: 'jest-environment-jsdom',
-  collectCoverageFrom: [
-    'src/**/*.{js,jsx,ts,tsx}',
-    '!src/**/*.d.ts',
-  ],
+  testEnvironment: "jest-environment-jsdom",
+  collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
 };
 
 module.exports = createJestConfig(customJestConfig);
@@ -693,6 +720,7 @@ module.exports = createJestConfig(customJestConfig);
 ### 2. Component Testing Example
 
 **components/Button.test.tsx:**
+
 ```typescript
 import { render, screen, fireEvent } from '@testing-library/react';
 import Button from './Button';
@@ -707,7 +735,7 @@ describe('Button Component', () => {
   it('handles click events', () => {
     const handleClick = jest.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
-    
+
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -718,4 +746,4 @@ This implementation guide provides the essential technical steps and code exampl
 
 ---
 
-*Next, explore our comprehensive troubleshooting guide to handle common migration challenges.*
+_Next, explore our comprehensive troubleshooting guide to handle common migration challenges._

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Lightbulb, ArrowRight, Sparkles } from 'lucide-react';
-import { PromptInput } from './PromptInput';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Lightbulb, ArrowRight, Sparkles } from "lucide-react";
+import { PromptInput } from "./PromptInput";
+import { cn } from "@/lib/utils";
 
 interface InputHeroProps {
   placeholder?: string;
@@ -15,15 +15,15 @@ export const InputHero: React.FC<InputHeroProps> = ({
   placeholder = "Describe your app idea in detail...",
   onAnalyze,
   isLoading = false,
-  className
+  className,
 }) => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
 
   const suggestions = [
     '/generate "social media app for pet owners"',
     '/analyze "e-commerce platform with AI recommendations"',
     '/create "productivity tool for remote teams"',
-    '/build "fitness tracking app with gamification"'
+    '/build "fitness tracking app with gamification"',
   ];
 
   const handleCommand = (command: string) => {
@@ -35,7 +35,7 @@ export const InputHero: React.FC<InputHeroProps> = ({
     "A social platform for local community events",
     "AI-powered personal finance advisor",
     "Collaborative project management tool",
-    "Sustainable lifestyle tracking app"
+    "Sustainable lifestyle tracking app",
   ];
 
   return (
@@ -50,12 +50,12 @@ export const InputHero: React.FC<InputHeroProps> = ({
         <div className="flex items-center justify-center mb-6">
           <motion.div
             className="p-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl"
-            animate={{ 
+            animate={{
               boxShadow: [
                 "0 0 20px rgba(99, 102, 241, 0.3)",
                 "0 0 40px rgba(139, 92, 246, 0.4)",
-                "0 0 20px rgba(99, 102, 241, 0.3)"
-              ]
+                "0 0 20px rgba(99, 102, 241, 0.3)",
+              ],
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
@@ -67,7 +67,8 @@ export const InputHero: React.FC<InputHeroProps> = ({
           Transform Your Idea
         </h1>
         <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-          Describe your app concept and watch AI generate a comprehensive development blueprint
+          Describe your app concept and watch AI generate a comprehensive
+          development blueprint
         </p>
       </motion.div>
 
@@ -117,7 +118,7 @@ export const InputHero: React.FC<InputHeroProps> = ({
         <h3 className="text-center text-sm font-medium text-slate-500 dark:text-slate-400">
           Or try one of these examples:
         </h3>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {exampleIdeas.map((idea, index) => (
             <motion.button

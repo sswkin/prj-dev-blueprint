@@ -3,7 +3,8 @@ import Layout from "@/app/components/Layout";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Get in touch with the BlueprintForDev team. We'd love to hear from you.",
+  description:
+    "Get in touch with the BlueprintForDev team. We'd love to hear from you.",
 };
 
 export default function Contact() {
@@ -16,7 +17,8 @@ export default function Contact() {
             Get in Touch
           </h1>
           <p className="text-lg text-muted-foreground">
-            Have questions or feedback? We'd love to hear from you. Reach out to our team and we'll get back to you as soon as possible.
+            Have questions or feedback? We'd love to hear from you. Reach out to
+            our team and we'll get back to you as soon as possible.
           </p>
         </section>
 
@@ -203,28 +205,33 @@ export default function Contact() {
             {[
               {
                 question: "What is BlueprintForDev?",
-                answer: "BlueprintForDev is an AI-powered platform that helps developers generate comprehensive project blueprints, including architecture, components, database design, and implementation roadmaps.",
+                answer:
+                  "BlueprintForDev is an AI-powered platform that helps developers generate comprehensive project blueprints, including architecture, components, database design, and implementation roadmaps.",
               },
               {
                 question: "How long does it take to generate a blueprint?",
-                answer: "Most blueprints are generated within minutes. The time depends on the complexity of your project and the level of detail you require.",
+                answer:
+                  "Most blueprints are generated within minutes. The time depends on the complexity of your project and the level of detail you require.",
               },
               {
                 question: "Can I customize the generated blueprints?",
-                answer: "Yes! All generated blueprints are fully customizable. You can modify any section to match your specific requirements and preferences.",
+                answer:
+                  "Yes! All generated blueprints are fully customizable. You can modify any section to match your specific requirements and preferences.",
               },
               {
                 question: "Is there a free trial available?",
-                answer: "Yes, we offer a free trial so you can explore BlueprintForDev and see how it can help your projects.",
+                answer:
+                  "Yes, we offer a free trial so you can explore BlueprintForDev and see how it can help your projects.",
               },
             ].map((faq, index) => (
-              <div key={index} className="border-b border-border pb-6 last:border-b-0">
+              <div
+                key={index}
+                className="border-b border-border pb-6 last:border-b-0"
+              >
                 <h3 className="text-lg font-semibold text-foreground mb-2">
                   {faq.question}
                 </h3>
-                <p className="text-muted-foreground">
-                  {faq.answer}
-                </p>
+                <p className="text-muted-foreground">{faq.answer}</p>
               </div>
             ))}
           </div>
@@ -233,4 +240,3 @@ export default function Contact() {
     </Layout>
   );
 }
-

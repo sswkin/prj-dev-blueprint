@@ -1,5 +1,5 @@
-import { supabase } from '@/lib/supabase';
-import { AuthResponse, SignupFormData } from '@/lib/types/auth';
+import { supabase } from "@/lib/supabase";
+import { AuthResponse, SignupFormData } from "@/lib/types/auth";
 
 export const authService = {
   async signIn(email: string, password: string): Promise<AuthResponse> {
@@ -18,16 +18,16 @@ export const authService = {
 
       return {
         success: true,
-        message: 'Login successful!',
-        data: { 
+        message: "Login successful!",
+        data: {
           user: data.user,
-          session: data.session
+          session: data.session,
         },
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to sign in. Please try again.',
+        message: "Failed to sign in. Please try again.",
       };
     }
   },
@@ -35,7 +35,7 @@ export const authService = {
   async sendPasswordReset(email: string): Promise<AuthResponse> {
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`
+        redirectTo: `${window.location.origin}/reset-password`,
       });
 
       if (error) {
@@ -52,7 +52,7 @@ export const authService = {
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to send password reset email. Please try again.',
+        message: "Failed to send password reset email. Please try again.",
       };
     }
   },
@@ -65,8 +65,8 @@ export const authService = {
         options: {
           data: {
             full_name: data.fullName,
-          }
-        }
+          },
+        },
       });
 
       if (error) {
@@ -78,13 +78,14 @@ export const authService = {
 
       return {
         success: true,
-        message: 'Account created successfully! Please check your email to verify your account.',
+        message:
+          "Account created successfully! Please check your email to verify your account.",
         data: { user: authData.user },
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to create account. Please try again.',
+        message: "Failed to create account. Please try again.",
       };
     }
   },
@@ -93,9 +94,9 @@ export const authService = {
     try {
       // Try to send a password reset to check if email exists
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'http://localhost:3000/reset-password'
+        redirectTo: "http://localhost:3000/reset-password",
       });
-      
+
       // If no error, email exists
       return !error;
     } catch (error) {
@@ -106,7 +107,7 @@ export const authService = {
   async signOut(): Promise<AuthResponse> {
     try {
       const { error } = await supabase.auth.signOut();
-      
+
       if (error) {
         return {
           success: false,
@@ -116,20 +117,23 @@ export const authService = {
 
       return {
         success: true,
-        message: 'Signed out successfully',
+        message: "Signed out successfully",
       };
     } catch (error) {
       return {
         success: false,
-        message: 'Failed to sign out',
+        message: "Failed to sign out",
       };
     }
   },
 
   async getCurrentUser() {
     try {
-      const { data: { user }, error } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
       if (error) {
         return null;
       }
@@ -142,8 +146,11 @@ export const authService = {
 
   async getCurrentSession() {
     try {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+
       if (error) {
         return null;
       }
@@ -152,5 +159,5 @@ export const authService = {
     } catch (error) {
       return null;
     }
-  }
+  },
 };

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "development guide",
     "software development",
     "project templates",
-    "development workflow"
+    "development workflow",
   ],
   authors: [{ name: "BlueprintForDev Team" }],
   creator: "BlueprintForDev",
@@ -76,7 +76,8 @@ export const metadata: Metadata = {
     yahoo: "your-yahoo-verification-code",
   },
   category: "technology",
-  classification: "Software Development, Project Management, Technical Planning",
+  classification:
+    "Software Development, Project Management, Technical Planning",
   referrer: "origin-when-cross-origin",
 };
 

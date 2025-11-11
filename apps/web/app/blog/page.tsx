@@ -3,7 +3,8 @@ import Layout from "@/app/components/Layout";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Stay updated with the latest insights, tips, and news about development project planning and BlueprintForDev.",
+  description:
+    "Stay updated with the latest insights, tips, and news about development project planning and BlueprintForDev.",
 };
 
 export default function Blog() {
@@ -16,7 +17,9 @@ export default function Blog() {
             BlueprintForDev Blog
           </h1>
           <p className="text-lg text-muted-foreground leading-8 max-w-2xl mx-auto">
-            Discover the latest insights, best practices, and updates in development project planning, architecture design, and AI-powered development tools.
+            Discover the latest insights, best practices, and updates in
+            development project planning, architecture design, and AI-powered
+            development tools.
           </p>
         </section>
 
@@ -32,7 +35,9 @@ export default function Blog() {
               The Future of AI-Powered Project Planning
             </h2>
             <p className="text-muted-foreground mb-6">
-              Explore how artificial intelligence is revolutionizing the way developers approach project planning, architecture design, and implementation strategies.
+              Explore how artificial intelligence is revolutionizing the way
+              developers approach project planning, architecture design, and
+              implementation strategies.
             </p>
             <div className="flex items-center text-sm text-muted-foreground mb-4">
               <span>BlueprintForDev Team</span>
@@ -58,8 +63,10 @@ export default function Blog() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               {
-                title: "10 Best Practices for Modern Web Application Architecture",
-                excerpt: "Learn the essential principles and patterns for building scalable, maintainable web applications that stand the test of time.",
+                title:
+                  "10 Best Practices for Modern Web Application Architecture",
+                excerpt:
+                  "Learn the essential principles and patterns for building scalable, maintainable web applications that stand the test of time.",
                 author: "Alex Chen",
                 date: "November 8, 2025",
                 readTime: "6 min read",
@@ -67,15 +74,18 @@ export default function Blog() {
               },
               {
                 title: "Database Design Patterns Every Developer Should Know",
-                excerpt: "Discover proven database design patterns that can help you build more efficient and scalable data structures.",
+                excerpt:
+                  "Discover proven database design patterns that can help you build more efficient and scalable data structures.",
                 author: "Sarah Johnson",
                 date: "November 5, 2025",
                 readTime: "7 min read",
                 category: "Database",
               },
               {
-                title: "From Idea to Production: A Complete Development Workflow",
-                excerpt: "Step-by-step guide to taking your project from initial concept to successful deployment using modern tools and practices.",
+                title:
+                  "From Idea to Production: A Complete Development Workflow",
+                excerpt:
+                  "Step-by-step guide to taking your project from initial concept to successful deployment using modern tools and practices.",
                 author: "Mike Rodriguez",
                 date: "November 3, 2025",
                 readTime: "10 min read",
@@ -83,23 +93,28 @@ export default function Blog() {
               },
               {
                 title: "Component Library Planning: Building for Reusability",
-                excerpt: "How to plan and architect component libraries that promote consistency and speed up development across your team.",
+                excerpt:
+                  "How to plan and architect component libraries that promote consistency and speed up development across your team.",
                 author: "Emily Davis",
                 date: "November 1, 2025",
                 readTime: "5 min read",
                 category: "Components",
               },
               {
-                title: "AI in Development: Complementary Intelligence, Not Replacement",
-                excerpt: "Understanding how AI tools can enhance developer productivity without replacing the human creativity and judgment that drives innovation.",
+                title:
+                  "AI in Development: Complementary Intelligence, Not Replacement",
+                excerpt:
+                  "Understanding how AI tools can enhance developer productivity without replacing the human creativity and judgment that drives innovation.",
                 author: "David Park",
                 date: "October 28, 2025",
                 readTime: "9 min read",
                 category: "AI",
               },
               {
-                title: "Project Blueprint Templates: Accelerating Your Development Process",
-                excerpt: "How to leverage project templates and blueprints to reduce setup time and focus on what matters most: building great software.",
+                title:
+                  "Project Blueprint Templates: Accelerating Your Development Process",
+                excerpt:
+                  "How to leverage project templates and blueprints to reduce setup time and focus on what matters most: building great software.",
                 author: "Lisa Wang",
                 date: "October 25, 2025",
                 readTime: "4 min read",
@@ -141,13 +156,37 @@ export default function Blog() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { name: "Architecture", count: 12, color: "bg-blue-100 text-blue-800" },
-              { name: "Development", count: 18, color: "bg-green-100 text-green-800" },
-              { name: "Database", count: 8, color: "bg-purple-100 text-purple-800" },
-              { name: "Components", count: 15, color: "bg-orange-100 text-orange-800" },
+              {
+                name: "Architecture",
+                count: 12,
+                color: "bg-blue-100 text-blue-800",
+              },
+              {
+                name: "Development",
+                count: 18,
+                color: "bg-green-100 text-green-800",
+              },
+              {
+                name: "Database",
+                count: 8,
+                color: "bg-purple-100 text-purple-800",
+              },
+              {
+                name: "Components",
+                count: 15,
+                color: "bg-orange-100 text-orange-800",
+              },
               { name: "AI", count: 10, color: "bg-pink-100 text-pink-800" },
-              { name: "Templates", count: 6, color: "bg-indigo-100 text-indigo-800" },
-              { name: "Best Practices", count: 20, color: "bg-yellow-100 text-yellow-800" },
+              {
+                name: "Templates",
+                count: 6,
+                color: "bg-indigo-100 text-indigo-800",
+              },
+              {
+                name: "Best Practices",
+                count: 20,
+                color: "bg-yellow-100 text-yellow-800",
+              },
               { name: "Tools", count: 14, color: "bg-red-100 text-red-800" },
             ].map((category) => (
               <a
@@ -156,7 +195,9 @@ export default function Blog() {
                 className="block p-4 rounded-lg border border-border hover:bg-accent transition-colors"
               >
                 <div className="text-center">
-                  <div className={`inline-block px-2 py-1 text-xs font-semibold rounded-full mb-2 ${category.color}`}>
+                  <div
+                    className={`inline-block px-2 py-1 text-xs font-semibold rounded-full mb-2 ${category.color}`}
+                  >
                     {category.name}
                   </div>
                   <p className="text-sm text-muted-foreground">
@@ -174,7 +215,8 @@ export default function Blog() {
             Stay Updated
           </h2>
           <p className="text-muted-foreground mb-6">
-            Subscribe to our newsletter for the latest articles, tips, and updates on development project planning.
+            Subscribe to our newsletter for the latest articles, tips, and
+            updates on development project planning.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input

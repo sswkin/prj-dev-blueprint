@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  output: "standalone",
   experimental: {
-    optimizePackageImports: ['@tailwindcss/postcss'],
+    optimizePackageImports: ["@tailwindcss/postcss"],
   },
   images: {
     unoptimized: true,

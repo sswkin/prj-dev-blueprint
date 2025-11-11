@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { WizardStep } from '@/types/wizard';
+import React from "react";
+import { motion } from "framer-motion";
+import { WizardStep } from "@/types/wizard";
 
 interface WizardStepperProps {
   steps: WizardStep[];
@@ -11,7 +11,7 @@ interface WizardStepperProps {
 export const WizardStepper: React.FC<WizardStepperProps> = ({
   steps,
   currentStep,
-  onStepClick
+  onStepClick,
 }) => {
   return (
     <div className="flex justify-between mb-8">
@@ -23,10 +23,14 @@ export const WizardStepper: React.FC<WizardStepperProps> = ({
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${currentStep === index ? 'bg-primary text-primary-foreground' : step.completed ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+          <div
+            className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${currentStep === index ? "bg-primary text-primary-foreground" : step.completed ? "bg-green-500 text-white" : "bg-muted"}`}
+          >
             <step.icon className="w-6 h-6" />
           </div>
-          <span className={`text-sm font-medium ${currentStep === index ? 'text-primary' : 'text-muted-foreground'}`}>
+          <span
+            className={`text-sm font-medium ${currentStep === index ? "text-primary" : "text-muted-foreground"}`}
+          >
             {step.title}
           </span>
         </motion.div>

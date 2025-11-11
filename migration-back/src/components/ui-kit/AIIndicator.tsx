@@ -1,10 +1,10 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Loader2, Sparkles, CheckCircle, AlertCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { motion } from "framer-motion";
+import { Loader2, Sparkles, CheckCircle, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface AIIndicatorProps {
-  status: 'idle' | 'generating' | 'success' | 'error';
+  status: "idle" | "generating" | "success" | "error";
   progress?: number;
   message?: string;
   className?: string;
@@ -14,15 +14,15 @@ export const AIIndicator: React.FC<AIIndicatorProps> = ({
   status,
   progress = 0,
   message,
-  className
+  className,
 }) => {
   const getIcon = () => {
     switch (status) {
-      case 'generating':
+      case "generating":
         return <Loader2 className="h-5 w-5 animate-spin" />;
-      case 'success':
+      case "success":
         return <CheckCircle className="h-5 w-5 text-emerald-500" />;
-      case 'error':
+      case "error":
         return <AlertCircle className="h-5 w-5 text-red-500" />;
       default:
         return <Sparkles className="h-5 w-5 text-indigo-500" />;
@@ -31,29 +31,29 @@ export const AIIndicator: React.FC<AIIndicatorProps> = ({
 
   const getStatusColor = () => {
     switch (status) {
-      case 'generating':
-        return 'text-indigo-600 dark:text-indigo-400';
-      case 'success':
-        return 'text-emerald-600 dark:text-emerald-400';
-      case 'error':
-        return 'text-red-600 dark:text-red-400';
+      case "generating":
+        return "text-indigo-600 dark:text-indigo-400";
+      case "success":
+        return "text-emerald-600 dark:text-emerald-400";
+      case "error":
+        return "text-red-600 dark:text-red-400";
       default:
-        return 'text-slate-600 dark:text-slate-400';
+        return "text-slate-600 dark:text-slate-400";
     }
   };
 
   const getStatusMessage = () => {
     if (message) return message;
-    
+
     switch (status) {
-      case 'generating':
-        return 'AI is thinking...';
-      case 'success':
-        return 'Generated successfully';
-      case 'error':
-        return 'Something went wrong';
+      case "generating":
+        return "AI is thinking...";
+      case "success":
+        return "Generated successfully";
+      case "error":
+        return "Something went wrong";
       default:
-        return 'Ready';
+        return "Ready";
     }
   };
 
@@ -61,22 +61,20 @@ export const AIIndicator: React.FC<AIIndicatorProps> = ({
     <motion.div
       className={cn(
         "flex items-center space-x-3 p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600",
-        className
+        className,
       )}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="flex-shrink-0">
-        {getIcon()}
-      </div>
-      
+      <div className="flex-shrink-0">{getIcon()}</div>
+
       <div className="flex-1 min-w-0">
         <p className={cn("text-sm font-medium", getStatusColor())}>
           {getStatusMessage()}
         </p>
-        
-        {status === 'generating' && progress > 0 && (
+
+        {status === "generating" && progress > 0 && (
           <div className="mt-2">
             <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
               <span>Progress</span>

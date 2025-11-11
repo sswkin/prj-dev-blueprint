@@ -1,26 +1,45 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Code2, Monitor, Server, Database, Cloud, Settings } from 'lucide-react';
-import { ProjectRequirements } from '@/types/wizard';
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Code2,
+  Monitor,
+  Server,
+  Database,
+  Cloud,
+  Settings,
+} from "lucide-react";
+import { ProjectRequirements } from "@/types/wizard";
 
 interface TechnicalStepProps {
   requirements: ProjectRequirements;
-  technicalOptions: Record<string, Array<{ name: string; description: string; category: string }>>;
-  onTechOptionToggle: (category: keyof ProjectRequirements['techStack'], optionName: string) => void;
+  technicalOptions: Record<
+    string,
+    Array<{ name: string; description: string; category: string }>
+  >;
+  onTechOptionToggle: (
+    category: keyof ProjectRequirements["techStack"],
+    optionName: string,
+  ) => void;
 }
 
 export const TechnicalStep: React.FC<TechnicalStepProps> = ({
   requirements,
   technicalOptions,
-  onTechOptionToggle
+  onTechOptionToggle,
 }) => {
   const renderTechSection = (
-    title: string, 
-    category: keyof ProjectRequirements['techStack'], 
+    title: string,
+    category: keyof ProjectRequirements["techStack"],
     options: typeof technicalOptions.programmingLanguages,
-    icon: React.ComponentType<{ className?: string }>
+    icon: React.ComponentType<{ className?: string }>,
   ) => {
     const IconComponent = icon;
     return (
@@ -38,8 +57,8 @@ export const TechnicalStep: React.FC<TechnicalStepProps> = ({
               key={option.name}
               className={`flex items-start space-x-3 p-3 border rounded-lg cursor-pointer transition-all hover:border-primary/50 ${
                 requirements.techStack[category].includes(option.name)
-                  ? 'border-primary bg-primary/5'
-                  : 'border-muted'
+                  ? "border-primary bg-primary/5"
+                  : "border-muted"
               }`}
               onClick={() => onTechOptionToggle(category, option.name)}
             >
@@ -55,7 +74,9 @@ export const TechnicalStep: React.FC<TechnicalStepProps> = ({
                     {option.category}
                   </Badge>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">{option.description}</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {option.description}
+                </p>
               </div>
             </div>
           ))}
@@ -72,38 +93,82 @@ export const TechnicalStep: React.FC<TechnicalStepProps> = ({
           Technical Preferences
         </CardTitle>
         <CardDescription>
-          Select your preferred technologies and tools. You can choose multiple options from each category.
+          Select your preferred technologies and tools. You can choose multiple
+          options from each category.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
-        {renderTechSection('Programming Languages', 'programmingLanguages', technicalOptions.programmingLanguages, Code2)}
-        {renderTechSection('Frontend Frameworks', 'frontendFrameworks', technicalOptions.frontendFrameworks, Monitor)}
-        {renderTechSection('Backend Technologies', 'backendTechnologies', technicalOptions.backendTechnologies, Server)}
-        {renderTechSection('Database Systems', 'databaseSystems', technicalOptions.databaseSystems, Database)}
-        {renderTechSection('Cloud Platforms', 'cloudPlatforms', technicalOptions.cloudPlatforms, Cloud)}
-        {renderTechSection('Development Tools', 'developmentTools', technicalOptions.developmentTools, Settings)}
+        {renderTechSection(
+          "Programming Languages",
+          "programmingLanguages",
+          technicalOptions.programmingLanguages,
+          Code2,
+        )}
+        {renderTechSection(
+          "Frontend Frameworks",
+          "frontendFrameworks",
+          technicalOptions.frontendFrameworks,
+          Monitor,
+        )}
+        {renderTechSection(
+          "Backend Technologies",
+          "backendTechnologies",
+          technicalOptions.backendTechnologies,
+          Server,
+        )}
+        {renderTechSection(
+          "Database Systems",
+          "databaseSystems",
+          technicalOptions.databaseSystems,
+          Database,
+        )}
+        {renderTechSection(
+          "Cloud Platforms",
+          "cloudPlatforms",
+          technicalOptions.cloudPlatforms,
+          Cloud,
+        )}
+        {renderTechSection(
+          "Development Tools",
+          "developmentTools",
+          technicalOptions.developmentTools,
+          Settings,
+        )}
 
         {/* Summary */}
-        {Object.values(requirements.techStack).some(arr => arr.length > 0) && (
+        {Object.values(requirements.techStack).some(
+          (arr) => arr.length > 0,
+        ) && (
           <div className="space-y-3 pt-6 border-t">
             <h4 className="font-medium">Technology Stack Summary</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Object.entries(requirements.techStack).map(([category, items]) => (
-                items.length > 0 && (
-                  <div key={category} className="space-y-2">
-                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                      {category.replace(/([A-Z])/g, ' $1').trim()}
-                    </span>
-                    <div className="flex flex-wrap gap-1">
-                      {items.map((item: { id: string; name: string; description: string }) => (
-                        <Badge key={item.id} variant="outline" className="text-xs">
-                          {item.name}
-                        </Badge>
-                      ))}
+              {Object.entries(requirements.techStack).map(
+                ([category, items]) =>
+                  items.length > 0 && (
+                    <div key={category} className="space-y-2">
+                      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                        {category.replace(/([A-Z])/g, " $1").trim()}
+                      </span>
+                      <div className="flex flex-wrap gap-1">
+                        {items.map(
+                          (item: {
+                            id: string;
+                            name: string;
+                            description: string;
+                          }) => (
+                            <Badge
+                              key={item.id}
+                              variant="outline"
+                              className="text-xs"
+                            >
+                              {item.name}
+                            </Badge>
+                          ),
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )
-              ))}
+                  ),
+              )}
             </div>
           </div>
         )}

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { TechOption } from '@/types/wizard';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { TechOption } from "@/types/wizard";
 
 interface OptionCardProps {
   option: TechOption;
@@ -11,9 +11,9 @@ interface OptionCardProps {
 
 export const OptionCard: React.FC<OptionCardProps> = ({ option, onToggle }) => {
   return (
-    <Card 
+    <Card
       className={`hover:shadow-md transition-shadow cursor-pointer ${
-        option.selected ? 'border-primary bg-primary/5' : ''
+        option.selected ? "border-primary bg-primary/5" : ""
       }`}
       onClick={onToggle}
     >

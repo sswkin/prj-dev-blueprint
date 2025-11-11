@@ -5,6 +5,7 @@
 **Keywords:** vite to nextjs migration, nextjs migration guide, react router to nextjs, migration back, vite to nextjs reverse migration, frontend framework migration, nextjs 14 migration, react migration guide, build tool migration, development workflow migration
 
 ## Table of Contents
+
 - [Introduction: Why Migrate Back to Next.js?](#introduction)
 - [Pre-Migration Assessment](#pre-migration-assessment)
 - [Step-by-Step Migration Process](#migration-process)
@@ -22,22 +23,26 @@ The frontend development landscape is constantly evolving, and the decision to m
 ### Key Advantages of Migrating Back to Next.js:
 
 **1. Server-Side Rendering (SSR) and Static Site Generation (SSG)**
+
 - Built-in SSR capabilities improve SEO performance
 - Automatic static generation for optimal loading times
 - Better Core Web Vitals scores for search engine ranking
 
 **2. Comprehensive Routing System**
+
 - File-based routing reduces configuration complexity
 - Dynamic routing with built-in support
 - API routes provide seamless backend integration
 
 **3. Advanced SEO Features**
+
 - Built-in metadata management
 - Automatic image optimization
 - Font optimization with next/font
 - Rich snippets and structured data support
 
 **4. Production-Ready Architecture**
+
 - Optimized bundle splitting and code splitting
 - Built-in error handling and monitoring
 - Comprehensive testing utilities
@@ -58,6 +63,7 @@ The frontend development landscape is constantly evolving, and the decision to m
 Before initiating the migration process, conduct a thorough analysis of your current Vite + React application:
 
 #### Technical Stack Inventory
+
 ```bash
 # Dependencies analysis
 npm ls --depth=0 > current-dependencies.txt
@@ -67,12 +73,14 @@ npm run build && npx vite-bundle-analyzer dist
 ```
 
 #### Performance Baseline Metrics
+
 - **Lighthouse Performance Score**: Record current metrics
 - **Core Web Vitals**: LCP, FID, CLS measurements
 - **Bundle Size**: Current JavaScript and CSS bundle sizes
 - **Build Time**: Development and production build durations
 
 #### Code Quality Assessment
+
 - **Component Architecture**: Analyze current component structure
 - **Routing Implementation**: Review React Router usage
 - **State Management**: Document current state management approach
@@ -81,6 +89,7 @@ npm run build && npx vite-bundle-analyzer dist
 ### 2. Migration Readiness Checklist
 
 #### Code Readiness
+
 - [ ] All components use React functional components
 - [ ] TypeScript configuration is properly set up
 - [ ] No Vite-specific plugins are critically dependent
@@ -88,6 +97,7 @@ npm run build && npx vite-bundle-analyzer dist
 - [ ] Asset management is using standard patterns
 
 #### Team Readiness
+
 - [ ] Team members understand Next.js concepts
 - [ ] Development environment supports Next.js
 - [ ] CI/CD pipeline can handle Next.js builds
@@ -112,6 +122,7 @@ npx tsc --init
 #### 1.2 Update Configuration Files
 
 **next.config.js**
+
 ```javascript
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -119,11 +130,11 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['your-image-domain.com'],
+    domains: ["your-image-domain.com"],
   },
   // Enable optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    removeConsole: process.env.NODE_ENV === "production",
   },
   // Bundle analyzer for optimization
   webpack: (config, { isServer }) => {
@@ -143,6 +154,7 @@ module.exports = nextConfig;
 ```
 
 **tsconfig.json**
+
 ```json
 {
   "compilerOptions": {
@@ -179,6 +191,7 @@ module.exports = nextConfig;
 #### 2.1 Directory Structure Transformation
 
 **From Vite Structure:**
+
 ```
 src/
 ├── main.tsx
@@ -194,6 +207,7 @@ src/
 ```
 
 **To Next.js Structure:**
+
 ```
 app/                      # App Router (Next.js 13+)
 ├── globals.css
@@ -212,16 +226,20 @@ src/
 #### 2.2 Page Component Migration
 
 **Before (Vite + React Router):**
+
 ```tsx
 // src/pages/HomePage.tsx
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 export default function HomePage() {
   return (
     <>
       <Helmet>
         <title>Home | BlueprintForDev AI</title>
-        <meta name="description" content="Create professional development blueprints" />
+        <meta
+          name="description"
+          content="Create professional development blueprints"
+        />
       </Helmet>
       <div className="container mx-auto px-4">
         <h1>Welcome to BlueprintForDev AI</h1>
@@ -232,14 +250,17 @@ export default function HomePage() {
 ```
 
 **After (Next.js):**
+
 ```tsx
 // app/page.tsx
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Home | BlueprintForDev AI',
-  description: 'Create professional development blueprints with AI-powered tools',
-  keywords: 'development blueprint, AI tools, software architecture, code generation',
+  title: "Home | BlueprintForDev AI",
+  description:
+    "Create professional development blueprints with AI-powered tools",
+  keywords:
+    "development blueprint, AI tools, software architecture, code generation",
 };
 
 export default function HomePage() {
@@ -259,14 +280,14 @@ export default function HomePage() {
 
 ```tsx
 // app/layout.tsx
-import './globals.css';
-import { Inter } from 'next/font/google';
+import "./globals.css";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'BlueprintForDev AI',
-  description: 'Professional development blueprint creation tool',
+  title: "BlueprintForDev AI",
+  description: "Professional development blueprint creation tool",
 };
 
 export default function RootLayout({
@@ -292,12 +313,14 @@ export default function RootLayout({
 #### 3.2 Dynamic Routing Migration
 
 **From React Router:**
+
 ```tsx
 // Vite - Dynamic route
 <Route path="/users/:userId" element={<UserProfile />} />
 ```
 
 **To Next.js:**
+
 ```tsx
 // Next.js - Dynamic route
 // app/users/[userId]/page.tsx
@@ -307,7 +330,7 @@ interface UserProfileProps {
 
 export default function UserProfile({ params }: UserProfileProps) {
   const { userId } = params;
-  
+
   return (
     <div>
       <h1>User Profile: {userId}</h1>
@@ -321,15 +344,18 @@ export default function UserProfile({ params }: UserProfileProps) {
 #### 4.1 Next.js Metadata API Implementation
 
 **Basic Metadata:**
+
 ```tsx
 // app/page.tsx
 export const metadata = {
-  title: 'BlueprintForDev AI - Professional Development Tools',
-  description: 'Create comprehensive development blueprints with AI-powered analysis and recommendations',
-  keywords: 'development blueprint, software architecture, AI tools, code generation',
-  authors: [{ name: 'BlueprintForDev Team' }],
-  creator: 'BlueprintForDev AI',
-  publisher: 'BlueprintForDev',
+  title: "BlueprintForDev AI - Professional Development Tools",
+  description:
+    "Create comprehensive development blueprints with AI-powered analysis and recommendations",
+  keywords:
+    "development blueprint, software architecture, AI tools, code generation",
+  authors: [{ name: "BlueprintForDev Team" }],
+  creator: "BlueprintForDev AI",
+  publisher: "BlueprintForDev",
   formatDetection: {
     email: false,
     address: false,
@@ -339,9 +365,10 @@ export const metadata = {
 ```
 
 **Dynamic Metadata:**
+
 ```tsx
 // app/blog/[slug]/page.tsx
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 type Props = {
   params: { slug: string };
@@ -349,7 +376,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPost(params.slug);
-  
+
   return {
     title: post.title,
     description: post.description,
@@ -357,17 +384,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.description,
       url: `https://yoursite.com/blog/${params.slug}`,
-      siteName: 'BlueprintForDev AI',
-      locale: 'en_US',
-      type: 'article',
+      siteName: "BlueprintForDev AI",
+      locale: "en_US",
+      type: "article",
       publishedTime: post.publishedAt,
       authors: [post.author],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: post.title,
       description: post.description,
-      creator: '@yoursite',
+      creator: "@yoursite",
     },
   };
 }
@@ -379,17 +406,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // app/page.tsx
 export default function HomePage() {
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'BlueprintForDev AI',
-    description: 'Professional development blueprint creation tool',
-    url: 'https://yoursite.com',
-    applicationCategory: 'DeveloperApplication',
-    operatingSystem: 'Any',
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "BlueprintForDev AI",
+    description: "Professional development blueprint creation tool",
+    url: "https://yoursite.com",
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Any",
     offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'USD',
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
     },
   };
 
@@ -399,9 +426,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="container mx-auto px-4">
-        {/* Page content */}
-      </div>
+      <div className="container mx-auto px-4">{/* Page content */}</div>
     </>
   );
 }
@@ -412,10 +437,11 @@ export default function HomePage() {
 #### 5.1 API Routes Migration
 
 **Creating Next.js API Routes:**
+
 ```tsx
 // app/api/posts/route.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { getPosts, createPost } from '@/lib/posts';
+import { NextRequest, NextResponse } from "next/server";
+import { getPosts, createPost } from "@/lib/posts";
 
 export async function GET() {
   try {
@@ -423,8 +449,8 @@ export async function GET() {
     return NextResponse.json(posts, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to fetch posts' },
-      { status: 500 }
+      { error: "Failed to fetch posts" },
+      { status: 500 },
     );
   }
 }
@@ -436,8 +462,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(post, { status: 201 });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to create post' },
-      { status: 500 }
+      { error: "Failed to create post" },
+      { status: 500 },
     );
   }
 }
@@ -446,11 +472,12 @@ export async function POST(request: NextRequest) {
 #### 5.2 Client-Side Data Fetching
 
 **Using Next.js App Router with Client Components:**
+
 ```tsx
 // app/components/PostList.tsx
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface Post {
   id: string;
@@ -463,14 +490,14 @@ export default function PostList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/posts')
+    fetch("/api/posts")
       .then((response) => response.json())
       .then((data) => {
         setPosts(data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching posts:', error);
+        console.error("Error fetching posts:", error);
         setLoading(false);
       });
   }, []);
@@ -496,23 +523,25 @@ export default function PostList() {
 
 ### Core Web Vitals Improvement
 
-| Metric | Vite + React | Next.js 14 | Improvement |
-|--------|-------------|------------|-------------|
-| **Largest Contentful Paint (LCP)** | 2.8s | 2.1s | **25% faster** |
-| **First Input Delay (FID)** | 180ms | 95ms | **47% faster** |
-| **Cumulative Layout Shift (CLS)** | 0.15 | 0.08 | **47% better** |
-| **First Contentful Paint (FCP)** | 1.9s | 1.4s | **26% faster** |
-| **Time to Interactive (TTI)** | 3.2s | 2.4s | **25% faster** |
+| Metric                             | Vite + React | Next.js 14 | Improvement    |
+| ---------------------------------- | ------------ | ---------- | -------------- |
+| **Largest Contentful Paint (LCP)** | 2.8s         | 2.1s       | **25% faster** |
+| **First Input Delay (FID)**        | 180ms        | 95ms       | **47% faster** |
+| **Cumulative Layout Shift (CLS)**  | 0.15         | 0.08       | **47% better** |
+| **First Contentful Paint (FCP)**   | 1.9s         | 1.4s       | **26% faster** |
+| **Time to Interactive (TTI)**      | 3.2s         | 2.4s       | **25% faster** |
 
 ### SEO Performance Impact
 
 #### Before Migration (Vite + React)
+
 - **Lighthouse SEO Score**: 87/100
 - **Meta Tags**: Manual implementation required
 - **Social Media Previews**: Limited support
 - **Schema Markup**: Custom implementation needed
 
 #### After Migration (Next.js)
+
 - **Lighthouse SEO Score**: 98/100
 - **Meta Tags**: Automatic optimization
 - **Social Media Previews**: Built-in Open Graph support
@@ -521,6 +550,7 @@ export default function PostList() {
 ### Bundle Size Optimization
 
 #### Vite + React Bundle Analysis
+
 ```
 Total bundle size: ~720KB gzipped
 - Vendor chunk: 280KB
@@ -530,6 +560,7 @@ Total bundle size: ~720KB gzipped
 ```
 
 #### Next.js Bundle Analysis
+
 ```
 Total bundle size: ~650KB gzipped
 - Vendor chunk: 240KB (13% smaller)
@@ -540,13 +571,13 @@ Total bundle size: ~650KB gzipped
 
 ### Build Performance Comparison
 
-| Operation | Vite + React | Next.js 14 | Winner |
-|-----------|-------------|------------|---------|
-| **Development Start** | 1.2s | 1.8s | Vite (25% faster) |
-| **Hot Reload** | 200ms | 300ms | Vite (33% faster) |
-| **Production Build** | 15s | 18s | Vite (17% faster) |
-| **First Page Load** | 2.1s | 1.6s | Next.js (24% faster) |
-| **SEO Performance** | 87/100 | 98/100 | Next.js (13% better) |
+| Operation             | Vite + React | Next.js 14 | Winner               |
+| --------------------- | ------------ | ---------- | -------------------- |
+| **Development Start** | 1.2s         | 1.8s       | Vite (25% faster)    |
+| **Hot Reload**        | 200ms        | 300ms      | Vite (33% faster)    |
+| **Production Build**  | 15s          | 18s        | Vite (17% faster)    |
+| **First Page Load**   | 2.1s         | 1.6s       | Next.js (24% faster) |
+| **SEO Performance**   | 87/100       | 98/100     | Next.js (13% better) |
 
 ## Common Challenges and Solutions {#challenges}
 
@@ -558,26 +589,26 @@ Total bundle size: ~650KB gzipped
 ```typescript
 // utils/route-mapper.ts
 export const routeMapping = {
-  '/': '/',
-  '/about': '/about',
-  '/users/:id': '/users/[id]',
-  '/posts/:category/:slug': '/posts/[category]/[slug]',
-  '/settings': '/dashboard/settings',
-  '*': '/404',
+  "/": "/",
+  "/about": "/about",
+  "/users/:id": "/users/[id]",
+  "/posts/:category/:slug": "/posts/[category]/[slug]",
+  "/settings": "/dashboard/settings",
+  "*": "/404",
 };
 
 // Helper function to convert React Router paths
 export function convertRouteToNextjs(path: string): string {
   let convertedPath = path;
-  
+
   // Convert :param to [param]
-  convertedPath = convertedPath.replace(/:(\w+)/g, '[$1]');
-  
+  convertedPath = convertedPath.replace(/:(\w+)/g, "[$1]");
+
   // Ensure leading slash
-  if (!convertedPath.startsWith('/')) {
-    convertedPath = '/' + convertedPath;
+  if (!convertedPath.startsWith("/")) {
+    convertedPath = "/" + convertedPath;
   }
-  
+
   return convertedPath;
 }
 ```
@@ -589,25 +620,25 @@ export function convertRouteToNextjs(path: string): string {
 
 ```tsx
 // Before: Vite with React Router
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 
 function FilterComponent() {
   const [searchParams] = useSearchParams();
-  const category = searchParams.get('category');
+  const category = searchParams.get("category");
 }
 
 // After: Next.js
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function FilterComponent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const category = searchParams.get('category');
-  
+  const category = searchParams.get("category");
+
   const updateFilter = (newCategory: string) => {
     const params = new URLSearchParams(searchParams);
-    params.set('category', newCategory);
+    params.set("category", newCategory);
     router.push(`/?${params.toString()}`);
   };
 }
@@ -620,9 +651,9 @@ function FilterComponent() {
 
 ```css
 /* globals.css - Next.js global styles */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Custom global styles */
 :root {
@@ -649,25 +680,19 @@ body {
 
 ```tsx
 // Before: Vite
-import logo from './logo.jpg';
+import logo from "./logo.jpg";
 
 // After: Next.js
 // Place assets in public/ folder for static serving
 // or use next/image for optimized images
 
-import Image from 'next/image';
-import logo from '../public/logo.jpg';
+import Image from "next/image";
+import logo from "../public/logo.jpg";
 
 function Header() {
   return (
     <header>
-      <Image
-        src={logo}
-        alt="Logo"
-        width={100}
-        height={100}
-        priority
-      />
+      <Image src={logo} alt="Logo" width={100} height={100} priority />
     </header>
   );
 }
@@ -678,21 +703,25 @@ function Header() {
 ### 1. Incremental Migration Strategy
 
 **Phase 1: Infrastructure Setup**
+
 - Set up Next.js project structure
 - Configure build tools and dependencies
 - Establish testing environment
 
 **Phase 2: Core Components Migration**
+
 - Migrate layout and navigation components
 - Update routing system incrementally
 - Test each migrated feature
 
 **Phase 3: Feature Migration**
+
 - Migrate page components one by one
 - Update API calls and data fetching
 - Implement SEO optimizations
 
 **Phase 4: Performance Optimization**
+
 - Optimize bundle size
 - Implement caching strategies
 - Fine-tune Core Web Vitals
@@ -700,6 +729,7 @@ function Header() {
 ### 2. Code Quality Assurance
 
 #### Testing Strategy
+
 ```bash
 # Install testing dependencies
 npm install -D jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom
@@ -709,6 +739,7 @@ npm test
 ```
 
 #### TypeScript Configuration Best Practices
+
 ```json
 {
   "compilerOptions": {
@@ -724,9 +755,10 @@ npm test
 ### 3. Performance Optimization Techniques
 
 #### Next.js Image Optimization
+
 ```tsx
 // Using next/image for automatic optimization
-import Image from 'next/image';
+import Image from "next/image";
 
 function OptimizedImage({ src, alt, width, height }) {
   return (
@@ -744,11 +776,12 @@ function OptimizedImage({ src, alt, width, height }) {
 ```
 
 #### Dynamic Imports for Code Splitting
+
 ```tsx
 // Lazy load heavy components
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-const ChartComponent = dynamic(() => import('./Chart'), {
+const ChartComponent = dynamic(() => import("./Chart"), {
   loading: () => <p>Loading chart...</p>,
   ssr: false, // Disable SSR for client-heavy components
 });
@@ -766,6 +799,7 @@ export default function Dashboard() {
 ### 4. SEO Implementation Best Practices
 
 #### Structured Data Implementation
+
 ```tsx
 // app/components/StructuredData.tsx
 interface StructuredDataProps {
@@ -784,23 +818,24 @@ export function StructuredData({ data }: StructuredDataProps) {
 // Usage
 <StructuredData
   data={{
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: 'Migration Guide',
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Migration Guide",
     author: {
-      '@type': 'Person',
-      name: 'Migration Expert',
+      "@type": "Person",
+      name: "Migration Expert",
     },
   }}
-/>
+/>;
 ```
 
 #### Dynamic Meta Tags
+
 ```tsx
 // app/blog/[slug]/page.tsx
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPost(params.slug);
-  
+
   return {
     title: `${post.title} | BlueprintForDev`,
     description: post.excerpt,
@@ -810,7 +845,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [post.coverImage],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
       images: [post.coverImage],
@@ -828,20 +863,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 **Migrated To**: Next.js 14 with App Router
 
 #### Migration Statistics
+
 - **Migration Duration**: 6 weeks
 - **Team Size**: 8 developers
 - **Pages Migrated**: 150+ pages
 - **Components Converted**: 300+ components
 
 #### Performance Results
-| Metric | Before (Vite) | After (Next.js) | Improvement |
-|--------|---------------|----------------|-------------|
-| **Page Load Time** | 3.2s | 2.1s | 34% faster |
-| **SEO Ranking** | Page 3 | Page 1 | 85% increase |
-| **Conversion Rate** | 2.1% | 3.4% | 62% increase |
-| **Mobile Score** | 78/100 | 94/100 | 21% better |
+
+| Metric              | Before (Vite) | After (Next.js) | Improvement  |
+| ------------------- | ------------- | --------------- | ------------ |
+| **Page Load Time**  | 3.2s          | 2.1s            | 34% faster   |
+| **SEO Ranking**     | Page 3        | Page 1          | 85% increase |
+| **Conversion Rate** | 2.1%          | 3.4%            | 62% increase |
+| **Mobile Score**    | 78/100        | 94/100          | 21% better   |
 
 #### Key Learnings
+
 1. **Incremental Migration**: Migrate pages in priority order
 2. **Performance Monitoring**: Implement real-time monitoring
 3. **SEO Preservation**: Maintain URL structure during migration
@@ -854,6 +892,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 **Migrated To**: Next.js 14 with middleware
 
 #### Migration Approach
+
 ```typescript
 // next.config.js
 const nextConfig = {
@@ -861,13 +900,13 @@ const nextConfig = {
     middleware: true,
   },
   images: {
-    domains: ['cdn.tenant1.com', 'cdn.tenant2.com'],
+    domains: ["cdn.tenant1.com", "cdn.tenant2.com"],
   },
   async redirects() {
     return [
       {
-        source: '/old-url/:path*',
-        destination: '/new-url/:path*',
+        source: "/old-url/:path*",
+        destination: "/new-url/:path*",
         permanent: true,
       },
     ];
@@ -878,6 +917,7 @@ module.exports = nextConfig;
 ```
 
 #### Results
+
 - **Development Speed**: 40% faster after initial setup
 - **Bundle Size**: Reduced by 18%
 - **SEO Performance**: Improved from 82/100 to 96/100
@@ -890,22 +930,23 @@ module.exports = nextConfig;
 **Migrated To**: Next.js 14 with App Router and streaming
 
 #### Implementation Details
+
 ```tsx
 // app/dashboard/page.tsx
-import { Suspense } from 'react';
-import { DashboardStats } from '@/components/DashboardStats';
-import { RecentActivity } from '@/components/RecentActivity';
-import { LoadingSkeleton } from '@/components/LoadingSkeleton';
+import { Suspense } from "react";
+import { DashboardStats } from "@/components/DashboardStats";
+import { RecentActivity } from "@/components/RecentActivity";
+import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Dashboard</h1>
-      
+
       <Suspense fallback={<LoadingSkeleton />}>
         <DashboardStats />
       </Suspense>
-      
+
       <Suspense fallback={<LoadingSkeleton />}>
         <RecentActivity />
       </Suspense>
@@ -915,6 +956,7 @@ export default function DashboardPage() {
 ```
 
 #### Performance Impact
+
 - **First Contentful Paint**: Improved by 28%
 - **Time to Interactive**: Reduced by 31%
 - **Bundle Splitting**: Achieved 40% better code splitting
@@ -927,16 +969,18 @@ export default function DashboardPage() {
 #### 1. Build Errors After Migration
 
 **Problem**: TypeScript compilation errors
-**Error Message**: 
+**Error Message**:
+
 ```
 Property 'X' does not exist on type 'Y'
 ```
 
 **Solution**:
+
 ```typescript
 // Ensure proper types are imported
-import { NextRequest, NextResponse } from 'next/server';
-import { type User } from '@/types/user';
+import { NextRequest, NextResponse } from "next/server";
+import { type User } from "@/types/user";
 
 // Update component props
 interface ComponentProps {
@@ -949,6 +993,7 @@ interface ComponentProps {
 
 **Problem**: 404 errors for dynamic routes
 **Solution**:
+
 ```typescript
 // Ensure proper file structure
 // app/users/[id]/page.tsx (not app/users/:id/page.tsx)
@@ -965,17 +1010,15 @@ interface PageProps {
 
 **Problem**: Styles not loading correctly
 **Solution**:
+
 ```typescript
 // Ensure globals.css is imported in layout.tsx
-import './globals.css';
+import "./globals.css";
 
 // Check Tailwind configuration
 // tailwind.config.js
 module.exports = {
-  content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {},
   },
@@ -987,13 +1030,14 @@ module.exports = {
 
 **Problem**: API routes returning 404
 **Solution**:
+
 ```typescript
 // Ensure proper file structure
 // app/api/posts/route.ts (not app/api/posts.ts)
 
 // Check HTTP method handling
 export async function GET() {
-  return NextResponse.json({ message: 'Success' });
+  return NextResponse.json({ message: "Success" });
 }
 
 export async function POST(request: Request) {
@@ -1005,6 +1049,7 @@ export async function POST(request: Request) {
 ### Performance Optimization Troubleshooting
 
 #### Slow Build Times
+
 ```bash
 # Profile build performance
 npm run build -- --profile
@@ -1014,6 +1059,7 @@ npm install -D @next/bundle-analyzer
 ```
 
 #### Memory Issues During Build
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -1030,11 +1076,12 @@ module.exports = {
 ```
 
 #### Image Optimization Issues
+
 ```typescript
 // next.config.js
 const nextConfig = {
   images: {
-    formats: ['image/webp', 'image/avif'],
+    formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
@@ -1045,27 +1092,29 @@ const nextConfig = {
 ### SEO and Meta Tag Issues
 
 #### Meta Tags Not Updating
+
 ```typescript
 // Ensure proper metadata export
 export const metadata: Metadata = {
-  title: 'Page Title',
-  description: 'Page description',
-  keywords: 'relevant, keywords, here',
+  title: "Page Title",
+  description: "Page description",
+  keywords: "relevant, keywords, here",
   openGraph: {
-    title: 'OG Title',
-    description: 'OG Description',
-    url: 'https://yoursite.com',
+    title: "OG Title",
+    description: "OG Description",
+    url: "https://yoursite.com",
   },
 };
 ```
 
 #### Structured Data Issues
+
 ```typescript
 // Validate JSON-LD syntax
 const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: 'Page Name',
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Page Name",
   // Ensure all required properties
 };
 
@@ -1077,6 +1126,7 @@ const jsonLd = {
 ### 1. Performance Monitoring Setup
 
 #### Core Web Vitals Monitoring
+
 ```typescript
 // app/components/WebVitals.tsx
 'use client';
@@ -1112,10 +1162,11 @@ export default function RootLayout({ children }) {
 ```
 
 #### Performance Budget Configuration
+
 ```javascript
 // next.config.js
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
 });
 
 module.exports = withBundleAnalyzer({
@@ -1129,42 +1180,44 @@ module.exports = withBundleAnalyzer({
 ### 2. SEO Optimization
 
 #### Dynamic Sitemap Generation
+
 ```typescript
 // app/sitemap.ts
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://yoursite.com';
+  const baseUrl = "https://yoursite.com";
   const pages = [
-    '',
-    '/about',
-    '/contact',
-    '/blog',
+    "",
+    "/about",
+    "/contact",
+    "/blog",
     // Add dynamic routes
   ];
 
   return pages.map((page) => ({
     url: `${baseUrl}${page}`,
     lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: page === '' ? 1 : 0.7,
+    changeFrequency: "monthly" as const,
+    priority: page === "" ? 1 : 0.7,
   }));
 }
 ```
 
 #### Robot.txt Configuration
+
 ```typescript
 // app/robots.ts
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: '/api/',
+      userAgent: "*",
+      allow: "/",
+      disallow: "/api/",
     },
-    sitemap: 'https://yoursite.com/sitemap.xml',
+    sitemap: "https://yoursite.com/sitemap.xml",
   };
 }
 ```
@@ -1172,26 +1225,27 @@ export default function robots(): MetadataRoute.Robots {
 ### 3. Caching Strategy
 
 #### Static Asset Caching
+
 ```javascript
 // next.config.js
 module.exports = {
   async headers() {
     return [
       {
-        source: '/_next/static/:path*',
+        source: "/_next/static/:path*",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
       {
-        source: '/images/:path*',
+        source: "/images/:path*",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
@@ -1201,17 +1255,21 @@ module.exports = {
 ```
 
 #### API Response Caching
+
 ```typescript
 // app/api/posts/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const revalidate = 60; // Revalidate every minute
-  
+
   // Add cache headers
   const response = NextResponse.json(await getPosts());
-  response.headers.set('Cache-Control', `s-maxage=${revalidate}, stale-while-revalidate`);
-  
+  response.headers.set(
+    "Cache-Control",
+    `s-maxage=${revalidate}, stale-while-revalidate`,
+  );
+
   return response;
 }
 ```
@@ -1219,6 +1277,7 @@ export async function GET(request: NextRequest) {
 ### 4. Deployment Optimization
 
 #### Build Optimization
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -1226,21 +1285,21 @@ module.exports = {
   poweredByHeader: false,
   compress: true,
   swcMinify: true,
-  
+
   // Image optimization
   images: {
-    formats: ['image/webp', 'image/avif'],
+    formats: ["image/webp", "image/avif"],
   },
-  
+
   // Bundle analysis
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    if (process.env.ANALYZE === 'true') {
-      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+    if (process.env.ANALYZE === "true") {
+      const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
       config.plugins.push(
         new BundleAnalyzerPlugin({
-          analyzerMode: 'static',
+          analyzerMode: "static",
           openAnalyzer: false,
-        })
+        }),
       );
     }
     return config;
@@ -1249,6 +1308,7 @@ module.exports = {
 ```
 
 #### Environment Configuration
+
 ```bash
 # .env.production
 NEXT_PUBLIC_API_URL=https://api.yoursite.com
@@ -1289,4 +1349,4 @@ The migration-back process from Vite to Next.js is not just a technical upgrade�
 
 ---
 
-*Ready to start your migration? Contact our team of Next.js experts for personalized guidance and support throughout your migration journey.*
+_Ready to start your migration? Contact our team of Next.js experts for personalized guidance and support throughout your migration journey._

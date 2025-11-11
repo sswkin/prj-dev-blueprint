@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Tag {
   id: string;
   text: string;
   weight: number;
-  category?: 'technology' | 'market' | 'feature' | 'risk';
+  category?: "technology" | "market" | "feature" | "risk";
   aiGenerated?: boolean;
 }
 
@@ -24,30 +24,30 @@ export const TagCloud: React.FC<TagCloudProps> = ({
   onTagClick,
   onTagRemove,
   className,
-  maxTags = 20
+  maxTags = 20,
 }) => {
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
 
   const getCategoryColor = (category?: string) => {
     switch (category) {
-      case 'technology':
-        return 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700';
-      case 'market':
-        return 'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700';
-      case 'feature':
-        return 'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-700';
-      case 'risk':
-        return 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700';
+      case "technology":
+        return "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700";
+      case "market":
+        return "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700";
+      case "feature":
+        return "bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-700";
+      case "risk":
+        return "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700";
       default:
-        return 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600';
+        return "bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600";
     }
   };
 
   const getTagSize = (weight: number) => {
-    if (weight >= 0.8) return 'text-lg px-4 py-2';
-    if (weight >= 0.6) return 'text-base px-3 py-2';
-    if (weight >= 0.4) return 'text-sm px-3 py-1.5';
-    return 'text-xs px-2 py-1';
+    if (weight >= 0.8) return "text-lg px-4 py-2";
+    if (weight >= 0.6) return "text-base px-3 py-2";
+    if (weight >= 0.4) return "text-sm px-3 py-1.5";
+    return "text-xs px-2 py-1";
   };
 
   const displayTags = tags.slice(0, maxTags);
@@ -77,7 +77,8 @@ export const TagCloud: React.FC<TagCloudProps> = ({
                 "relative group border rounded-full font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
                 getTagSize(tag.weight),
                 getCategoryColor(tag.category),
-                tag.aiGenerated && "ring-1 ring-indigo-300 dark:ring-indigo-600"
+                tag.aiGenerated &&
+                  "ring-1 ring-indigo-300 dark:ring-indigo-600",
               )}
               onClick={() => onTagClick?.(tag)}
               onMouseEnter={() => setHoveredTag(tag.id)}

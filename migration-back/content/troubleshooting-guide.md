@@ -5,6 +5,7 @@
 **Keywords:** vite to nextjs troubleshooting, nextjs migration problems, nextjs build errors, nextjs routing issues, migration troubleshooting guide, nextjs configuration problems, react router to nextjs issues
 
 ## Table of Contents
+
 - [Common Build and Compilation Errors](#build-errors)
 - [Routing and Navigation Issues](#routing-issues)
 - [Configuration Problems](#configuration-problems)
@@ -21,6 +22,7 @@
 #### Problem: Property 'X' does not exist on type 'Y'
 
 **Error Message:**
+
 ```
 Property 'router' does not exist on type 'NextRequest'
 Type 'User' is not assignable to type 'any'
@@ -29,16 +31,18 @@ Type 'User' is not assignable to type 'any'
 **Solutions:**
 
 **A. Missing Type Imports**
+
 ```typescript
 // ❌ Incorrect
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 // ✅ Correct
-import type { NextRequest, NextResponse } from 'next/server';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 ```
 
 **B. Component Prop Type Issues**
+
 ```typescript
 // ❌ Incorrect
 interface Props {
@@ -74,6 +78,7 @@ export default function Component({ data }: ComponentProps) {
 #### Problem: Module Resolution Errors
 
 **Error Message:**
+
 ```
 Module not found: Can't resolve '@/components/Button'
 ```
@@ -81,6 +86,7 @@ Module not found: Can't resolve '@/components/Button'
 **Solutions:**
 
 **A. Verify Path Mapping**
+
 ```json
 // tsconfig.json
 {
@@ -96,14 +102,15 @@ Module not found: Can't resolve '@/components/Button'
 ```
 
 **B. Check File Extensions**
+
 ```typescript
 // ❌ Incorrect
-import Button from '@/components/Button'; // Missing extension
+import Button from "@/components/Button"; // Missing extension
 
 // ✅ Correct
-import Button from '@/components/Button.tsx';
+import Button from "@/components/Button.tsx";
 // or
-import Button from '@/components/Button'; // If extension in pathMapping
+import Button from "@/components/Button"; // If extension in pathMapping
 ```
 
 ### 2. Webpack and Bundle Errors
@@ -111,6 +118,7 @@ import Button from '@/components/Button'; // If extension in pathMapping
 #### Problem: Module Federation Issues
 
 **Error Message:**
+
 ```
 Module not found: Error: Can't resolve 'fs' in production build
 ```
@@ -118,6 +126,7 @@ Module not found: Error: Can't resolve 'fs' in production build
 **Solutions:**
 
 **A. Configure Webpack Fallbacks**
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -140,6 +149,7 @@ module.exports = {
 #### Problem: Large Bundle Size Warnings
 
 **Warning Message:**
+
 ```
 Build size exceeded warning: current build size 2.1MB
 ```
@@ -147,11 +157,13 @@ Build size exceeded warning: current build size 2.1MB
 **Solutions:**
 
 **A. Enable Bundle Analysis**
+
 ```bash
 npm run build -- --analyze
 ```
 
 **B. Implement Dynamic Imports**
+
 ```typescript
 // ❌ Incorrect
 import { HeavyComponent } from './components/HeavyComponent';
@@ -165,6 +177,7 @@ const HeavyComponent = dynamic(() => import('./components/HeavyComponent'), {
 ```
 
 **C. Configure Bundle Size Limits**
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -181,6 +194,7 @@ module.exports = {
 #### Problem: 404 Errors for New Routes
 
 **Error Message:**
+
 ```
 Cannot GET /new-page
 ```
@@ -188,6 +202,7 @@ Cannot GET /new-page
 **Solutions:**
 
 **A. Check File Structure**
+
 ```
 app/
 ├── page.tsx              # ✅ / route
@@ -205,6 +220,7 @@ app/
 ```
 
 **B. Route File Naming**
+
 ```typescript
 // ✅ Correct file names
 app/
@@ -221,6 +237,7 @@ app/
 #### Problem: Dynamic Route Parameter Issues
 
 **Error Message:**
+
 ```
 Error: Route parameters did not match
 ```
@@ -228,6 +245,7 @@ Error: Route parameters did not match
 **Solutions:**
 
 **A. Correct Parameter Access**
+
 ```typescript
 // ❌ Incorrect
 interface Props {
@@ -253,6 +271,7 @@ export default function Page({ params }: Props) {
 ```
 
 **B. Route Group Issues**
+
 ```typescript
 // app/(marketing)/page.tsx → '/' route (not '/(marketing)')
 // app/(app)/dashboard/page.tsx → '/dashboard' route (not '/(app)/dashboard')
@@ -263,6 +282,7 @@ export default function Page({ params }: Props) {
 #### Problem: useRouter Hook Not Working
 
 **Error Message:**
+
 ```
 Error: useRouter() should be used inside a Router component
 ```
@@ -270,9 +290,10 @@ Error: useRouter() should be used inside a Router component
 **Solutions:**
 
 **A. Client-Side Only**
+
 ```typescript
 // ❌ Incorrect - Server Component
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter(); // Error
@@ -280,9 +301,9 @@ export default function Page() {
 }
 
 // ✅ Correct - Client Component
-'use client';
+("use client");
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter();
@@ -295,28 +316,30 @@ export default function Page() {
 **Solutions:**
 
 **A. Import Correct Link**
+
 ```typescript
 // ❌ Incorrect
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 // ✅ Correct
-import Link from 'next/link';
+import Link from "next/link";
 ```
 
 **B. Client-Side Navigation**
+
 ```typescript
 // For client-side navigation without page reload
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 function ClientComponent() {
   const router = useRouter();
-  
+
   const handleNavigation = () => {
-    router.push('/new-page');
+    router.push("/new-page");
     // or
-    router.replace('/new-page'); // Won't add to history
+    router.replace("/new-page"); // Won't add to history
     // or
     router.back(); // Go back
   };
@@ -332,12 +355,13 @@ function ClientComponent() {
 **Solutions:**
 
 **A. Enable Experimental Features**
+
 ```javascript
 // next.config.js
 module.exports = {
   experimental: {
-    appDir: true,        // Enable App Router
-    serverComponentsExternalPackages: ['@supabase/supabase-js'],
+    appDir: true, // Enable App Router
+    serverComponentsExternalPackages: ["@supabase/supabase-js"],
     serverMinification: true,
   },
 };
@@ -346,6 +370,7 @@ module.exports = {
 #### Problem: Image Optimization Errors
 
 **Error Message:**
+
 ```
 Error: Invalid src prop: 'https://example.com/image.jpg'
 ```
@@ -353,22 +378,23 @@ Error: Invalid src prop: 'https://example.com/image.jpg'
 **Solutions:**
 
 **A. Configure Allowed Domains**
+
 ```javascript
 // next.config.js
 module.exports = {
   images: {
     domains: [
-      'images.unsplash.com',
-      'via.placeholder.com',
-      'your-domain.com',
-      'cdn.your-domain.com'
+      "images.unsplash.com",
+      "via.placeholder.com",
+      "your-domain.com",
+      "cdn.your-domain.com",
     ],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**.your-domain.com',
-        port: '',
-        pathname: '/images/**',
+        protocol: "https",
+        hostname: "**.your-domain.com",
+        port: "",
+        pathname: "/images/**",
       },
     ],
   },
@@ -376,6 +402,7 @@ module.exports = {
 ```
 
 **B. Handle Image Loading Errors**
+
 ```typescript
 // components/OptimizedImage.tsx
 'use client';
@@ -414,6 +441,7 @@ export default function OptimizedImage({ src, alt, ...props }) {
 **Solutions:**
 
 **A. Check tsconfig.json Structure**
+
 ```json
 {
   "compilerOptions": {
@@ -425,17 +453,13 @@ export default function OptimizedImage({ src, alt, ...props }) {
       "@/types/*": ["./src/types/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
 ```
 
 **B. Restart TypeScript Service**
+
 ```
 # In VS Code
 Ctrl+Shift+P → TypeScript: Restart TS Server
@@ -454,6 +478,7 @@ npm run dev
 **Solutions:**
 
 **A. Optimize Dependencies**
+
 ```bash
 # Check for unused dependencies
 npx depcheck
@@ -463,6 +488,7 @@ npm run build -- --analyze
 ```
 
 **B. Enable SWC Minification**
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -477,16 +503,18 @@ module.exports = {
 **Solutions:**
 
 **A. Check File Watching**
+
 ```javascript
 // next.config.js
 module.exports = {
   watchOptions: {
-    ignored: ['**/node_modules/**', '**/.next/**'],
+    ignored: ["**/node_modules/**", "**/.next/**"],
   },
 };
 ```
 
 **B. Restart Development Server**
+
 ```bash
 # Stop the server (Ctrl+C)
 # Clear .next directory
@@ -500,6 +528,7 @@ npm run dev
 #### Problem: Out of Memory Errors
 
 **Error Message:**
+
 ```
 FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed
 ```
@@ -507,6 +536,7 @@ FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed
 **Solutions:**
 
 **A. Increase Node.js Memory Limit**
+
 ```bash
 # Set memory limit
 export NODE_OPTIONS="--max_old_space_size=4096"
@@ -521,6 +551,7 @@ npm run build
 ```
 
 **B. Optimize Build Process**
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -528,12 +559,12 @@ module.exports = {
     if (!dev && !isServer) {
       // Reduce memory usage
       config.optimization.splitChunks = {
-        chunks: 'all',
+        chunks: "all",
         cacheGroups: {
           vendor: {
             test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
+            name: "vendors",
+            chunks: "all",
           },
         },
       };
@@ -552,6 +583,7 @@ module.exports = {
 **Solutions:**
 
 **A. Use Client-Side Meta Updates**
+
 ```typescript
 // ❌ Incorrect - Server Component
 import { Metadata } from 'next';
@@ -570,6 +602,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 ```
 
 **B. Client-Side Meta Updates with Helmet**
+
 ```typescript
 // components/PageMeta.tsx
 'use client';
@@ -588,11 +621,11 @@ export default function PageMeta({ title, description, keywords = [] }: PageMeta
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords.join(', ')} />
-      
+
       {/* Open Graph */}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      
+
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
@@ -605,6 +638,7 @@ export default function PageMeta({ title, description, keywords = [] }: PageMeta
 #### Problem: Structured Data Issues
 
 **Error Message:**
+
 ```
 Warning: The attribute "itemtype" is not valid
 ```
@@ -612,28 +646,30 @@ Warning: The attribute "itemtype" is not valid
 **Solutions:**
 
 **A. Valid JSON-LD Structure**
+
 ```typescript
 // ❌ Incorrect
 const jsonLd = {
-  '@context': 'https://schema.org',
-  'itemtype': 'https://schema.org/Article', // Wrong attribute
-  'itemscope': true,
+  "@context": "https://schema.org",
+  itemtype: "https://schema.org/Article", // Wrong attribute
+  itemscope: true,
 };
 
 // ✅ Correct
 const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: 'Article Title',
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Article Title",
   author: {
-    '@type': 'Person',
-    name: 'Author Name',
+    "@type": "Person",
+    name: "Author Name",
   },
-  datePublished: '2024-01-01',
+  datePublished: "2024-01-01",
 };
 ```
 
 **B. Test Structured Data**
+
 ```typescript
 // app/components/StructuredData.tsx
 interface StructuredDataProps {
@@ -666,6 +702,7 @@ export function StructuredData({ data }: StructuredDataProps) {
 **Solutions:**
 
 **A. Check Global CSS Import**
+
 ```typescript
 // app/layout.tsx
 import './globals.css'; // Must be imported in root layout
@@ -680,14 +717,15 @@ export default function RootLayout({ children }) {
 ```
 
 **B. Tailwind CSS Configuration**
+
 ```javascript
 // tailwind.config.js
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {},
@@ -703,6 +741,7 @@ module.exports = {
 **Solutions:**
 
 **A. Configure Next.js for Styled Components**
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -713,6 +752,7 @@ module.exports = {
 ```
 
 **B. Server-Side Rendering Setup**
+
 ```typescript
 // lib/styled-components.tsx
 import { createGlobalStyle } from 'styled-components';
@@ -723,7 +763,7 @@ export const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   body {
     font-family: 'Inter', sans-serif;
     line-height: 1.5;
@@ -753,6 +793,7 @@ export default function RootLayout({ children }) {
 #### Problem: 404 for API Routes
 
 **Error Message:**
+
 ```
 Cannot GET /api/users
 ```
@@ -760,6 +801,7 @@ Cannot GET /api/users
 **Solutions:**
 
 **A. Check File Structure**
+
 ```
 app/
 ├── api/
@@ -777,28 +819,29 @@ app/
 ```
 
 **B. HTTP Method Handling**
+
 ```typescript
 // app/api/users/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  return NextResponse.json({ message: 'GET request' });
+  return NextResponse.json({ message: "GET request" });
 }
 
 export async function POST(request: NextRequest) {
-  return NextResponse.json({ message: 'POST request' });
+  return NextResponse.json({ message: "POST request" });
 }
 
 // ❌ Using wrong function names
-export async function GET_ALL() {}  // Wrong
-export async function CREATE() {}    // Wrong
+export async function GET_ALL() {} // Wrong
+export async function CREATE() {} // Wrong
 
 // ✅ Using correct HTTP method names
-export async function GET() {}       // Correct
-export async function POST() {}      // Correct
-export async function PUT() {}       // Correct
-export async function DELETE() {}    // Correct
-export async function PATCH() {}     // Correct
+export async function GET() {} // Correct
+export async function POST() {} // Correct
+export async function PUT() {} // Correct
+export async function DELETE() {} // Correct
+export async function PATCH() {} // Correct
 ```
 
 ### 2. Data Fetching Issues
@@ -806,6 +849,7 @@ export async function PATCH() {}     // Correct
 #### Problem: Hydration Mismatch
 
 **Error Message:**
+
 ```
 Warning: Text content did not match
 ```
@@ -813,17 +857,18 @@ Warning: Text content did not match
 **Solutions:**
 
 **A. Use Client Components for Dynamic Data**
+
 ```typescript
 // ❌ Incorrect - Server Component with dynamic data
 export default function Page() {
   const [data, setData] = useState(null); // Hydration mismatch
-  
+
   useEffect(() => {
     fetch('/api/data')
       .then(res => res.json())
       .then(setData);
   }, []);
-  
+
   return <div>{data?.title}</div>;
 }
 
@@ -836,12 +881,13 @@ export default function Page() {
 ```
 
 **B. Consistent Server/Client Rendering**
+
 ```typescript
 // ✅ Loading state during SSR
 export default async function Page() {
   // Server-side loading
   const data = await fetchData();
-  
+
   return (
     <div>
       {data ? data.title : 'Loading...'}
@@ -859,6 +905,7 @@ export default async function Page() {
 **Solutions:**
 
 **A. Correct Environment Variable Usage**
+
 ```bash
 # .env.local (for development)
 NEXT_PUBLIC_API_URL=http://localhost:3001
@@ -870,6 +917,7 @@ API_SECRET=your-production-secret
 ```
 
 **B. Access Variables Correctly**
+
 ```typescript
 // ❌ Incorrect
 const apiUrl = process.env.API_URL; // Not available on client
@@ -886,6 +934,7 @@ const secret = process.env.API_SECRET; // Available on server
 **Solutions:**
 
 **A. Check Node.js Version**
+
 ```json
 // package.json
 {
@@ -897,17 +946,18 @@ const secret = process.env.API_SECRET; // Available on server
 ```
 
 **B. Optimize for Production**
+
 ```javascript
 // next.config.js
 module.exports = {
   // Disable console.log in production
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    removeConsole: process.env.NODE_ENV === "production",
   },
-  
+
   // Enable compression
   compress: true,
-  
+
   // Enable SWC minification
   swcMinify: true,
 };
@@ -918,6 +968,7 @@ module.exports = {
 #### Problem: Static Export Not Working
 
 **Error Message:**
+
 ```
 Error: Image Optimization requires Node.js server
 ```
@@ -925,10 +976,11 @@ Error: Image Optimization requires Node.js server
 **Solutions:**
 
 **A. Configure for Static Export**
+
 ```javascript
 // next.config.js
 const nextConfig = {
-  output: 'export',
+  output: "export",
   trailingSlash: true,
   images: {
     unoptimized: true,
@@ -943,6 +995,7 @@ module.exports = nextConfig;
 ```
 
 **B. Use Static Image Handling**
+
 ```typescript
 // Use local images for static export
 import Image from 'next/image';
@@ -966,6 +1019,7 @@ function Component() {
 ### 1. Development Tools
 
 **A. Enable Debug Logging**
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -978,6 +1032,7 @@ module.exports = {
 ```
 
 **B. Use Source Maps**
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -988,6 +1043,7 @@ module.exports = {
 ### 2. Performance Monitoring
 
 **A. Bundle Analysis**
+
 ```bash
 # Analyze bundle size
 npm run build
@@ -995,6 +1051,7 @@ npx @next/bundle-analyzer
 ```
 
 **B. Performance Profiling**
+
 ```bash
 # Profile build performance
 npm run build -- --profile
@@ -1027,4 +1084,4 @@ Remember: Most migration issues are configuration-related and can be resolved by
 
 ---
 
-*This troubleshooting guide covers the most common issues encountered during Vite to Next.js migration. For additional support, consult the main migration guide or implementation documentation.*
+_This troubleshooting guide covers the most common issues encountered during Vite to Next.js migration. For additional support, consult the main migration guide or implementation documentation._

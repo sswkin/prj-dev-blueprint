@@ -5,6 +5,7 @@
 **Keywords:** vite to nextjs best practices, nextjs migration guidelines, nextjs performance optimization, nextjs seo best practices, react to nextjs migration tips, nextjs development workflow, nextjs project structure
 
 ## Table of Contents
+
 - [Project Structure and Organization](#project-structure)
 - [Performance Optimization Strategies](#performance-optimization)
 - [SEO and Metadata Best Practices](#seo-practices)
@@ -19,6 +20,7 @@
 ### 1. Recommended Directory Structure
 
 #### Optimal Next.js App Router Structure
+
 ```
 your-nextjs-project/
 ├── app/                          # App Router
@@ -106,6 +108,7 @@ your-nextjs-project/
 ### 2. Route Group Organization
 
 **Using Route Groups for Better Organization:**
+
 ```typescript
 // app/(marketing)/layout.tsx
 // Public-facing pages with marketing-focused layout
@@ -139,6 +142,7 @@ export default function AppLayout({ children }) {
 ### 3. Component Organization Best Practices
 
 #### Component Hierarchy
+
 ```typescript
 // src/components/ui/button.tsx - Base UI component
 export interface ButtonProps {
@@ -169,6 +173,7 @@ export function SubmitButton({ isLoading, children }: SubmitButtonProps) {
 ```
 
 #### Shared Component Library Structure
+
 ```typescript
 // src/components/ui/
 ├── button/
@@ -190,6 +195,7 @@ export function SubmitButton({ isLoading, children }: SubmitButtonProps) {
 ### 1. Bundle Optimization
 
 #### Code Splitting Best Practices
+
 ```typescript
 // Dynamic imports for heavy components
 import dynamic from 'next/dynamic';
@@ -209,32 +215,34 @@ const ChartComponent = dynamic(() => import('@/components/heavy/Chart'), {
 ```
 
 #### Bundle Analysis and Monitoring
+
 ```javascript
 // next.config.js
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
 });
 
 module.exports = withBundleAnalyzer({
   webpack: (config, { dev, isServer }) => {
     // Add bundle analyzer plugin
-    if (process.env.ANALYZE === 'true') {
-      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+    if (process.env.ANALYZE === "true") {
+      const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
       config.plugins.push(
         new BundleAnalyzerPlugin({
-          analyzerMode: 'static',
+          analyzerMode: "static",
           openAnalyzer: false,
-          reportFilename: 'bundle-report.html',
-        })
+          reportFilename: "bundle-report.html",
+        }),
       );
     }
-    
+
     return config;
   },
 });
 ```
 
 **Package.json scripts for bundle analysis:**
+
 ```json
 {
   "scripts": {
@@ -251,6 +259,7 @@ module.exports = withBundleAnalyzer({
 ### 2. Image Optimization
 
 #### Proper Image Configuration
+
 ```typescript
 // next.config.js
 const nextConfig = {
@@ -292,7 +301,7 @@ export default function OptimizedImage({
 
   if (imageError) {
     return (
-      <div 
+      <div
         className={`bg-gray-200 flex items-center justify-center ${className}`}
         style={{ width, height }}
       >
@@ -323,6 +332,7 @@ export default function OptimizedImage({
 ### 3. Caching Strategies
 
 #### Static Asset Caching
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -330,31 +340,31 @@ module.exports = {
     return [
       {
         // Cache static assets for 1 year
-        source: '/_next/static/:path*',
+        source: "/_next/static/:path*",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
       {
         // Cache images for 1 month
-        source: '/images/:path*',
+        source: "/images/:path*",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=2628000, stale-while-revalidate',
+            key: "Cache-Control",
+            value: "public, max-age=2628000, stale-while-revalidate",
           },
         ],
       },
       {
         // Cache API responses for 5 minutes
-        source: '/api/:path*',
+        source: "/api/:path*",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, s-maxage=300, stale-while-revalidate=600',
+            key: "Cache-Control",
+            value: "public, s-maxage=300, stale-while-revalidate=600",
           },
         ],
       },
@@ -364,30 +374,31 @@ module.exports = {
 ```
 
 #### Data Caching with Revalidation
+
 ```typescript
 // lib/data/blog.ts
 export async function getBlogPosts(): Promise<BlogPost[]> {
   // Cache for 1 hour, revalidate in background
   const revalidate = 3600;
-  
-  const posts = await fetch('https://api.example.com/posts', {
+
+  const posts = await fetch("https://api.example.com/posts", {
     next: { revalidate },
   });
-  
+
   if (!posts.ok) {
-    throw new Error('Failed to fetch blog posts');
+    throw new Error("Failed to fetch blog posts");
   }
-  
+
   return posts.json();
 }
 
 // For real-time data, use shorter revalidation
 export async function getNotifications(): Promise<Notification[]> {
   // Cache for 30 seconds
-  const notifications = await fetch('https://api.example.com/notifications', {
+  const notifications = await fetch("https://api.example.com/notifications", {
     next: { revalidate: 30 },
   });
-  
+
   return notifications.json();
 }
 ```
@@ -395,6 +406,7 @@ export async function getNotifications(): Promise<Notification[]> {
 ### 4. Performance Monitoring
 
 #### Core Web Vitals Tracking
+
 ```typescript
 // components/WebVitals.tsx
 'use client';
@@ -447,46 +459,47 @@ export default function RootLayout({ children }) {
 ### 1. Comprehensive Metadata Strategy
 
 #### Base Metadata Configuration
+
 ```typescript
 // app/layout.tsx
 export const metadata: Metadata = {
-  metadataBase: new URL('https://yoursite.com'),
+  metadataBase: new URL("https://yoursite.com"),
   title: {
-    default: 'Your Site Name',
-    template: '%s | Your Site Name',
+    default: "Your Site Name",
+    template: "%s | Your Site Name",
   },
-  description: 'Your site description for search engines',
-  keywords: ['keyword1', 'keyword2', 'keyword3'],
-  authors: [{ name: 'Author Name', url: 'https://yoursite.com' }],
-  creator: 'Your Company',
-  publisher: 'Your Company',
+  description: "Your site description for search engines",
+  keywords: ["keyword1", "keyword2", "keyword3"],
+  authors: [{ name: "Author Name", url: "https://yoursite.com" }],
+  creator: "Your Company",
+  publisher: "Your Company",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://yoursite.com',
-    siteName: 'Your Site Name',
-    title: 'Your Site Name',
-    description: 'Your site description',
+    type: "website",
+    locale: "en_US",
+    url: "https://yoursite.com",
+    siteName: "Your Site Name",
+    title: "Your Site Name",
+    description: "Your site description",
     images: [
       {
-        url: 'https://yoursite.com/og-image.jpg',
+        url: "https://yoursite.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: 'Your Site Name',
+        alt: "Your Site Name",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Your Site Name',
-    description: 'Your site description',
-    images: ['https://yoursite.com/twitter-image.jpg'],
-    creator: '@yourtwitter',
+    card: "summary_large_image",
+    title: "Your Site Name",
+    description: "Your site description",
+    images: ["https://yoursite.com/twitter-image.jpg"],
+    creator: "@yourtwitter",
   },
   robots: {
     index: true,
@@ -494,22 +507,23 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
+    google: "your-google-verification-code",
+    yandex: "your-yandex-verification-code",
   },
 };
 ```
 
 #### Dynamic Metadata for Pages
+
 ```typescript
 // app/blog/[slug]/page.tsx
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 type Props = {
   params: { slug: string };
@@ -517,13 +531,13 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPost(params.slug);
-  
+
   if (!post) {
     return {
-      title: 'Post Not Found',
+      title: "Post Not Found",
     };
   }
-  
+
   return {
     title: post.title,
     description: post.excerpt,
@@ -531,7 +545,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.excerpt,
       url: `https://yoursite.com/blog/${params.slug}`,
-      siteName: 'Your Site Name',
+      siteName: "Your Site Name",
       images: [
         {
           url: post.ogImage,
@@ -540,18 +554,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           alt: post.title,
         },
       ],
-      locale: 'en_US',
-      type: 'article',
+      locale: "en_US",
+      type: "article",
       publishedTime: post.publishedAt,
       authors: [post.author],
       tags: post.tags,
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
       images: [post.twitterImage],
-      creator: '@yourtwitter',
+      creator: "@yourtwitter",
     },
     alternates: {
       canonical: `https://yoursite.com/blog/${params.slug}`,
@@ -563,6 +577,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 ### 2. Structured Data Implementation
 
 #### Comprehensive Schema Markup
+
 ```typescript
 // components/StructuredData.tsx
 import { Metadata } from 'next';
@@ -574,7 +589,7 @@ interface StructuredDataProps {
 
 export function StructuredData({ type, data }: StructuredDataProps) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yoursite.com';
-  
+
   const schemas = {
     website: {
       '@context': 'https://schema.org',
@@ -649,13 +664,13 @@ export function StructuredData({ type, data }: StructuredDataProps) {
 }
 
 // Usage in components
-<StructuredData 
-  type="website" 
-  data={{}} 
+<StructuredData
+  type="website"
+  data={{}}
 />
 
-<StructuredData 
-  type="article" 
+<StructuredData
+  type="article"
   data={{
     headline: post.title,
     description: post.excerpt,
@@ -664,11 +679,12 @@ export function StructuredData({ type, data }: StructuredDataProps) {
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
     url: `${baseUrl}/blog/${post.slug}`,
-  }} 
+  }}
 />
 ```
 
 #### Breadcrumb Implementation
+
 ```typescript
 // components/Breadcrumbs.tsx
 import Link from 'next/link';
@@ -717,6 +733,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
 ### 3. SEO-Optimized Content Structure
 
 #### Content Hierarchy Best Practices
+
 ```typescript
 // app/blog/[slug]/page.tsx
 export default function BlogPostPage({ post }: { post: BlogPost }) {
@@ -730,7 +747,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
           { label: post.title },
         ]}
       />
-      
+
       {/* Article header with structured data */}
       <header className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -739,7 +756,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
         <p className="text-xl text-gray-600 mb-6">
           {post.excerpt}
         </p>
-        
+
         {/* Author and date info */}
         <div className="flex items-center text-sm text-gray-500 mb-6">
           <time dateTime={post.publishedAt}>
@@ -748,7 +765,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
           <span className="mx-2">•</span>
           <span>{post.readTime} min read</span>
         </div>
-        
+
         {/* Tags */}
         {post.tags && (
           <div className="flex flex-wrap gap-2 mb-8">
@@ -763,12 +780,12 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
           </div>
         )}
       </header>
-      
+
       {/* Main content with proper heading hierarchy */}
       <div className="prose prose-lg max-w-none">
         {/* Content will be rendered here with proper h2, h3, etc. */}
       </div>
-      
+
       {/* Related articles */}
       <section className="mt-16 pt-8 border-t">
         <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
@@ -784,6 +801,7 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
 ### 1. TypeScript Configuration Best Practices
 
 #### Comprehensive TypeScript Setup
+
 ```json
 // tsconfig.json
 {
@@ -821,23 +839,19 @@ export default function BlogPostPage({ post }: { post: BlogPost }) {
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
 ```
 
 #### Type Definitions Organization
+
 ```typescript
 // src/types/index.ts
 // Export all types from a central location
-export * from './user';
-export * from './post';
-export * from './api';
+export * from "./user";
+export * from "./post";
+export * from "./api";
 
 // src/types/api.ts
 export interface ApiResponse<T = any> {
@@ -868,7 +882,7 @@ export interface User {
   email: string;
   name: string;
   avatar?: string;
-  role: 'user' | 'admin' | 'moderator';
+  role: "user" | "admin" | "moderator";
   createdAt: string;
   updatedAt: string;
 }
@@ -877,7 +891,7 @@ export interface CreateUserRequest {
   email: string;
   name: string;
   password: string;
-  role?: 'user' | 'admin' | 'moderator';
+  role?: "user" | "admin" | "moderator";
 }
 
 export interface UpdateUserRequest extends Partial<CreateUserRequest> {
@@ -888,14 +902,11 @@ export interface UpdateUserRequest extends Partial<CreateUserRequest> {
 ### 2. ESLint and Code Standards
 
 #### Comprehensive ESLint Configuration
+
 ```json
 // .eslintrc.json
 {
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript",
-    "prettier"
-  ],
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
   "rules": {
     // TypeScript specific
     "@typescript-eslint/no-unused-vars": "error",
@@ -903,16 +914,16 @@ export interface UpdateUserRequest extends Partial<CreateUserRequest> {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-non-null-assertion": "warn",
-    
+
     // React specific
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react-hooks/exhaustive-deps": "warn",
-    
+
     // Next.js specific
     "@next/next/no-img-element": "error",
     "@next/next/no-html-link-for-pages": "error",
-    
+
     // General code quality
     "prefer-const": "error",
     "no-var": "error",
@@ -920,7 +931,7 @@ export interface UpdateUserRequest extends Partial<CreateUserRequest> {
     "no-debugger": "error",
     "no-duplicate-imports": "error",
     "no-unused-expressions": "error",
-    
+
     // Accessibility
     "jsx-a11y/alt-text": "error",
     "jsx-a11y/anchor-has-content": "error",
@@ -942,6 +953,7 @@ export interface UpdateUserRequest extends Partial<CreateUserRequest> {
 ```
 
 #### Prettier Configuration
+
 ```json
 // .prettierrc.json
 {
@@ -971,6 +983,7 @@ export interface UpdateUserRequest extends Partial<CreateUserRequest> {
 ### 3. Git Workflow and Commit Standards
 
 #### Git Hooks Configuration
+
 ```json
 // .huskyrc
 {
@@ -1001,6 +1014,7 @@ module.exports = {
 ```
 
 #### Conventional Commits
+
 ```bash
 # Commit message format
 <type>[optional scope]: <description>
@@ -1018,6 +1032,7 @@ chore(deps): update Next.js to version 14
 ### 4. Development Environment Setup
 
 #### Environment Configuration
+
 ```bash
 # .env.example
 # Database
@@ -1043,6 +1058,7 @@ NEXT_PUBLIC_ANALYTICS_ENABLED=true
 ```
 
 #### Development Scripts
+
 ```json
 // package.json
 {
@@ -1062,13 +1078,8 @@ NEXT_PUBLIC_ANALYTICS_ENABLED=true
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": [
-      "prettier --write"
-    ]
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,yml,yaml}": ["prettier --write"]
   }
 }
 ```
@@ -1078,29 +1089,30 @@ NEXT_PUBLIC_ANALYTICS_ENABLED=true
 ### 1. Testing Strategy
 
 #### Comprehensive Test Setup
+
 ```javascript
 // jest.config.js
-const nextJest = require('next/jest');
+const nextJest = require("next/jest");
 
 const createJestConfig = nextJest({
-  dir: './',
+  dir: "./",
 });
 
 const customJestConfig = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleNameMapping: {
-    '^@/components/(.*)$': '<rootDir>/src/components/$1',
-    '^@/lib/(.*)$': '<rootDir>/src/lib/$1',
-    '^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
-    '^@/types/(.*)$': '<rootDir>/src/types/$1',
+    "^@/components/(.*)$": "<rootDir>/src/components/$1",
+    "^@/lib/(.*)$": "<rootDir>/src/lib/$1",
+    "^@/hooks/(.*)$": "<rootDir>/src/hooks/$1",
+    "^@/types/(.*)$": "<rootDir>/src/types/$1",
   },
-  testEnvironment: 'jest-environment-jsdom',
+  testEnvironment: "jest-environment-jsdom",
   collectCoverageFrom: [
-    'src/**/*.{js,ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/**/*.stories.{js,ts,tsx}',
-    '!src/styles/**',
-    '!src/types/**',
+    "src/**/*.{js,ts,tsx}",
+    "!src/**/*.d.ts",
+    "!src/**/*.stories.{js,ts,tsx}",
+    "!src/styles/**",
+    "!src/types/**",
   ],
   coverageThreshold: {
     global: {
@@ -1110,10 +1122,10 @@ const customJestConfig = {
       statements: 80,
     },
   },
-  coverageReporters: ['text', 'lcov', 'html'],
+  coverageReporters: ["text", "lcov", "html"],
   testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.{js,ts,tsx}',
-    '<rootDir>/src/**/*.{test,spec}.{js,ts,tsx}',
+    "<rootDir>/src/**/__tests__/**/*.{js,ts,tsx}",
+    "<rootDir>/src/**/*.{test,spec}.{js,ts,tsx}",
   ],
 };
 
@@ -1121,6 +1133,7 @@ module.exports = createJestConfig(customJestConfig);
 ```
 
 #### Testing Utilities and Helpers
+
 ```typescript
 // jest.setup.js
 import '@testing-library/jest-dom';
@@ -1174,6 +1187,7 @@ global.IntersectionObserver = class IntersectionObserver {
 ### 2. Component Testing Patterns
 
 #### Comprehensive Component Tests
+
 ```typescript
 // src/components/ui/button/Button.test.tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
@@ -1183,7 +1197,7 @@ import { Button } from './Button';
 describe('Button Component', () => {
   it('renders with default props', () => {
     render(<Button>Click me</Button>);
-    
+
     const button = screen.getByRole('button', { name: /click me/i });
     expect(button).toBeInTheDocument();
     expect(button).toHaveClass('btn', 'btn-primary');
@@ -1193,11 +1207,11 @@ describe('Button Component', () => {
     const { rerender } = render(<Button variant="primary">Primary</Button>);
     let button = screen.getByRole('button');
     expect(button).toHaveClass('btn-primary');
-    
+
     rerender(<Button variant="secondary">Secondary</Button>);
     button = screen.getByRole('button');
     expect(button).toHaveClass('btn-secondary');
-    
+
     rerender(<Button variant="outline">Outline</Button>);
     button = screen.getByRole('button');
     expect(button).toHaveClass('btn-outline');
@@ -1206,18 +1220,18 @@ describe('Button Component', () => {
   it('handles click events', async () => {
     const user = userEvent.setup();
     const handleClick = jest.fn();
-    
+
     render(<Button onClick={handleClick}>Click me</Button>);
-    
+
     const button = screen.getByRole('button');
     await user.click(button);
-    
+
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('shows loading state', () => {
     render(<Button isLoading>Loading</Button>);
-    
+
     const button = screen.getByRole('button');
     expect(button).toBeDisabled();
     expect(screen.getByText('Loading...')).toBeInTheDocument();
@@ -1226,15 +1240,15 @@ describe('Button Component', () => {
   it('handles keyboard navigation', async () => {
     const user = userEvent.setup();
     const handleClick = jest.fn();
-    
+
     render(<Button onClick={handleClick}>Accessible Button</Button>);
-    
+
     const button = screen.getByRole('button');
-    
+
     // Test Enter key
     fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
     expect(handleClick).toHaveBeenCalledTimes(1);
-    
+
     // Test Space key
     fireEvent.keyDown(button, { key: ' ', code: 'Space' });
     expect(handleClick).toHaveBeenCalledTimes(2);
@@ -1250,7 +1264,7 @@ describe('Button Component', () => {
         Custom
       </Button>
     );
-    
+
     const button = screen.getByTestId('custom-button');
     expect(button).toHaveAttribute('aria-label', 'Custom button');
     expect(button).toBeDisabled();
@@ -1261,33 +1275,36 @@ describe('Button Component', () => {
 ### 3. Integration Testing
 
 #### API Route Testing
+
 ```typescript
 // tests/api/users.test.ts
-import { GET, POST } from '@/app/api/users/route';
-import { GET as GET_USERS } from '@/lib/services/users';
-import { createUser } from '@/lib/services/users';
+import { GET, POST } from "@/app/api/users/route";
+import { GET as GET_USERS } from "@/lib/services/users";
+import { createUser } from "@/lib/services/users";
 
 // Mock the service functions
-jest.mock('@/lib/services/users');
+jest.mock("@/lib/services/users");
 
-describe('/api/users', () => {
+describe("/api/users", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('GET', () => {
-    it('returns paginated users', async () => {
+  describe("GET", () => {
+    it("returns paginated users", async () => {
       const mockUsers = [
-        { id: '1', name: 'John Doe', email: 'john@example.com' },
-        { id: '2', name: 'Jane Smith', email: 'jane@example.com' },
+        { id: "1", name: "John Doe", email: "john@example.com" },
+        { id: "2", name: "Jane Smith", email: "jane@example.com" },
       ];
-      
+
       (GET_USERS as jest.Mock).mockResolvedValue(mockUsers);
-      
-      const request = new Request('http://localhost:3000/api/users?page=1&limit=10');
+
+      const request = new Request(
+        "http://localhost:3000/api/users?page=1&limit=10",
+      );
       const response = await GET(request);
       const data = await response.json();
-      
+
       expect(response.status).toBe(200);
       expect(data).toEqual({
         success: true,
@@ -1300,40 +1317,40 @@ describe('/api/users', () => {
       });
     });
 
-    it('handles errors gracefully', async () => {
-      (GET_USERS as jest.Mock).mockRejectedValue(new Error('Database error'));
-      
-      const request = new Request('http://localhost:3000/api/users');
+    it("handles errors gracefully", async () => {
+      (GET_USERS as jest.Mock).mockRejectedValue(new Error("Database error"));
+
+      const request = new Request("http://localhost:3000/api/users");
       const response = await GET(request);
       const data = await response.json();
-      
+
       expect(response.status).toBe(500);
       expect(data).toEqual({
-        error: 'Failed to fetch users',
+        error: "Failed to fetch users",
       });
     });
   });
 
-  describe('POST', () => {
-    it('creates a new user successfully', async () => {
+  describe("POST", () => {
+    it("creates a new user successfully", async () => {
       const userData = {
-        name: 'New User',
-        email: 'new@example.com',
-        role: 'user',
+        name: "New User",
+        email: "new@example.com",
+        role: "user",
       };
-      
-      const mockUser = { id: '3', ...userData };
+
+      const mockUser = { id: "3", ...userData };
       (createUser as jest.Mock).mockResolvedValue(mockUser);
-      
-      const request = new Request('http://localhost:3000/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+
+      const request = new Request("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
       });
-      
+
       const response = await POST(request);
       const data = await response.json();
-      
+
       expect(response.status).toBe(201);
       expect(data).toEqual({
         success: true,
@@ -1341,23 +1358,23 @@ describe('/api/users', () => {
       });
     });
 
-    it('validates input data', async () => {
+    it("validates input data", async () => {
       const invalidData = {
-        name: '', // Invalid: empty name
-        email: 'invalid-email', // Invalid: bad email format
+        name: "", // Invalid: empty name
+        email: "invalid-email", // Invalid: bad email format
       };
-      
-      const request = new Request('http://localhost:3000/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+
+      const request = new Request("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(invalidData),
       });
-      
+
       const response = await POST(request);
       const data = await response.json();
-      
+
       expect(response.status).toBe(400);
-      expect(data.error).toBe('Validation error');
+      expect(data.error).toBe("Validation error");
       expect(data.details).toBeDefined();
     });
   });
@@ -1367,46 +1384,52 @@ describe('/api/users', () => {
 ### 4. End-to-End Testing
 
 #### Playwright E2E Tests
+
 ```typescript
 // e2e/auth.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Authentication Flow', () => {
-  test('user can register successfully', async ({ page }) => {
-    await page.goto('/signup');
-    
-    await page.fill('[data-testid="name-input"]', 'Test User');
-    await page.fill('[data-testid="email-input"]', 'test@example.com');
-    await page.fill('[data-testid="password-input"]', 'SecurePassword123');
-    await page.fill('[data-testid="confirm-password-input"]', 'SecurePassword123');
-    
+test.describe("Authentication Flow", () => {
+  test("user can register successfully", async ({ page }) => {
+    await page.goto("/signup");
+
+    await page.fill('[data-testid="name-input"]', "Test User");
+    await page.fill('[data-testid="email-input"]', "test@example.com");
+    await page.fill('[data-testid="password-input"]', "SecurePassword123");
+    await page.fill(
+      '[data-testid="confirm-password-input"]',
+      "SecurePassword123",
+    );
+
     await page.click('[data-testid="submit-button"]');
-    
-    await expect(page).toHaveURL('/dashboard');
+
+    await expect(page).toHaveURL("/dashboard");
     await expect(page.locator('[data-testid="user-menu"]')).toBeVisible();
   });
 
-  test('user can log in with valid credentials', async ({ page }) => {
-    await page.goto('/login');
-    
-    await page.fill('[data-testid="email-input"]', 'test@example.com');
-    await page.fill('[data-testid="password-input"]', 'SecurePassword123');
-    
+  test("user can log in with valid credentials", async ({ page }) => {
+    await page.goto("/login");
+
+    await page.fill('[data-testid="email-input"]', "test@example.com");
+    await page.fill('[data-testid="password-input"]', "SecurePassword123");
+
     await page.click('[data-testid="submit-button"]');
-    
-    await expect(page).toHaveURL('/dashboard');
+
+    await expect(page).toHaveURL("/dashboard");
   });
 
-  test('shows error for invalid login', async ({ page }) => {
-    await page.goto('/login');
-    
-    await page.fill('[data-testid="email-input"]', 'invalid@example.com');
-    await page.fill('[data-testid="password-input"]', 'wrongpassword');
-    
+  test("shows error for invalid login", async ({ page }) => {
+    await page.goto("/login");
+
+    await page.fill('[data-testid="email-input"]', "invalid@example.com");
+    await page.fill('[data-testid="password-input"]', "wrongpassword");
+
     await page.click('[data-testid="submit-button"]');
-    
+
     await expect(page.locator('[data-testid="error-message"]')).toBeVisible();
-    await expect(page.locator('[data-testid="error-message"]')).toContainText('Invalid credentials');
+    await expect(page.locator('[data-testid="error-message"]')).toContainText(
+      "Invalid credentials",
+    );
   });
 });
 ```
@@ -1416,6 +1439,7 @@ test.describe('Authentication Flow', () => {
 ### 1. Security Headers Configuration
 
 #### Comprehensive Security Headers
+
 ```javascript
 // next.config.js
 module.exports = {
@@ -1423,11 +1447,11 @@ module.exports = {
     return [
       {
         // Apply to all routes
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           // Content Security Policy
           {
-            key: 'Content-Security-Policy',
+            key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
               "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google-analytics.com",
@@ -1438,55 +1462,51 @@ module.exports = {
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
-            ].join('; '),
+            ].join("; "),
           },
           // Security headers
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
           {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
           },
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
           },
           {
-            key: 'Permissions-Policy',
-            value: [
-              'geolocation=()',
-              'microphone=()',
-              'camera=()',
-            ].join(', '),
+            key: "Permissions-Policy",
+            value: ["geolocation=()", "microphone=()", "camera=()"].join(", "),
           },
           // HTTPS enforcement
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains; preload',
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains; preload",
           },
         ],
       },
       {
         // API specific headers
-        source: '/api/(.*)',
+        source: "/api/(.*)",
         headers: [
           {
-            key: 'Access-Control-Allow-Origin',
-            value: process.env.ALLOWED_ORIGINS || 'https://yoursite.com',
+            key: "Access-Control-Allow-Origin",
+            value: process.env.ALLOWED_ORIGINS || "https://yoursite.com",
           },
           {
-            key: 'Access-Control-Allow-Methods',
-            value: 'GET, POST, PUT, DELETE, OPTIONS',
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
           },
           {
-            key: 'Access-Control-Allow-Headers',
-            value: 'Content-Type, Authorization',
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization",
           },
         ],
       },
@@ -1498,13 +1518,14 @@ module.exports = {
 ### 2. Authentication and Authorization
 
 #### Secure Authentication Implementation
+
 ```typescript
 // lib/auth.ts
-import { NextAuthOptions } from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { prisma } from '@/lib/db';
-import { getUserById } from '@/lib/services/user';
+import { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from "@/lib/db";
+import { getUserById } from "@/lib/services/user";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -1537,19 +1558,19 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/auth/signin',
-    error: '/auth/error',
+    signIn: "/auth/signin",
+    error: "/auth/error",
   },
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
 
 // middleware.ts
-import { withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req) {
@@ -1557,15 +1578,15 @@ export default withAuth(
     const { pathname } = req.nextUrl;
 
     // Check role-based access
-    if (pathname.startsWith('/admin')) {
-      if (token?.role !== 'admin') {
-        return NextResponse.redirect(new URL('/unauthorized', req.url));
+    if (pathname.startsWith("/admin")) {
+      if (token?.role !== "admin") {
+        return NextResponse.redirect(new URL("/unauthorized", req.url));
       }
     }
 
-    if (pathname.startsWith('/dashboard')) {
+    if (pathname.startsWith("/dashboard")) {
       if (!token) {
-        return NextResponse.redirect(new URL('/auth/signin', req.url));
+        return NextResponse.redirect(new URL("/auth/signin", req.url));
       }
     }
 
@@ -1575,90 +1596,81 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
-        
-        if (pathname.startsWith('/admin')) {
-          return token?.role === 'admin';
+
+        if (pathname.startsWith("/admin")) {
+          return token?.role === "admin";
         }
-        
-        if (pathname.startsWith('/dashboard')) {
+
+        if (pathname.startsWith("/dashboard")) {
           return !!token;
         }
-        
+
         return true;
       },
     },
-  }
+  },
 );
 
 export const config = {
-  matcher: ['/admin/:path*', '/dashboard/:path*'],
+  matcher: ["/admin/:path*", "/dashboard/:path*"],
 };
 ```
 
 ### 3. Input Validation and Sanitization
 
 #### Comprehensive Input Validation
+
 ```typescript
 // lib/validations/user.ts
-import { z } from 'zod';
+import { z } from "zod";
 
 export const createUserSchema = z.object({
   name: z
     .string()
-    .min(2, 'Name must be at least 2 characters')
-    .max(50, 'Name must be less than 50 characters')
-    .regex(/^[a-zA-Z\s]+$/, 'Name can only contain letters and spaces'),
-  email: z
-    .string()
-    .email('Invalid email address')
-    .toLowerCase(),
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must be less than 50 characters")
+    .regex(/^[a-zA-Z\s]+$/, "Name can only contain letters and spaces"),
+  email: z.string().email("Invalid email address").toLowerCase(),
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, "Password must be at least 8 characters")
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     ),
-  role: z.enum(['user', 'admin', 'moderator']).default('user'),
+  role: z.enum(["user", "admin", "moderator"]).default("user"),
 });
 
 export const updateUserSchema = z.object({
-  id: z.string().uuid('Invalid user ID'),
+  id: z.string().uuid("Invalid user ID"),
   name: z
     .string()
-    .min(2, 'Name must be at least 2 characters')
-    .max(50, 'Name must be less than 50 characters')
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must be less than 50 characters")
     .optional(),
-  email: z
-    .string()
-    .email('Invalid email address')
-    .toLowerCase()
-    .optional(),
-  role: z.enum(['user', 'admin', 'moderator']).optional(),
+  email: z.string().email("Invalid email address").toLowerCase().optional(),
+  role: z.enum(["user", "admin", "moderator"]).optional(),
 });
 
 export const loginSchema = z.object({
-  email: z
-    .string()
-    .email('Invalid email address')
-    .toLowerCase(),
-  password: z.string().min(1, 'Password is required'),
+  email: z.string().email("Invalid email address").toLowerCase(),
+  password: z.string().min(1, "Password is required"),
 });
 
 // lib/utils/sanitization.ts
 export function sanitizeHtml(input: string): string {
   return input
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
+    .replace(/</g, "<")
+    .replace(/>/g, ">")
     .replace(/"/g, '"')
-    .replace(/'/g, '&#x27;')
-    .replace(/\//g, '&#x2F;');
+    .replace(/'/g, "&#x27;")
+    .replace(/\//g, "&#x2F;");
 }
 
 export function sanitizeFilename(filename: string): string {
   return filename
-    .replace(/[^a-z0-9.-]/gi, '_')
-    .replace(/_{2,}/g, '_')
+    .replace(/[^a-z0-9.-]/gi, "_")
+    .replace(/_{2,}/g, "_")
     .toLowerCase();
 }
 ```
@@ -1668,6 +1680,7 @@ export function sanitizeFilename(filename: string): string {
 ### 1. CI/CD Pipeline Configuration
 
 #### GitHub Actions Workflow
+
 ```yaml
 # .github/workflows/ci-cd.yml
 name: CI/CD Pipeline
@@ -1679,35 +1692,35 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: "18"
 
 jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          
+          cache: "npm"
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Run type checking
         run: npm run type-check
-        
+
       - name: Run linting
         run: npm run lint
-        
+
       - name: Run tests
         run: npm run test:coverage
-        
+
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
         with:
@@ -1717,23 +1730,23 @@ jobs:
     name: Build Application
     runs-on: ubuntu-latest
     needs: test
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          
+          cache: "npm"
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Build application
         run: npm run build
-        
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -1745,33 +1758,34 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-files
           path: .next/
-          
+
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
+          vercel-args: "--prod"
 ```
 
 ### 2. Environment Management
 
 #### Multi-Environment Configuration
+
 ```typescript
 // lib/config/environments.ts
 interface EnvironmentConfig {
-  NODE_ENV: 'development' | 'production' | 'test';
+  NODE_ENV: "development" | "production" | "test";
   NEXT_PUBLIC_SITE_URL: string;
   NEXT_PUBLIC_API_URL: string;
   DATABASE_URL: string;
@@ -1785,15 +1799,15 @@ interface EnvironmentConfig {
 
 const configs: Record<string, EnvironmentConfig> = {
   development: {
-    NODE_ENV: 'development',
-    NEXT_PUBLIC_SITE_URL: 'http://localhost:3000',
-    NEXT_PUBLIC_API_URL: 'http://localhost:3000',
+    NODE_ENV: "development",
+    NEXT_PUBLIC_SITE_URL: "http://localhost:3000",
+    NEXT_PUBLIC_API_URL: "http://localhost:3000",
     DATABASE_URL: process.env.DEV_DATABASE_URL!,
     NEXTAUTH_SECRET: process.env.DEV_NEXTAUTH_SECRET!,
-    NEXTAUTH_URL: 'http://localhost:3000',
+    NEXTAUTH_URL: "http://localhost:3000",
   },
   production: {
-    NODE_ENV: 'production',
+    NODE_ENV: "production",
     NEXT_PUBLIC_SITE_URL: process.env.PRODUCTION_SITE_URL!,
     NEXT_PUBLIC_API_URL: process.env.PRODUCTION_API_URL!,
     DATABASE_URL: process.env.PRODUCTION_DATABASE_URL!,
@@ -1805,17 +1819,17 @@ const configs: Record<string, EnvironmentConfig> = {
     SUPABASE_ANON_KEY: process.env.PRODUCTION_SUPABASE_ANON_KEY!,
   },
   test: {
-    NODE_ENV: 'test',
-    NEXT_PUBLIC_SITE_URL: 'http://localhost:3000',
-    NEXT_PUBLIC_API_URL: 'http://localhost:3000',
+    NODE_ENV: "test",
+    NEXT_PUBLIC_SITE_URL: "http://localhost:3000",
+    NEXT_PUBLIC_API_URL: "http://localhost:3000",
     DATABASE_URL: process.env.TEST_DATABASE_URL!,
     NEXTAUTH_SECRET: process.env.TEST_NEXTAUTH_SECRET!,
-    NEXTAUTH_URL: 'http://localhost:3000',
+    NEXTAUTH_URL: "http://localhost:3000",
   },
 };
 
 export function getConfig(): EnvironmentConfig {
-  const env = process.env.NODE_ENV || 'development';
+  const env = process.env.NODE_ENV || "development";
   return configs[env];
 }
 ```
@@ -1824,4 +1838,4 @@ This comprehensive best practices guide provides the foundation for a successful
 
 ---
 
-*Continue to case studies for real-world migration examples and performance comparisons.*
+_Continue to case studies for real-world migration examples and performance comparisons._

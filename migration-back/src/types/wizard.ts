@@ -1,4 +1,4 @@
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon } from "lucide-react";
 
 export interface WizardStep {
   id: string;
@@ -38,7 +38,7 @@ export interface Architecture {
 
 export interface FeatureSuggestion {
   name: string;
-  category: 'core' | 'optional' | 'advanced';
+  category: "core" | "optional" | "advanced";
   description: string;
   selected: boolean;
   aiSuggested: boolean;

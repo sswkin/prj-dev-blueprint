@@ -30,14 +30,18 @@ export default function Logo({
         priority
         className="rounded-sm object-contain"
       />
-      <span className="hidden font-bold text-lg sm:inline">BlueprintForDev</span>
+      <span className="hidden font-bold text-lg sm:inline">
+        BlueprintForDev
+      </span>
     </div>
   );
 
   return (
-    <Link href={href} className="inline-flex items-center hover:opacity-80 transition-opacity">
+    <Link
+      href={href}
+      className="inline-flex items-center hover:opacity-80 transition-opacity"
+    >
       {logoContent}
     </Link>
   );
 }
-

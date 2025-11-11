@@ -1,22 +1,24 @@
 // React and core dependencies
-import type { FC } from 'react';
+import type { FC } from "react";
 
 // Third-party libraries
-import { ArrowLeft, Monitor, FileText, Smartphone } from 'lucide-react';
+import { ArrowLeft, Monitor, FileText, Smartphone } from "lucide-react";
 
 // UI Components
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 // Types
-import type { ScreenProps } from '@/blueprint/types/blueprint';
+import type { ScreenProps } from "@/blueprint/types/blueprint";
 
 const ArchitectureScreen: FC<ScreenProps> = ({ onNext, onBack }) => (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-8">
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">System Architecture</h1>
-        <p className="text-xl text-muted-foreground">AI-generated architecture diagram and tech stack recommendations</p>
+        <p className="text-xl text-muted-foreground">
+          AI-generated architecture diagram and tech stack recommendations
+        </p>
       </div>
       <Card className="p-8 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -60,12 +62,10 @@ const ArchitectureScreen: FC<ScreenProps> = ({ onNext, onBack }) => (
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
         </Button>
-        <Button onClick={onNext}>
-          Continue to Components
-        </Button>
+        <Button onClick={onNext}>Continue to Components</Button>
       </div>
     </div>
   </div>
 );
 
-export default ArchitectureScreen; 
+export default ArchitectureScreen;

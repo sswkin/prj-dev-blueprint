@@ -1,4 +1,4 @@
-import { AIConcept, Tag } from '@/mocks/aiResponses';
+import { AIConcept, Tag } from "@/mocks/aiResponses";
 
 export interface ScreenProps {
   onAnalyze?: (idea: string) => void;
@@ -16,5 +16,5 @@ export interface Screen {
   name: string;
   description: string;
   component: React.ComponentType<ScreenProps>;
-  complexity?: 'low' | 'medium' | 'high';
+  complexity?: "low" | "medium" | "high";
 }

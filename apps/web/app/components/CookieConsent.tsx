@@ -39,7 +39,9 @@ export default function CookieConsent() {
               We use cookies to enhance your experience
             </p>
             <p className="text-xs sm:text-sm text-muted-foreground">
-              We use cookies and similar technologies to understand your use of our site and to improve your experience. By continuing to use this site, you agree to our use of cookies.{" "}
+              We use cookies and similar technologies to understand your use of
+              our site and to improve your experience. By continuing to use this
+              site, you agree to our use of cookies.{" "}
               <Link
                 href="/cookies"
                 className="underline hover:text-foreground transition-colors"
@@ -67,4 +69,3 @@ export default function CookieConsent() {
     </div>
   );
 }
-

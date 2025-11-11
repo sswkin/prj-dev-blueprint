@@ -1,11 +1,11 @@
 // React and core dependencies
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 // Third-party libraries
-import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
-import { toast } from 'sonner';
+import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import { toast } from "sonner";
 import {
   AlertCircle,
   ArrowLeft,
@@ -15,25 +15,31 @@ import {
   Loader2,
   RefreshCw,
   Star,
-  Zap
-} from 'lucide-react';
+  Zap,
+} from "lucide-react";
 
 // UI Components
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ProfileForm } from '@/components/profile/ProfileForm';
-import { ProfileHeader } from '@/components/profile/ProfileHeader';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ProfileForm } from "@/components/profile/ProfileForm";
+import { ProfileHeader } from "@/components/profile/ProfileHeader";
 
 // Contexts and Hooks
-import { useAuth } from '@/contexts/useAuth';
-import { profileService } from '@/lib/services/profile';
+import { useAuth } from "@/contexts/useAuth";
+import { profileService } from "@/lib/services/profile";
 
 // Types
-import type { UserProfile } from '@/lib/types/profile';
-import type { ProfileFormData } from '@/lib/validations/profile';
+import type { UserProfile } from "@/lib/types/profile";
+import type { ProfileFormData } from "@/lib/validations/profile";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -41,14 +47,14 @@ export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
   // Redirect if not authenticated
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate('/login');
+      navigate("/login");
     }
   }, [user, authLoading, navigate]);
 
@@ -62,18 +68,18 @@ export default function ProfilePage() {
     try {
       // Use getOrCreateProfile to ensure a profile exists
       const response = await profileService.getOrCreateProfile(
-        user.id, 
-        user.email || '', 
-        user.user_metadata?.full_name
+        user.id,
+        user.email || "",
+        user.user_metadata?.full_name,
       );
-      
+
       if (response.success && response.data) {
         setProfile(response.data);
       } else {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to load profile');
+      setError("Failed to load profile");
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +97,7 @@ export default function ProfilePage() {
     setIsSaving(true);
     try {
       const response = await profileService.updateProfile(user.id, data);
-      
+
       if (response.success && response.data) {
         setProfile(response.data);
         setIsEditing(false);
@@ -100,7 +106,7 @@ export default function ProfilePage() {
         toast.error(response.message);
       }
     } catch (error) {
-      toast.error('Failed to update profile');
+      toast.error("Failed to update profile");
     } finally {
       setIsSaving(false);
     }
@@ -125,7 +131,10 @@ export default function ProfilePage() {
       <>
         <Helmet>
           <title>Profile - BlueprintForDev AI</title>
-          <meta name="description" content="Manage your BlueprintForDev AI profile and account settings." />
+          <meta
+            name="description"
+            content="Manage your BlueprintForDev AI profile and account settings."
+          />
         </Helmet>
 
         <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
@@ -175,13 +184,16 @@ export default function ProfilePage() {
       <>
         <Helmet>
           <title>Profile - BlueprintForDev AI</title>
-          <meta name="description" content="Manage your BlueprintForDev AI profile and account settings." />
+          <meta
+            name="description"
+            content="Manage your BlueprintForDev AI profile and account settings."
+          />
         </Helmet>
 
         <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
           <div className="max-w-4xl mx-auto px-4 py-8">
             <div className="flex items-center gap-4 mb-8">
-              <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
+              <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Home
               </Button>
@@ -209,13 +221,16 @@ export default function ProfilePage() {
       <>
         <Helmet>
           <title>Profile - BlueprintForDev AI</title>
-          <meta name="description" content="Manage your BlueprintForDev AI profile and account settings." />
+          <meta
+            name="description"
+            content="Manage your BlueprintForDev AI profile and account settings."
+          />
         </Helmet>
 
         <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
           <div className="max-w-4xl mx-auto px-4 py-8">
             <div className="flex items-center gap-4 mb-8">
-              <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
+              <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Home
               </Button>
@@ -225,7 +240,8 @@ export default function ProfilePage() {
               <CardContent className="p-8 text-center">
                 <h2 className="text-2xl font-bold mb-4">Profile Not Found</h2>
                 <p className="text-muted-foreground mb-6">
-                  We couldn't find or create your profile. This might be a temporary issue.
+                  We couldn't find or create your profile. This might be a
+                  temporary issue.
                 </p>
                 <Button onClick={handleRetry}>
                   <RefreshCw className="h-4 w-4 mr-2" />
@@ -242,8 +258,14 @@ export default function ProfilePage() {
   return (
     <>
       <Helmet>
-        <title>{profile.full_name ? `${profile.full_name} - Profile` : 'Profile'} - BlueprintForDev AI</title>
-        <meta name="description" content="Manage your BlueprintForDev AI profile and account settings." />
+        <title>
+          {profile.full_name ? `${profile.full_name} - Profile` : "Profile"} -
+          BlueprintForDev AI
+        </title>
+        <meta
+          name="description"
+          content="Manage your BlueprintForDev AI profile and account settings."
+        />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
@@ -255,7 +277,7 @@ export default function ProfilePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
+            <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Button>
@@ -278,7 +300,7 @@ export default function ProfilePage() {
             {/* Profile Header */}
             <ProfileHeader
               profile={profile}
-              userEmail={user?.email || ''}
+              userEmail={user?.email || ""}
               isEditing={isEditing}
               onAvatarUpdate={handleAvatarUpdate}
             />
@@ -319,7 +341,8 @@ export default function ProfilePage() {
                             <Star className="h-4 w-4 text-yellow-500 fill-current" />
                           </h3>
                           <p className="text-muted-foreground text-sm mb-3">
-                            Unlock unlimited blueprints, advanced AI features, and priority support
+                            Unlock unlimited blueprints, advanced AI features,
+                            and priority support
                           </p>
                           <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <span>✨ Unlimited blueprints</span>
@@ -332,7 +355,11 @@ export default function ProfilePage() {
                         <Badge variant="secondary" className="text-xs">
                           Save 20% yearly
                         </Badge>
-                        <Button asChild size="sm" className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
+                        <Button
+                          asChild
+                          size="sm"
+                          className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"
+                        >
                           <Link to="/subscriptions">
                             <Zap className="mr-2 h-4 w-4" />
                             Upgrade Now
@@ -367,30 +394,47 @@ export default function ProfilePage() {
                         <p className="font-medium">{user?.email}</p>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">Last updated:</span>
+                        <span className="text-muted-foreground">
+                          Last updated:
+                        </span>
                         <p className="font-medium">
-                          {new Date(profile.updated_at).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })}
+                          {new Date(profile.updated_at).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            },
+                          )}
                         </p>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">Member since:</span>
+                        <span className="text-muted-foreground">
+                          Member since:
+                        </span>
                         <p className="font-medium">
-                          {new Date(profile.created_at).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })}
+                          {new Date(profile.created_at).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            },
+                          )}
                         </p>
                       </div>
                       <div>
-                        <span className="text-muted-foreground">Subscription:</span>
+                        <span className="text-muted-foreground">
+                          Subscription:
+                        </span>
                         <div className="flex items-center gap-2">
                           <Badge variant="secondary">Free Plan</Badge>
-                          <Button asChild variant="link" size="sm" className="h-auto p-0 text-xs">
+                          <Button
+                            asChild
+                            variant="link"
+                            size="sm"
+                            className="h-auto p-0 text-xs"
+                          >
                             <Link to="/subscriptions">Manage</Link>
                           </Button>
                         </div>

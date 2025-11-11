@@ -1,36 +1,36 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
-import { 
-  ArrowLeft, 
-  Lightbulb, 
-  Target, 
-  Code2, 
-  Database, 
-  Download
-} from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
-import { useAI } from '@/hooks/useAI';
-import { WizardStepper } from '@/components/wizard/WizardStepper';
-import { WizardControls } from '@/components/wizard/WizardControls';
-import { RequirementsStep } from '@/components/wizard/RequirementsStep';
-import { FeaturesStep } from '@/components/wizard/FeaturesStep';
-import { TechnicalStep } from '@/components/wizard/TechnicalStep';
-import { ArchitectureStep } from '@/components/wizard/ArchitectureStep';
-import { ReviewStep } from '@/components/wizard/ReviewStep';
-import { 
-  WizardStep, 
-  ProjectRequirements, 
-  FeatureSuggestion, 
-  TechStack
-} from '@/types/wizard';
-import { technicalOptions } from '@/data/wizard-options';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import {
+  ArrowLeft,
+  Lightbulb,
+  Target,
+  Code2,
+  Database,
+  Download,
+} from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useAI } from "@/hooks/useAI";
+import { WizardStepper } from "@/components/wizard/WizardStepper";
+import { WizardControls } from "@/components/wizard/WizardControls";
+import { RequirementsStep } from "@/components/wizard/RequirementsStep";
+import { FeaturesStep } from "@/components/wizard/FeaturesStep";
+import { TechnicalStep } from "@/components/wizard/TechnicalStep";
+import { ArchitectureStep } from "@/components/wizard/ArchitectureStep";
+import { ReviewStep } from "@/components/wizard/ReviewStep";
+import {
+  WizardStep,
+  ProjectRequirements,
+  FeatureSuggestion,
+  TechStack,
+} from "@/types/wizard";
+import { technicalOptions } from "@/data/wizard-options";
 
 export default function WizardPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [requirements, setRequirements] = useState<ProjectRequirements>({
-    description: '',
+    description: "",
     features: [],
     techStack: {
       programmingLanguages: [],
@@ -38,7 +38,7 @@ export default function WizardPage() {
       backendTechnologies: [],
       databaseSystems: [],
       cloudPlatforms: [],
-      developmentTools: []
+      developmentTools: [],
     },
     architecture: {
       applicationArchitecture: [],
@@ -46,63 +46,69 @@ export default function WizardPage() {
       integrationPatterns: [],
       securityPatterns: [],
       scalabilityApproaches: [],
-      monitoringSolutions: []
+      monitoringSolutions: [],
     },
-    timeline: '',
-    budget: '',
-    targetAudience: ''
+    timeline: "",
+    budget: "",
+    targetAudience: "",
   });
   const [isRefining, setIsRefining] = useState(false);
-  const [refinedContent, setRefinedContent] = useState('');
+  const [refinedContent, setRefinedContent] = useState("");
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
-  const [featureSuggestions, setFeatureSuggestions] = useState<FeatureSuggestion[]>([]);
+  const [featureSuggestions, setFeatureSuggestions] = useState<
+    FeatureSuggestion[]
+  >([]);
   const [isGeneratingFeatures, setIsGeneratingFeatures] = useState(false);
   const [hasGeneratedFeatures, setHasGeneratedFeatures] = useState(false);
-  
+
   const navigate = useNavigate();
   const { execute } = useAI();
 
   const steps: WizardStep[] = [
     {
-      id: 'requirements',
-      title: 'Project Requirements',
-      description: 'Describe your software project in detail',
+      id: "requirements",
+      title: "Project Requirements",
+      description: "Describe your software project in detail",
       icon: Lightbulb,
-      completed: completedSteps.has(0)
+      completed: completedSteps.has(0),
     },
     {
-      id: 'features',
-      title: 'Features & Scope',
-      description: 'Define key features and functionality',
+      id: "features",
+      title: "Features & Scope",
+      description: "Define key features and functionality",
       icon: Target,
-      completed: completedSteps.has(1)
+      completed: completedSteps.has(1),
     },
     {
-      id: 'technical',
-      title: 'Technical Preferences',
-      description: 'Choose your technology stack',
+      id: "technical",
+      title: "Technical Preferences",
+      description: "Choose your technology stack",
       icon: Code2,
-      completed: completedSteps.has(2)
+      completed: completedSteps.has(2),
     },
     {
-      id: 'architecture',
-      title: 'Architecture & Data',
-      description: 'Define system architecture and data models',
+      id: "architecture",
+      title: "Architecture & Data",
+      description: "Define system architecture and data models",
       icon: Database,
-      completed: completedSteps.has(3)
+      completed: completedSteps.has(3),
     },
     {
-      id: 'review',
-      title: 'Review & Generate',
-      description: 'Review and generate your blueprint',
+      id: "review",
+      title: "Review & Generate",
+      description: "Review and generate your blueprint",
       icon: Download,
-      completed: completedSteps.has(4)
-    }
+      completed: completedSteps.has(4),
+    },
   ];
 
   // Generate AI feature suggestions when entering step 1
   useEffect(() => {
-    if (currentStep === 1 && !hasGeneratedFeatures && requirements.description.trim()) {
+    if (
+      currentStep === 1 &&
+      !hasGeneratedFeatures &&
+      requirements.description.trim()
+    ) {
       generateFeatureSuggestions();
     }
   }, [currentStep, requirements.description, hasGeneratedFeatures]);
@@ -111,45 +117,145 @@ export default function WizardPage() {
     setIsGeneratingFeatures(true);
     try {
       // Simulate AI analysis of project description to suggest relevant features
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
+
       // Mock AI-generated feature suggestions based on project description
       const aiSuggestions: FeatureSuggestion[] = [
         // Core features (AI suggests these as essential)
-        { name: 'User Authentication', category: 'core', description: 'Secure login and registration system', selected: true, aiSuggested: true },
-        { name: 'User Profiles', category: 'core', description: 'Personal user accounts and settings', selected: true, aiSuggested: true },
-        { name: 'Data Storage', category: 'core', description: 'Persistent data management', selected: true, aiSuggested: true },
-        { name: 'Search Functionality', category: 'core', description: 'Find and filter content', selected: true, aiSuggested: true },
-        
+        {
+          name: "User Authentication",
+          category: "core",
+          description: "Secure login and registration system",
+          selected: true,
+          aiSuggested: true,
+        },
+        {
+          name: "User Profiles",
+          category: "core",
+          description: "Personal user accounts and settings",
+          selected: true,
+          aiSuggested: true,
+        },
+        {
+          name: "Data Storage",
+          category: "core",
+          description: "Persistent data management",
+          selected: true,
+          aiSuggested: true,
+        },
+        {
+          name: "Search Functionality",
+          category: "core",
+          description: "Find and filter content",
+          selected: true,
+          aiSuggested: true,
+        },
+
         // Optional features (AI suggests based on common patterns)
-        { name: 'Real-time Chat', category: 'optional', description: 'Live messaging between users', selected: false, aiSuggested: true },
-        { name: 'Push Notifications', category: 'optional', description: 'Engage users with timely updates', selected: false, aiSuggested: true },
-        { name: 'File Upload', category: 'optional', description: 'Allow users to upload documents/images', selected: false, aiSuggested: true },
-        { name: 'Social Login', category: 'optional', description: 'Login with Google, Facebook, etc.', selected: false, aiSuggested: true },
-        
+        {
+          name: "Real-time Chat",
+          category: "optional",
+          description: "Live messaging between users",
+          selected: false,
+          aiSuggested: true,
+        },
+        {
+          name: "Push Notifications",
+          category: "optional",
+          description: "Engage users with timely updates",
+          selected: false,
+          aiSuggested: true,
+        },
+        {
+          name: "File Upload",
+          category: "optional",
+          description: "Allow users to upload documents/images",
+          selected: false,
+          aiSuggested: true,
+        },
+        {
+          name: "Social Login",
+          category: "optional",
+          description: "Login with Google, Facebook, etc.",
+          selected: false,
+          aiSuggested: true,
+        },
+
         // Advanced features
-        { name: 'Payment Processing', category: 'advanced', description: 'Handle transactions and billing', selected: false, aiSuggested: true },
-        { name: 'Admin Dashboard', category: 'advanced', description: 'Administrative control panel', selected: false, aiSuggested: true },
-        { name: 'API Integration', category: 'advanced', description: 'Connect with third-party services', selected: false, aiSuggested: true },
-        { name: 'Data Analytics', category: 'advanced', description: 'Track usage and performance metrics', selected: false, aiSuggested: true },
-        
+        {
+          name: "Payment Processing",
+          category: "advanced",
+          description: "Handle transactions and billing",
+          selected: false,
+          aiSuggested: true,
+        },
+        {
+          name: "Admin Dashboard",
+          category: "advanced",
+          description: "Administrative control panel",
+          selected: false,
+          aiSuggested: true,
+        },
+        {
+          name: "API Integration",
+          category: "advanced",
+          description: "Connect with third-party services",
+          selected: false,
+          aiSuggested: true,
+        },
+        {
+          name: "Data Analytics",
+          category: "advanced",
+          description: "Track usage and performance metrics",
+          selected: false,
+          aiSuggested: true,
+        },
+
         // Additional common features (not AI suggested)
-        { name: 'Email System', category: 'optional', description: 'Send automated emails', selected: false, aiSuggested: false },
-        { name: 'Mobile App', category: 'advanced', description: 'Native mobile application', selected: false, aiSuggested: false },
-        { name: 'Multi-language Support', category: 'advanced', description: 'Internationalization features', selected: false, aiSuggested: false },
-        { name: 'Dark Mode', category: 'optional', description: 'Alternative UI theme', selected: false, aiSuggested: false }
+        {
+          name: "Email System",
+          category: "optional",
+          description: "Send automated emails",
+          selected: false,
+          aiSuggested: false,
+        },
+        {
+          name: "Mobile App",
+          category: "advanced",
+          description: "Native mobile application",
+          selected: false,
+          aiSuggested: false,
+        },
+        {
+          name: "Multi-language Support",
+          category: "advanced",
+          description: "Internationalization features",
+          selected: false,
+          aiSuggested: false,
+        },
+        {
+          name: "Dark Mode",
+          category: "optional",
+          description: "Alternative UI theme",
+          selected: false,
+          aiSuggested: false,
+        },
       ];
 
       setFeatureSuggestions(aiSuggestions);
-      
+
       // Update requirements with pre-selected core features
-      const selectedFeatures = aiSuggestions.filter(f => f.selected).map(f => f.name);
-      setRequirements(prev => ({ ...prev, features: selectedFeatures }));
-      
+      const selectedFeatures = aiSuggestions
+        .filter((f) => f.selected)
+        .map((f) => f.name);
+      setRequirements((prev) => ({ ...prev, features: selectedFeatures }));
+
       setHasGeneratedFeatures(true);
-      toast.success('AI has analyzed your project and suggested relevant features!');
+      toast.success(
+        "AI has analyzed your project and suggested relevant features!",
+      );
     } catch (error) {
-      toast.error('Failed to generate feature suggestions');
+      toast.error("Failed to generate feature suggestions");
     } finally {
       setIsGeneratingFeatures(false);
     }
@@ -157,43 +263,44 @@ export default function WizardPage() {
 
   const handleRefineWithAI = async (content: string) => {
     if (!content.trim()) {
-      toast.error('Please enter some project requirements first');
+      toast.error("Please enter some project requirements first");
       return;
     }
 
     setIsRefining(true);
     try {
-      const result = await execute<{ refinedContent: string }>('generate');
-      
+      const result = await execute<{ refinedContent: string }>("generate");
+
       if (result.success && result.data) {
         // Simulate AI refinement - in real app this would use actual AI response
         const refined = `${content}\n\n[AI Refined]\nBased on your description, here are some enhanced details:\n\n• Clear user authentication and authorization system\n• Responsive design for mobile and desktop\n• Real-time data synchronization\n• Scalable backend architecture\n• Comprehensive error handling and logging\n• Performance optimization and caching strategies`;
-        
+
         setRefinedContent(refined);
-        setRequirements((prev: ProjectRequirements) => ({ ...prev, description: refined }));
-        toast.success('Requirements refined with AI assistance!');
+        setRequirements((prev: ProjectRequirements) => ({
+          ...prev,
+          description: refined,
+        }));
+        toast.success("Requirements refined with AI assistance!");
       }
     } catch (error) {
-      toast.error('Failed to refine requirements. Please try again.');
+      toast.error("Failed to refine requirements. Please try again.");
     } finally {
       setIsRefining(false);
     }
   };
 
   const toggleFeature = (featureName: string) => {
-    setFeatureSuggestions((prev: FeatureSuggestion[]) => 
-      prev.map((f: FeatureSuggestion) => 
-        f.name === featureName 
-          ? { ...f, selected: !f.selected }
-          : f
-      )
+    setFeatureSuggestions((prev: FeatureSuggestion[]) =>
+      prev.map((f: FeatureSuggestion) =>
+        f.name === featureName ? { ...f, selected: !f.selected } : f,
+      ),
     );
-    
+
     setRequirements((prev: ProjectRequirements) => ({
       ...prev,
       features: prev.features.includes(featureName)
-        ? prev.features.filter(f => f !== featureName)
-        : [...prev.features, featureName]
+        ? prev.features.filter((f) => f !== featureName)
+        : [...prev.features, featureName],
     }));
   };
 
@@ -203,19 +310,21 @@ export default function WizardPage() {
       techStack: {
         ...prev.techStack,
         [category]: prev.techStack[category].includes(optionName)
-          ? prev.techStack[category].filter((item: string) => item !== optionName)
-          : [...prev.techStack[category], optionName]
-      }
+          ? prev.techStack[category].filter(
+              (item: string) => item !== optionName,
+            )
+          : [...prev.techStack[category], optionName],
+      },
     }));
   };
 
   const handleNext = () => {
-    setCompletedSteps(prev => new Set([...prev, currentStep]));
+    setCompletedSteps((prev) => new Set([...prev, currentStep]));
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       // Generate blueprint and navigate to blueprint page
-      navigate('/blueprint');
+      navigate("/blueprint");
     }
   };
 
@@ -232,10 +341,17 @@ export default function WizardPage() {
       case 1:
         return requirements.features.length > 0;
       case 2:
-        return Object.values(requirements.techStack as unknown as Record<string, string[]>).some((arr: string[]) => arr.length > 0);
+        return Object.values(
+          requirements.techStack as unknown as Record<string, string[]>,
+        ).some((arr: string[]) => arr.length > 0);
       case 3:
-        return Object.values(requirements.architecture as unknown as Record<string, string[]>).some((arr: string[]) => arr.length > 0) && 
-               requirements.timeline && requirements.targetAudience;
+        return (
+          Object.values(
+            requirements.architecture as unknown as Record<string, string[]>,
+          ).some((arr: string[]) => arr.length > 0) &&
+          requirements.timeline &&
+          requirements.targetAudience
+        );
       default:
         return true;
     }
@@ -264,8 +380,10 @@ export default function WizardPage() {
             onFeatureToggle={toggleFeature}
             onGenerateFeatures={generateFeatureSuggestions}
             onClearFeatures={() => {
-              setFeatureSuggestions(prev => prev.map(f => ({ ...f, selected: false })));
-              setRequirements(prev => ({ ...prev, features: [] }));
+              setFeatureSuggestions((prev) =>
+                prev.map((f) => ({ ...f, selected: false })),
+              );
+              setRequirements((prev) => ({ ...prev, features: [] }));
             }}
             isGeneratingFeatures={isGeneratingFeatures}
             hasGeneratedFeatures={hasGeneratedFeatures}
@@ -306,7 +424,10 @@ export default function WizardPage() {
     <>
       <Helmet>
         <title>Create Blueprint - BlueprintForDev AI</title>
-        <meta name="description" content="Create a comprehensive development blueprint for your software project with our step-by-step wizard." />
+        <meta
+          name="description"
+          content="Create a comprehensive development blueprint for your software project with our step-by-step wizard."
+        />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
@@ -314,17 +435,20 @@ export default function WizardPage() {
         <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b">
           <div className="max-w-6xl mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <Link to="/" className="flex items-center gap-2 text-sm hover:text-primary">
+              <Link
+                to="/"
+                className="flex items-center gap-2 text-sm hover:text-primary"
+              >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Home
               </Link>
-              
+
               <div className="flex items-center gap-4">
                 <span className="text-sm font-medium">Blueprint Wizard</span>
                 <div className="flex items-center gap-2">
                   <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-primary transition-all duration-300" 
+                    <div
+                      className="h-full bg-primary transition-all duration-300"
                       style={{ width: `${progressPercentage}%` }}
                     />
                   </div>
@@ -339,14 +463,14 @@ export default function WizardPage() {
 
         <div className="max-w-6xl mx-auto px-4 py-8">
           {/* Progress Steps */}
-          <WizardStepper 
-            steps={steps} 
-            currentStep={currentStep} 
+          <WizardStepper
+            steps={steps}
+            currentStep={currentStep}
             onStepClick={(index) => {
               if (completedSteps.has(index - 1) || index === 0) {
                 setCurrentStep(index);
               }
-            }} 
+            }}
           />
 
           {/* Step Content */}
@@ -364,14 +488,20 @@ export default function WizardPage() {
           </AnimatePresence>
 
           {/* Navigation */}
-          <WizardControls 
+          <WizardControls
             currentStep={currentStep}
             totalSteps={steps.length}
             onBack={handleBack}
             onNext={handleNext}
             nextDisabled={!canProceed()}
-            nextLabel={currentStep === steps.length - 1 ? 'Generate Blueprint' : 'Next'}
-            nextIcon={currentStep === steps.length - 1 ? <Download className="ml-2 h-4 w-4" /> : undefined}
+            nextLabel={
+              currentStep === steps.length - 1 ? "Generate Blueprint" : "Next"
+            }
+            nextIcon={
+              currentStep === steps.length - 1 ? (
+                <Download className="ml-2 h-4 w-4" />
+              ) : undefined
+            }
           />
         </div>
       </div>

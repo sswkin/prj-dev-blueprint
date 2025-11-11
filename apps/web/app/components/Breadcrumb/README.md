@@ -5,9 +5,11 @@ This directory contains the breadcrumb navigation component for the BlueprintFor
 ## Components
 
 ### Breadcrumb.tsx
+
 A responsive breadcrumb navigation component that provides easy navigation across pages.
 
 **Features:**
+
 - Automatically generates breadcrumbs based on current route
 - Shows home icon with link to homepage
 - Displays current page as non-clickable text
@@ -16,6 +18,7 @@ A responsive breadcrumb navigation component that provides easy navigation acros
 - Supports custom styling through className prop
 
 **Usage:**
+
 ```tsx
 import Breadcrumb from "@/app/components/Breadcrumb";
 
@@ -34,6 +37,7 @@ import Breadcrumb from "@/app/components/Breadcrumb";
 
 **Route Configuration:**
 The component automatically generates breadcrumbs for these routes:
+
 - `/` - Home
 - `/about` - About
 - `/contact` - Contact
@@ -43,15 +47,18 @@ The component automatically generates breadcrumbs for these routes:
 
 **Styling:**
 The component uses Tailwind CSS classes and follows the app's design system:
+
 - Colors: `text-muted-foreground`, `text-foreground`
 - Hover states: `hover:text-foreground`
 - Current page: `font-medium text-foreground`
 - Icons: Inline SVG icons for home and chevron separators
 
 ### Layout.tsx
+
 A layout wrapper component that includes the header, breadcrumb, and footer for consistent page structure.
 
 **Usage:**
+
 ```tsx
 import Layout from "@/app/components/Layout";
 
@@ -69,8 +76,9 @@ import Layout from "@/app/components/Layout";
 ## Integration
 
 The breadcrumb component is automatically included in all pages through the Layout component:
+
 - About page (`/about`)
-- Contact page (`/contact`) 
+- Contact page (`/contact`)
 - Cookies page (`/cookies`)
 - Privacy page (`/privacy`)
 - Terms page (`/terms`)

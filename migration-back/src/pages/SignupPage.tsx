@@ -1,53 +1,68 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, User, Mail, Lock, Eye, EyeOff, Loader2, CheckCircle } from 'lucide-react';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import {
+  ArrowLeft,
+  User,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  Loader2,
+  CheckCircle,
+} from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { toast } from 'sonner';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { toast } from "sonner";
 
-import { signupSchema, SignupFormData } from '@/lib/validations/auth';
-import { authService } from '@/lib/services/auth';
-import { PasswordStrength } from '@/components/auth/password-strength';
+import { signupSchema, SignupFormData } from "@/lib/validations/auth";
+import { authService } from "@/lib/services/auth";
+import { PasswordStrength } from "@/components/auth/password-strength";
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const form = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      fullName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
       acceptTerms: false,
     },
-    mode: 'onChange',
+    mode: "onChange",
   });
 
-  const password = form.watch('password');
+  const password = form.watch("password");
 
   const onSubmit = async (data: SignupFormData) => {
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
       const response = await authService.signup(data);
-      
+
       if (response.success) {
         setSuccess(true);
         form.clearErrors(); // Clear all form errors on success
@@ -56,7 +71,7 @@ export default function SignupPage() {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to create account. Please try again.');
+      setError("Failed to create account. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -67,7 +82,10 @@ export default function SignupPage() {
       <>
         <Helmet>
           <title>Account Created - BlueprintForDev AI</title>
-          <meta name="description" content="Your BlueprintForDev AI account has been created successfully. Please check your email to verify your account." />
+          <meta
+            name="description"
+            content="Your BlueprintForDev AI account has been created successfully. Please check your email to verify your account."
+          />
         </Helmet>
 
         <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center p-4">
@@ -81,7 +99,9 @@ export default function SignupPage() {
                   Account Created!
                 </CardTitle>
                 <CardDescription>
-                  We&apos;ve sent a verification email to your inbox. Please check your email and click the verification link to activate your account.
+                  We&apos;ve sent a verification email to your inbox. Please
+                  check your email and click the verification link to activate
+                  your account.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -103,22 +123,28 @@ export default function SignupPage() {
     <>
       <Helmet>
         <title>Sign Up - BlueprintForDev AI</title>
-        <meta name="description" content="Create your BlueprintForDev AI account to start transforming your ideas into detailed code blueprints." />
+        <meta
+          name="description"
+          content="Create your BlueprintForDev AI account to start transforming your ideas into detailed code blueprints."
+        />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8">
-            <Link to="/" className="inline-flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors mb-6">
+            <Link
+              to="/"
+              className="inline-flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors mb-6"
+            >
               <ArrowLeft className="h-4 w-4" />
               <span>Back to home</span>
             </Link>
-            
+
             <div className="flex items-center justify-center space-x-2 mb-4">
               <img src="/logo.jpg" alt="BlueprintForDev AI" className="h-8" />
             </div>
-            
+
             <h1 className="text-3xl font-bold mb-2">Create your account</h1>
             <p className="text-muted-foreground">
               Join thousands of developers building amazing projects
@@ -132,7 +158,7 @@ export default function SignupPage() {
                 Create your account to get started with BlueprintForDev AI
               </CardDescription>
             </CardHeader>
-            
+
             <CardContent>
               <motion.form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -151,7 +177,7 @@ export default function SignupPage() {
                       type="text"
                       placeholder="Enter your full name"
                       className="pl-10"
-                      {...form.register('fullName')}
+                      {...form.register("fullName")}
                     />
                   </div>
                   {form.formState.errors.fullName && (
@@ -171,7 +197,7 @@ export default function SignupPage() {
                       type="email"
                       placeholder="Enter your email"
                       className="pl-10"
-                      {...form.register('email')}
+                      {...form.register("email")}
                     />
                   </div>
                   {form.formState.errors.email && (
@@ -188,17 +214,21 @@ export default function SignupPage() {
                     <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="password"
-                      type={showPassword ? 'text' : 'password'}
+                      type={showPassword ? "text" : "password"}
                       placeholder="Create a password"
                       className="pl-10 pr-10"
-                      {...form.register('password')}
+                      {...form.register("password")}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                     >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
                     </button>
                   </div>
                   {form.formState.errors.password && (
@@ -218,17 +248,23 @@ export default function SignupPage() {
                     <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="confirmPassword"
-                      type={showConfirmPassword ? 'text' : 'password'}
+                      type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm your password"
                       className="pl-10 pr-10"
-                      {...form.register('confirmPassword')}
+                      {...form.register("confirmPassword")}
                     />
                     <button
                       type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                       className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                     >
-                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
                     </button>
                   </div>
                   {form.formState.errors.confirmPassword && (
@@ -243,19 +279,28 @@ export default function SignupPage() {
                   <div className="flex items-start space-x-2">
                     <Checkbox
                       id="acceptTerms"
-                      checked={form.watch('acceptTerms')}
-                      onCheckedChange={(checked) => 
-                        form.setValue('acceptTerms', checked as boolean)
+                      checked={form.watch("acceptTerms")}
+                      onCheckedChange={(checked) =>
+                        form.setValue("acceptTerms", checked as boolean)
                       }
                       className="mt-1"
                     />
-                    <Label htmlFor="acceptTerms" className="text-sm leading-relaxed">
-                      I agree to the{' '}
-                      <Link to="/terms" className="text-primary hover:text-primary/80 underline">
+                    <Label
+                      htmlFor="acceptTerms"
+                      className="text-sm leading-relaxed"
+                    >
+                      I agree to the{" "}
+                      <Link
+                        to="/terms"
+                        className="text-primary hover:text-primary/80 underline"
+                      >
                         Terms of Service
-                      </Link>{' '}
-                      and{' '}
-                      <Link to="/privacy" className="text-primary hover:text-primary/80 underline">
+                      </Link>{" "}
+                      and{" "}
+                      <Link
+                        to="/privacy"
+                        className="text-primary hover:text-primary/80 underline"
+                      >
                         Privacy Policy
                       </Link>
                     </Label>
@@ -273,26 +318,25 @@ export default function SignupPage() {
                   </Alert>
                 )}
 
-                <Button 
-                  type="submit" 
-                  className="w-full" 
-                  disabled={isLoading}
-                >
+                <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Creating account...
                     </>
                   ) : (
-                    'Create account'
+                    "Create account"
                   )}
                 </Button>
               </motion.form>
 
               <div className="mt-6 text-center">
                 <p className="text-sm text-muted-foreground">
-                  Already have an account?{' '}
-                  <Link to="/login" className="text-primary hover:text-primary/80 font-medium">
+                  Already have an account?{" "}
+                  <Link
+                    to="/login"
+                    className="text-primary hover:text-primary/80 font-medium"
+                  >
                     Sign in instead
                   </Link>
                 </p>

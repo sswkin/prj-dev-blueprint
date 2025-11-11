@@ -1,45 +1,51 @@
 // React & Hooks
-import { useState, type FC } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, type FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 // Animation
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 
 // Icons
-import { 
-  ArrowLeft, 
+import {
+  ArrowLeft,
   Smartphone,
   Tablet,
   Monitor,
   RotateCcw,
   Pause,
-  Play
-} from 'lucide-react';
+  Play,
+} from "lucide-react";
 
 // UI Components
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
 // Import screen components and their prop types
-import { IdeaCapture, IdeaCaptureProps } from '@/components/screens/IdeaCapture';
-import { AnalysisDashboard, AnalysisDashboardProps } from '@/components/screens/AnalysisDashboard';
-import ResearchScreen from '@/blueprint/screens/ResearchScreen';
-import ArchitectureScreen from '@/blueprint/screens/ArchitectureScreen';
-import ComponentsScreen from '@/blueprint/screens/ComponentsScreen';
-import DatabaseScreen from '@/blueprint/screens/DatabaseScreen';
-import ExportScreen from '@/blueprint/screens/ExportScreen';
+import {
+  IdeaCapture,
+  IdeaCaptureProps,
+} from "@/components/screens/IdeaCapture";
+import {
+  AnalysisDashboard,
+  AnalysisDashboardProps,
+} from "@/components/screens/AnalysisDashboard";
+import ResearchScreen from "@/blueprint/screens/ResearchScreen";
+import ArchitectureScreen from "@/blueprint/screens/ArchitectureScreen";
+import ComponentsScreen from "@/blueprint/screens/ComponentsScreen";
+import DatabaseScreen from "@/blueprint/screens/DatabaseScreen";
+import ExportScreen from "@/blueprint/screens/ExportScreen";
 
 // Re-export types for other components to use
 export type { IdeaCaptureProps, AnalysisDashboardProps };
 
 // Types & Data
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 
 // Types
-type ViewportType = 'mobile' | 'tablet' | 'desktop';
-export type TagCategory = 'market' | 'technology' | 'feature' | 'risk';
-export type Complexity = 'low' | 'medium' | 'high';
+type ViewportType = "mobile" | "tablet" | "desktop";
+export type TagCategory = "market" | "technology" | "feature" | "risk";
+export type Complexity = "low" | "medium" | "high";
 
 export interface Tag {
   id: string;
@@ -83,30 +89,49 @@ interface Screen {
 
 // Mock data
 const mockTags: Tag[] = [
-  { id: '1', text: 'AI-Powered', weight: 0.9, category: 'technology', aiGenerated: true },
-  { id: '2', text: 'E-commerce', weight: 0.8, category: 'market', aiGenerated: true },
-  { id: '3', text: 'Mobile-First', weight: 0.85, category: 'feature', aiGenerated: true },
+  {
+    id: "1",
+    text: "AI-Powered",
+    weight: 0.9,
+    category: "technology",
+    aiGenerated: true,
+  },
+  {
+    id: "2",
+    text: "E-commerce",
+    weight: 0.8,
+    category: "market",
+    aiGenerated: true,
+  },
+  {
+    id: "3",
+    text: "Mobile-First",
+    weight: 0.85,
+    category: "feature",
+    aiGenerated: true,
+  },
 ];
 
 const mockConcepts: AIConcept[] = [
   {
-    id: '1',
-    title: 'AI Shopping Assistant',
-    description: 'An intelligent shopping assistant that learns user preferences',
+    id: "1",
+    title: "AI Shopping Assistant",
+    description:
+      "An intelligent shopping assistant that learns user preferences",
     viability: 0.85,
-    marketSize: 'Large',
-    timeToMarket: '6-9 months',
-    complexity: 'medium'
+    marketSize: "Large",
+    timeToMarket: "6-9 months",
+    complexity: "medium",
   },
   {
-    id: '2',
-    title: 'AR Virtual Try-On',
-    description: 'Augmented reality feature for virtual product try-ons',
+    id: "2",
+    title: "AR Virtual Try-On",
+    description: "Augmented reality feature for virtual product try-ons",
     viability: 0.7,
-    marketSize: 'Medium',
-    timeToMarket: '9-12 months',
-    complexity: 'high'
-  }
+    marketSize: "Medium",
+    timeToMarket: "9-12 months",
+    complexity: "high",
+  },
 ];
 
 const WireframesPage: FC = () => {
@@ -114,107 +139,113 @@ const WireframesPage: FC = () => {
   const _navigate = useNavigate();
   // Mark as used to avoid lint warnings
   void _navigate;
-  
+
   // State management
   const [currentScreenIndex, setCurrentScreenIndex] = useState<number>(0);
   const [isAnalyzing] = useState<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [viewport, setViewport] = useState<ViewportType>('desktop');
+  const [viewport, setViewport] = useState<ViewportType>("desktop");
   const [tags] = useState<Tag[]>(mockTags);
   const [concepts] = useState<AIConcept[]>(mockConcepts);
 
   // Screen definitions
   const screens: Screen[] = [
     {
-      id: 'idea-capture',
-      name: 'Idea Capture',
-      description: 'Describe your app idea and get AI-powered analysis',
+      id: "idea-capture",
+      name: "Idea Capture",
+      description: "Describe your app idea and get AI-powered analysis",
       component: IdeaCapture as React.ComponentType<WireframeScreenProps>,
-      requiredProps: {}
+      requiredProps: {},
     },
     {
-      id: 'analysis-dashboard',
-      name: 'Analysis Dashboard',
-      description: 'Review AI-generated analysis and concepts',
+      id: "analysis-dashboard",
+      name: "Analysis Dashboard",
+      description: "Review AI-generated analysis and concepts",
       component: AnalysisDashboard as React.ComponentType<WireframeScreenProps>,
-      requiredProps: { tags: [], concepts: [], onConceptSelect: () => {}, onBack: () => {} }
+      requiredProps: {
+        tags: [],
+        concepts: [],
+        onConceptSelect: () => {},
+        onBack: () => {},
+      },
     },
     {
-      id: 'research',
-      name: 'Research',
-      description: 'Explore market research and competitor analysis',
+      id: "research",
+      name: "Research",
+      description: "Explore market research and competitor analysis",
       component: ResearchScreen as React.ComponentType<WireframeScreenProps>,
-      requiredProps: {}
+      requiredProps: {},
     },
     {
-      id: 'architecture',
-      name: 'Architecture',
-      description: 'Define your app architecture and tech stack',
-      component: ArchitectureScreen as React.ComponentType<WireframeScreenProps>,
-      requiredProps: {}
+      id: "architecture",
+      name: "Architecture",
+      description: "Define your app architecture and tech stack",
+      component:
+        ArchitectureScreen as React.ComponentType<WireframeScreenProps>,
+      requiredProps: {},
     },
     {
-      id: 'components',
-      name: 'Components',
-      description: 'Design your UI components and screens',
+      id: "components",
+      name: "Components",
+      description: "Design your UI components and screens",
       component: ComponentsScreen as React.ComponentType<WireframeScreenProps>,
-      requiredProps: {}
+      requiredProps: {},
     },
     {
-      id: 'database',
-      name: 'Database',
-      description: 'Design your database schema',
+      id: "database",
+      name: "Database",
+      description: "Design your database schema",
       component: DatabaseScreen as React.ComponentType<WireframeScreenProps>,
-      requiredProps: {}
+      requiredProps: {},
     },
     {
-      id: 'export',
-      name: 'Export',
-      description: 'Export your project files',
+      id: "export",
+      name: "Export",
+      description: "Export your project files",
       component: ExportScreen as React.ComponentType<WireframeScreenProps>,
-      requiredProps: {}
-    }
+      requiredProps: {},
+    },
   ];
 
   // Get the current screen with proper type assertion
   const currentScreen = screens[currentScreenIndex];
-  
+
   const getViewportClass = (): string => {
     switch (viewport) {
-      case 'mobile':
-        return 'max-w-sm mx-auto';
-      case 'tablet':
-        return 'max-w-2xl mx-auto';
+      case "mobile":
+        return "max-w-sm mx-auto";
+      case "tablet":
+        return "max-w-2xl mx-auto";
       default:
-        return 'w-full';
+        return "w-full";
     }
   };
-  
+
   const handleConceptSelect = (concept: AIConcept): void => {
-    console.log('Concept selected:', concept);
+    console.log("Concept selected:", concept);
     // Move to research screen when a concept is selected
     setCurrentScreenIndex(2);
   };
 
   const handleNext = (): void => {
     if (currentScreenIndex < screens.length - 1) {
-      setCurrentScreenIndex(prev => prev + 1);
+      setCurrentScreenIndex((prev) => prev + 1);
     }
   };
 
   const handleBack = (): void => {
     if (currentScreenIndex > 0) {
-      setCurrentScreenIndex(prev => prev - 1);
+      setCurrentScreenIndex((prev) => prev - 1);
     }
   };
-  
+
   const renderCurrentScreen = (): React.ReactNode => {
     if (!currentScreen) return null;
-    
+
     const ScreenComponent = currentScreen.component;
     const isFirstScreen = currentScreenIndex === 0;
     const isLastScreen = currentScreenIndex === screens.length - 1;
-    
+
     // Prepare base props
     const baseProps: WireframeScreenProps = {
       onNext: !isLastScreen ? handleNext : undefined,
@@ -222,34 +253,34 @@ const WireframesPage: FC = () => {
       onConceptSelect: handleConceptSelect,
       isAnalyzing,
       tags,
-      concepts
+      concepts,
     };
 
     // Merge with required props for the specific screen
     const screenProps = {
       ...currentScreen.requiredProps,
-      ...baseProps
+      ...baseProps,
     };
-    
+
     return (
       <div className="flex flex-col h-full">
         <ScreenComponent {...screenProps} />
       </div>
     );
   };
-  
+
   const handleScreenSelect = (index: number) => {
     setCurrentScreenIndex(index);
   };
-  
+
   const handleDeviceChange = (newViewport: ViewportType) => {
     setViewport(newViewport);
   };
-  
+
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
   };
-  
+
   const handleRestart = () => {
     setCurrentScreenIndex(0);
     setIsPlaying(false);
@@ -259,7 +290,10 @@ const WireframesPage: FC = () => {
     <>
       <Helmet>
         <title>Interactive Wireframes - BlueprintForDev AI</title>
-        <meta name="description" content="Experience the complete BlueprintForDev AI workflow through interactive wireframes and prototypes." />
+        <meta
+          name="description"
+          content="Experience the complete BlueprintForDev AI workflow through interactive wireframes and prototypes."
+        />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -274,7 +308,7 @@ const WireframesPage: FC = () => {
                     Back to Home
                   </Link>
                 </Button>
-                
+
                 <div className="hidden md:flex items-center space-x-2">
                   <Badge variant="outline">Interactive Demo</Badge>
                   <span className="text-sm text-slate-600 dark:text-slate-400">
@@ -287,25 +321,25 @@ const WireframesPage: FC = () => {
                 {/* Viewport Controls */}
                 <div className="hidden lg:flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
                   <Button
-                    variant={viewport === 'desktop' ? 'default' : 'ghost'}
+                    variant={viewport === "desktop" ? "default" : "ghost"}
                     size="sm"
-                    onClick={() => handleDeviceChange('desktop')}
+                    onClick={() => handleDeviceChange("desktop")}
                     className="h-8 w-8 p-0"
                   >
                     <Monitor className="h-4 w-4" />
                   </Button>
                   <Button
-                    variant={viewport === 'tablet' ? 'default' : 'ghost'}
+                    variant={viewport === "tablet" ? "default" : "ghost"}
                     size="sm"
-                    onClick={() => handleDeviceChange('tablet')}
+                    onClick={() => handleDeviceChange("tablet")}
                     className="h-8 w-8 p-0"
                   >
                     <Tablet className="h-4 w-4" />
                   </Button>
                   <Button
-                    variant={viewport === 'mobile' ? 'default' : 'ghost'}
+                    variant={viewport === "mobile" ? "default" : "ghost"}
                     size="sm"
-                    onClick={() => handleDeviceChange('mobile')}
+                    onClick={() => handleDeviceChange("mobile")}
                     className="h-8 w-8 p-0"
                   >
                     <Smartphone className="h-4 w-4" />
@@ -322,11 +356,7 @@ const WireframesPage: FC = () => {
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handlePlayPause}
-                  >
+                  <Button variant="outline" size="sm" onClick={handlePlayPause}>
                     {isPlaying ? (
                       <Pause className="h-4 w-4" />
                     ) : (
@@ -347,8 +377,8 @@ const WireframesPage: FC = () => {
                 key={screen.id}
                 className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
                   index === currentScreenIndex
-                    ? 'bg-indigo-500 text-white shadow-lg'
-                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'
+                    ? "bg-indigo-500 text-white shadow-lg"
+                    : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
                 }`}
                 onClick={() => handleScreenSelect(index)}
                 whileHover={{ scale: 1.05 }}
@@ -357,7 +387,9 @@ const WireframesPage: FC = () => {
                 <span className="text-sm font-medium">{index + 1}</span>
                 <div className="text-left">
                   <div className="text-sm font-medium">{screen.name}</div>
-                  <div className="text-xs opacity-75 hidden md:block">{screen.description}</div>
+                  <div className="text-xs opacity-75 hidden md:block">
+                    {screen.description}
+                  </div>
                 </div>
               </motion.button>
             ))}
@@ -395,7 +427,7 @@ const WireframesPage: FC = () => {
                 <p className="text-slate-600 dark:text-slate-400">
                   {currentScreen?.description}
                 </p>
-                
+
                 <div className="flex items-center justify-center space-x-4 pt-4">
                   <Badge variant="outline">
                     Screen {currentScreenIndex + 1} of {screens.length}
