@@ -28,7 +28,7 @@ export default function Logo({
         width={width}
         height={height}
         priority
-        className="h-auto w-auto"
+        className="rounded-sm object-contain"
       />
       <span className="hidden font-bold text-lg sm:inline">BlueprintForDev</span>
     </div>
