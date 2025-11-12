@@ -1,0 +1,12 @@
+# nixpacks.toml
+
+providers = ["bun"]
+
+[phases.install]
+  cmds = ["bun install"]
+
+[phases.build]
+  cmds = ["bun turbo run build --filter=web"]
+
+[start]
+  cmd = "cd apps/web && bun start"
