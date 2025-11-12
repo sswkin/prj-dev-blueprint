@@ -1,6 +1,5 @@
-# nixpacks.toml
-
-providers = ["bun"]
+[phases.setup]
+nixPkgs = ["bun", "nodejs"]
 
 [phases.install]
   cmds = ["bun install"]
@@ -9,4 +8,4 @@ providers = ["bun"]
   cmds = ["bun turbo run build --filter=web"]
 
 [start]
-  cmd = "cd apps/web && bun start"
+  cmd = "cd apps/web && next start"
