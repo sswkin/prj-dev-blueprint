@@ -1,49 +1,70 @@
-FROM node:lts-alpine AS base
+# Use specific Node.js version for better caching and reproducibility
+FROM node:20.11-alpine AS base
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Install dependencies in a single layer and enable corepack
+RUN apk add --no-cache libc6-compat \
+    && corepack enable \
+    && corepack prepare pnpm@9.12.0 --activate
 
+# Set working directory early
+WORKDIR /app
+
+# Dependencies stage - optimized for caching
 FROM base AS deps
 
-WORKDIR /app
-
+# Copy lock file first for better caching
 COPY package.json ./
-RUN pnpm install --no-frozen-lockfile
 
+# Install dependencies with optimizations
+RUN pnpm install --no-frozen-lockfile --prefer-offline
+
+# Builder stage
 FROM base AS builder
-WORKDIR /app
 
+# Copy dependencies from previous stage
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
 
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV NODE_ENV production
+# Copy source files (order matters for caching)
+COPY package.json next.config.ts tsconfig.json postcss.config.mjs ./
+COPY app ./app
+COPY public ./public
 
+# Set environment variables for build
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
+ENV SKIP_ENV_VALIDATION=1
+
+# Build the application
 RUN pnpm run build
 
-FROM base AS runner
+# Runner stage - minimal production image
+FROM node:20.11-alpine AS runner
+
+# Install dumb-init for proper signal handling
+RUN apk add --no-cache dumb-init
+
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+# Set environment variables
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# Create nextjs user and group in a single layer
+RUN addgroup --system --gid 1001 nodejs \
+    && adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
-
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
+# Copy built application with proper ownership
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 
+# Switch to non-root user
 USER nextjs
 
+# Expose port
 EXPOSE 3000
 
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
-
-CMD ["node", "server.js"]
+# Use dumb-init for proper signal handling
+CMD ["dumb-init", "node", "server.js"]

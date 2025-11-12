@@ -1,33 +1,56 @@
-# Dependencies
-node_modules
+# ==============================================================================
+# DOCKER BUILD CONTEXT OPTIMIZATION
+# This file excludes unnecessary files from the Docker build context
+# Optimized for Next.js applications with modern tooling
+# ==============================================================================
+
+# Dependencies - Exclude all package manager artifacts
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.npm/
+.yarn/
+.pnp.*
+yarn.lock
+package-lock.json
 
-# Build outputs
-.next
-out
-build
-dist
+# Build outputs and cache - Exclude all build artifacts
+.next/
+out/
+build/
+dist/
 *.tsbuildinfo
+.turbo/
+.cache/
+.parcel-cache/
 
-# Environment files
+# Environment and configuration - Keep production configs, exclude dev/local
 .env
 .env.local
+.env.development
 .env.development.local
+.env.test
 .env.test.local
 .env.production.local
+.env.backup
+.vercel/
 
-# IDE and editor files
-.vscode
-.idea
+# IDE and editor files - Exclude all editor-specific files
+.vscode/
+.idea/
 *.swp
 *.swo
+*.tmp
 *~
+.history/
+*.sublime-project
+.sublime-workspace
+.atom/
 
-# OS generated files
+# OS generated files - Comprehensive OS file exclusion
 .DS_Store
 .DS_Store?
 ._*
@@ -35,43 +58,157 @@ dist
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
 
-# Git
-.git
+# Version control - Exclude all VCS files
+.git/
 .gitignore
+.gitattributes
+.gitmodules
+.hg/
+.svn/
 
-# Testing
-coverage
-.nyc_output
+# Testing and quality tools - Exclude test artifacts
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+.jest/
+.vitest/
+cypress/
+e2e/
+__tests__/
+**/*.test.*
+**/*.spec.*
 
-# Misc
+# Linting and formatting - Exclude tool configs and cache
+.eslintcache
+.stylelintcache
+.prettierrc*
+eslint.config.*
+.eslintrc*
+.stylelintrc*
+
+# Development and debugging
 *.log
-logs
+logs/
 *.pid
 *.seed
 *.pid.lock
+debug.log
+npm-debug.log*
+lerna-debug.log*
 
-# Documentation
+# Documentation and markdown (keep essential ones in Dockerfile COPY)
 README.md
+CHANGELOG.md
+CONTRIBUTING.md
+LICENSE
 docs/
+*.md
 
-# Docker
+# Docker related files - Exclude Docker configs from context
 Dockerfile*
 docker-compose*
 .dockerignore
+.docker/
 
-# CI/CD
-.github
+# CI/CD and deployment - Exclude pipeline configs
+.github/
 .gitlab-ci.yml
 .travis.yml
-.circleci
+.circleci/
+.buildkite/
+.drone.yml
+vercel.json
+netlify.toml
+.railway/
+.render.yaml
 
-# IDEs
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
+# Package manager specific - Additional exclusions
+.yarnrc*
+.npmrc.local
+.pnpm-store/
+.rush/
 
-# Temporary folders
+# TypeScript and build tools - Exclude unnecessary configs
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+.swc/
+.esbuild/
+
+# Next.js specific exclusions
+.next/
+out/
+.vercel/
+
+# Temporary and backup files
 tmp/
 temp/
+*.backup
+*.bak
+*.tmp
+.temporary/
+
+# Large media files that should use external storage
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+*.mkv
+*.m4v
+*.3gp
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Database files (should not be in app directory)
+*.sqlite
+*.db
+*.sql
+
+# Security and sensitive files
+.ssh/
+*.pem
+*.p12
+*.key
+*.crt
+*.csr
+id_rsa*
+known_hosts
+
+# Monitoring and analytics
+.sentry/
+.datadog/
+.newrelic/
+
+# Performance profiling
+*.prof
+*.pprof
+*.heap
+*.cpuprofile
+
+# Platform specific
+.expo/
+.expo-shared/
+android/
+ios/
+.bundle/
+
+# Keep these files (explicitly allow despite patterns above)
+!public/**
+!app/**
+!src/**
+!package.json
+!next.config.*
+!tsconfig.json
+!postcss.config.*
+!tailwind.config.*
