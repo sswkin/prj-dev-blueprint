@@ -20,6 +20,9 @@
 # production
 /build
 
+# Turbo repo
+.turbo
+
 # misc
 .DS_Store
 *.pem
